@@ -2,11 +2,12 @@ import { API_KEY } from "./config.js";
 
 const BASE_URL = "https://smapi.lnu.se/api/"
 
-async function getData(controller) {
+export async function getData(controller, filters = {}) {
     const params = new URLSearchParams({
         api_key: API_KEY,
         controller: controller,
-        method: "getall"
+        method: "getall",
+        ...filters
     });
 
     const url = `${BASE_URL}?${params}`;
@@ -22,10 +23,4 @@ async function getData(controller) {
     } catch (error) {
         console.error("Fel vid hämtning av SMAPI:", error);
     }
-}
-
-const see = await getData("attraction");
-
-for (const name of see) {
-    console.log(name.name)
 }
