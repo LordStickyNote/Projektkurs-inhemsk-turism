@@ -1,20 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Titelsida</title>
     <script type="module" src="JS/main.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <button id="doBtn">Se och göra</button>
     <select id="seeFilter">
-        <option value="all">Alla</option>
-        <option value="activity">Aktiviteter</option>
-        <option value="attraction">Sevärdheter</option>
+      <option value="all">Alla</option>
+      <option value="activity">Aktiviteter</option>
+      <option value="attraction">Sevärdheter</option>
     </select>
+    <div id="activityFilters">
+      <label for="activityType">Kategori</label>
+      <select id="activityType">
+        <option value="">Alla typer</option>
+        <option value="fun">Nöje</option>
+        <option value="sport">Sport</option>
+        <option value="swim">Bad</option>
+        <option value="animals">Djur</option>
+        <option value="adventure">Äventyr</option>
+      </select>
+      <label for="effort">Aktivitetsnivå</label>
+      <select id="effort">
+        <option value="">Alla nivåer</option>
+        <option value="LOW">Lugnt</option>
+        <option value="MEDIUM">Medel</option>
+        <option value="HIGH">Aktivt</option>
+      </select>
+      <label>
+        <input type="checkbox" id="childFriendly" />
+        Barnvänligt
+      </label>
+      <label>
+        <input type="checkbox" id="involvesAnimals" />
+        Djur
+      </label>
+            <label>
+        <input type="checkbox" id="involvesWater">
+        Vatten
+      </label>
+    </div>
     <button id="foodBtn">Mat</button>
     <button id="accommodationBtn">Boenden</button>
     <section id="results"></section>
-</body>
+  </body>
 </html>
