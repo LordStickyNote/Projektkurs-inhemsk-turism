@@ -1,6 +1,7 @@
 import { getData } from "./api.js";
 import { categories } from "./categories.js";
 import { renderSeeAndDo } from "./renderSeeAndDo.js";
+import { renderFood } from "./renderFood.js";
 
 // const attraction = categories.seeAndDo.sections[0]
 // const see = await getData(attraction.controller);
@@ -9,18 +10,19 @@ import { renderSeeAndDo } from "./renderSeeAndDo.js";
 //     console.log(name.name)
 // }
 
-document.querySelector("button").addEventListener("click", loadSeeAndDoConsole)
+// async function loadSeeAndDoConsole() {
+//     for (const section of categories.seeAndDo.sections) {
+//         const data = await getData(section.controller);
 
-async function loadSeeAndDoConsole() {
-    for (const section of categories.seeAndDo.sections) {
-        const data = await getData(section.controller);
-
-        for (const name of data) {
-            console.log(name.name)
-        }
-    }
+//         for (const name of data) {
+//             console.log(name.name)
+//         }
+//     }
     
-}
+// }
+
+document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo)
+document.querySelector("#foodBtn").addEventListener("click", loadFood)
 
 const container = document.getElementById("results")
 
@@ -39,4 +41,10 @@ async function loadSeeAndDo() {
     renderSeeAndDo(sectionsData, container)
 }
 
-loadSeeAndDo()
+async function loadFood() {
+    const food = categories.food;
+
+    const items = await getData(food.controller, food.filters);
+
+    renderFood(items, container)
+}
