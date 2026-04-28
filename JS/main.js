@@ -4,34 +4,26 @@ import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
 
-// const attraction = categories.seeAndDo.sections[0]
-// const see = await getData(attraction.controller);
-
-// for (const name of see) {
-//     console.log(name.name)
-// }
-
-// async function loadSeeAndDoConsole() {
-//     for (const section of categories.seeAndDo.sections) {
-//         const data = await getData(section.controller);
-
-//         for (const name of data) {
-//             console.log(name.name)
-//         }
-//     }
-    
-// }
-
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo)
 document.querySelector("#foodBtn").addEventListener("click", loadFood)
 document.querySelector("#accommodationBtn").addEventListener("click", loadAccommodation)
 
-const container = document.getElementById("results")
+const seeFilter = document.getElementById("seeFilter");
+seeFilter.addEventListener("change", loadSeeAndDo)
+
+const container = document.getElementById("results");
 
 async function loadSeeAndDo() {
+    const selectedType = seeFilter.value;
+
     const sectionsData = [];
 
     for (const section of categories.seeAndDo.sections) {
+
+        if (selectedType !== "all" && section.controller !== selectedType) {
+            continue;
+        }
+
         const items = await getData(section.controller, section.filters)
 
         sectionsData.push({
