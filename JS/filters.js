@@ -36,7 +36,7 @@ const activityTypeMap = {
   ]
 };
 
-export function filterActivites(items, filters) {
+export function filterActivities(items, filters) {
     let filtered = items;
 
     if (filters.type) {
