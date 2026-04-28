@@ -2,6 +2,7 @@ import { getData } from "./api.js";
 import { categories } from "./categories.js";
 import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
+import { renderAccommodation } from "./renderAccommodation.js";
 
 // const attraction = categories.seeAndDo.sections[0]
 // const see = await getData(attraction.controller);
@@ -23,6 +24,7 @@ import { renderFood } from "./renderFood.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo)
 document.querySelector("#foodBtn").addEventListener("click", loadFood)
+document.querySelector("#accommodationBtn").addEventListener("click", loadAccommodation)
 
 const container = document.getElementById("results")
 
@@ -47,4 +49,12 @@ async function loadFood() {
     const items = await getData(food.controller, food.filters);
 
     renderFood(items, container)
+}
+
+async function loadAccommodation() {
+    const accommodation = categories.accomodation;
+
+    const items = await getData(accommodation.controller, accommodation.filters)
+
+    renderAccommodation(items, container)
 }
