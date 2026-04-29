@@ -5,11 +5,12 @@ import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
 import { activityTypeMap } from "./filters.js";
 
-document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo)
-document.querySelector("#foodBtn").addEventListener("click", loadFood)
-document.querySelector("#accommodationBtn").addEventListener("click", loadAccommodation)
+document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
+document.querySelector("#foodBtn").addEventListener("click", loadFood);
+document
+  .querySelector("#accommodationBtn")
+  .addEventListener("click", loadAccommodation);
 
-const seeFilter = document.getElementById("seeFilter");
 const container = document.getElementById("results");
 
 const activityFilters = document.getElementById("activityFilters");
@@ -20,52 +21,51 @@ const involvesAnimals = document.getElementById("involvesAnimals");
 const involvesWater = document.getElementById("involvesWater");
 
 let currentPage = 1;
-const perPage = 20;
+const perPage = 10;
 
 // Sparar ALLA activites från API (innan filtrering)
 let allActivities = [];
+let allAttractions = [];
 
-seeFilter.addEventListener("change", loadSeeAndDo)
 const inputs = activityFilters.querySelectorAll("select, input");
 for (const input of inputs) {
-    input.addEventListener("change", applyActivityFilters)
+  input.addEventListener("change", applyActivityFilters);
 }
 
 async function loadSeeAndDo() {
-    container.innerHTML = "Laddar..."
-    const selectedType = seeFilter.value;
+  container.innerHTML = "Laddar...";
 
-    // Visar activity-filter bara om "activity" är valt
-    activityFilters.hidden = selectedType !== "activity";
-    seeFilter.hidden = false;
+  activityFilters.hidden = false;
 
-    // Array som innehåller sektioner med titel + data från SMAPI
-    const sectionsData = [];
+  // Array som innehåller sektioner med titel + data från SMAPI
+  const sectionsData = [];
 
-    // Loopar igenom sections (activity + attraction, se categories.js)
-    for (const section of categories.seeAndDo.sections) {
+  // Loopar igenom sections (activity + attraction, se categories.js)
+  for (const section of categories.seeAndDo.sections) {
+    // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
+    const items = await getData(
+      section.controller,
+      section.filters,
+      currentPage,
+      perPage,
+    );
 
-        // Hoppar över fel kategori (t.ex. om man endast valt "Aktiviteter")
-        if (selectedType !== "all" && section.controller !== selectedType) {
-            continue;
-        }
-
-        // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
-        const items = await getData(section.controller, section.filters, currentPage, perPage)
-
-        // Sparar activities separat så vi kan filtrera dom senare
-        if (section.controller === "activity") {
-            allActivities = items;
-        }
-
-        // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
-        sectionsData.push({
-            title: section.title,
-            items: items
-        })
+    if (section.controller === "activity") {
+      allActivities = items;
     }
 
-    renderSeeAndDo(sectionsData, container)
+    if (section.controller === "attraction") {
+      allAttractions = items;
+    }
+
+    // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
+    sectionsData.push({
+      title: section.title,
+      items: items,
+    });
+  }
+
+  renderSeeAndDo(sectionsData, container);
 }
 
 // Bygger upp ett filter-objekt som ska skickas till API:et för filtrering.
@@ -106,21 +106,22 @@ async function getFilteredActivities() {
   const descriptions = activityTypeMap[selectedType];
 
   // Skapar flera API-anrop, ett per description
-  const requests = descriptions.map(description => {
+  const requests = descriptions.map((description) => {
     return getData(
       "activity",
       {
         ...apiFilters,
-        descriptions: description
+        descriptions: description,
       },
       currentPage,
-      perPage
+      perPage,
     );
   });
 
   // Väntar på att alla API-anrop ska bli klara
   const results = await Promise.all(requests);
 
+  // flat() slår ihop allt till en enda lista
   return results.flat();
 }
 
@@ -132,26 +133,29 @@ async function applyActivityFilters() {
   // Hämtar filtrerade aktiviteter (API + lokal JS-filtrering)
   const filteredItems = await getFilteredActivities();
 
-  renderSeeAndDo([
-    {
-      title: "Aktiviteter",
-      items: filteredItems
-    }
-  ], container);
+  renderSeeAndDo(
+    [
+      {
+        title: "Aktiviteter",
+        items: filteredItems,
+      },
+    ],
+    container,
+  );
 }
 
 async function loadFood() {
-    const food = categories.food;
+  const food = categories.food;
 
-    const items = await getData(food.controller, food.filters);
+  const items = await getData(food.controller, food.filters);
 
-    renderFood(items, container)
+  renderFood(items, container);
 }
 
 async function loadAccommodation() {
-    const accommodation = categories.accomodation;
+  const accommodation = categories.accomodation;
 
-    const items = await getData(accommodation.controller, accommodation.filters)
+  const items = await getData(accommodation.controller, accommodation.filters);
 
-    renderAccommodation(items, container)
+  renderAccommodation(items, container);
 }
