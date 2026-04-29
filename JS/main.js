@@ -14,11 +14,17 @@ document
 const container = document.getElementById("results");
 
 const activityFilters = document.getElementById("activityFilters");
+const attractionFilters = document.getElementById("attractionFilters")
 const activityType = document.getElementById("activityType");
 const effort = document.getElementById("effort");
 const childFriendly = document.getElementById("childFriendly");
 const involvesAnimals = document.getElementById("involvesAnimals");
 const involvesWater = document.getElementById("involvesWater");
+
+const attractionType = document.getElementById("attractionType");
+const experienceType = document.getElementById("experienceType");
+const attractionChildFriendly = document.getElementById("attractionChildFriendly");
+const localSignificance = document.getElementById("localSignificance");
 
 let currentPage = 1;
 const perPage = 10;
@@ -27,15 +33,18 @@ const perPage = 10;
 let allActivities = [];
 let allAttractions = [];
 
-const inputs = activityFilters.querySelectorAll("select, input");
-for (const input of inputs) {
+const activityInputs = activityFilters.querySelectorAll("select, input");
+for (const input of activityInputs) {
   input.addEventListener("change", applyActivityFilters);
 }
+
+const attractionInputs = attractionFilters.querySelectorAll("select, input");
 
 async function loadSeeAndDo() {
   container.innerHTML = "Laddar...";
 
   activityFilters.hidden = false;
+  attractionFilters.hidden = false;
 
   // Array som innehåller sektioner med titel + data från SMAPI
   const sectionsData = [];
@@ -60,7 +69,6 @@ async function loadSeeAndDo() {
 
     // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
     sectionsData.push({
-      title: section.title,
       items: items,
     });
   }
