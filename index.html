@@ -8,8 +8,9 @@
   </head>
   <body>
     <button id="doBtn">Se och göra</button>
-    <div id="activityFilters" hidden>
-      <label for="activityType">Kategori</label>
+    <div id="activityFilters">
+      <p>Filtrera aktiviteter</p>
+      <label for="activityType">Typ av aktivitet</label>
       <select id="activityType">
         <option value="">Alla typer</option>
         <option value="fun">Nöje</option>
@@ -34,10 +35,36 @@
         <input type="checkbox" id="involvesAnimals" />
         Djur
       </label>
-            <label>
-        <input type="checkbox" id="involvesWater">
+      <label>
+        <input type="checkbox" id="involvesWater" />
         Vatten
       </label>
+    </div>
+    <div id="attractionFilters">
+      <p>Filtrera sevärdheter</p>
+      <label for="attractionType">Typ av sevärdhet</label>
+      <select id="attractionType">
+        <option value="">Alla</option>
+        <option value="history">Historia</option>
+        <option value="art">Konst & kultur</option>
+        <option value="nature">Natur</option>
+        <option value="landmark">Landmark</option>
+      </select>
+
+      <label for="experienceType">Upplevelse</label>
+      <select id="experienceType">
+        <option value="">Alla</option>
+        <option value="interactive">Interaktiv</option>
+        <option value="static">Klassisk (se & läsa)</option>
+      </select>
+
+      <label>
+        <input type="checkbox" id="attractionChildFriendly" />
+        Barnvänlig
+      </label>
+
+        <input type="checkbox" id="localSignificance" />
+        Lokala pärlor
     </div>
     <button id="foodBtn">Mat</button>
     <button id="accommodationBtn">Boenden</button>
