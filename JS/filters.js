@@ -36,6 +36,30 @@ export const activityTypeMap = {
   ]
 };
 
+// Bygger upp ett filter-objekt som ska skickas till API:et för filtrering.
+// Endast filter som API:et faktiskt förstår, finns direkt i datan inkluderas här
+export function buildActivityApiFilters(values) {
+  const filters = {};
+
+  if (values.effort) {
+    filters.physical_effort = values.effort;
+  }
+
+  if (values.childFriendly) {
+    filters.child_support = "Y";
+  }
+
+  if (values.involvesAnimals) {
+    filters.involves_animals = "Y";
+  }
+
+  if (values.involvesWater) {
+    filters.involves_water = "Y";
+  }
+
+  return filters;
+}
+
 const attractionTypeMap = {
     history: ["HISTORY"],
     art: ["ART", "SOCIAL"],

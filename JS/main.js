@@ -3,7 +3,8 @@ import { categories } from "./categories.js";
 import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
-import { activityTypeMap } from "./filters.js";
+import { activityTypeMap, buildActivityApiFilters } from "./filters.js";
+import { filterAttractions } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
@@ -76,33 +77,19 @@ async function loadSeeAndDo() {
   renderSeeAndDo(sectionsData, container);
 }
 
-// Bygger upp ett filter-objekt som ska skickas till API:et för filtrering.
-// Endast filter som API:et faktiskt förstår, finns direkt i datan inkluderas här
-function getActivityApiFilters() {
-  const filters = {};
-
-  if (effort.value) {
-    filters.physical_effort = effort.value;
-  }
-
-  if (childFriendly.checked) {
-    filters.child_support = "Y";
-  }
-
-  if (involvesAnimals.checked) {
-    filters.involves_animals = "Y";
-  }
-
-  if (involvesWater.checked) {
-    filters.involves_water = "Y";
-  }
-
-  return filters;
+// Nödvändiga värden för att kunna filtrera beroende på användarens val, används senare i getFilteredActivities för att rendera resultatet.
+function getActivityFilterValues() {
+    return {
+        effort: effort.value,
+        childFriendly: childFriendly.checked,
+        involvesAnimals: involvesAnimals.checked,
+        involvesWater: involvesWater.checked
+    }
 }
 
 // Hämtar aktiviteter baserat på både API-filter och egna JS-filter
 async function getFilteredActivities() {
-  const apiFilters = getActivityApiFilters(); // Hämtar API-filter
+  const apiFilters = buildActivityApiFilters(getActivityFilterValues()); // Hämtar API-filter
   const selectedType = activityType.value;
 
   // Om inget "typ av aktivitet"-filter är valt hämtas "activity"-objekt direkt från SMAPI
