@@ -1,4 +1,4 @@
-const activityTypeMap = {
+export const activityTypeMap = {
   fun: [
     "Nöjespark",
     "Temapark",
@@ -36,28 +36,6 @@ const activityTypeMap = {
   ]
 };
 
-export function filterActivities(items, filters) {
-    let filtered = items;
+const attractionTypeMap = {
 
-    if (filters.type) {
-        filtered = filtered.filter(item => activityTypeMap[filters.type]?.includes(item.description));
-    }
-
-    if (filters.effort) {
-        filtered = filtered.filter(item => item.physical_effort === filters.effort);
-    }
-
-    if (filters.childFriendly) {
-        filtered = filtered.filter(item => item.child_support === "Y");
-    }
-
-    if (filters.involvesAnimals) {
-        filtered = filtered.filter(item => item.involves_animals === "Y");
-    }
-
-    if (filters.involvesWater) {
-        filtered = filtered.filter(item => item.involves_water === "Y");
-    }
-
-    return filtered;
 }
