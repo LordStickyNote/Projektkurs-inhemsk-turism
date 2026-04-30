@@ -83,7 +83,7 @@ export function buildAttractionApiFilters(values) {
   }
 
   if (values.localSignificance) {
-    filters.significance = "LOCAL"
+    filters.significances = "LOCAL"
   }
 
   return filters;

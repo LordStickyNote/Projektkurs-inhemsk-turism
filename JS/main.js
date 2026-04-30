@@ -39,12 +39,12 @@ let allAttractions = [];
 
 const activityInputs = activityFilters.querySelectorAll("select, input");
 for (const input of activityInputs) {
-  input.addEventListener("change", applyActivityFilters);
+  input.addEventListener("change", applySeeAndDoFilters);
 }
 
 const attractionInputs = attractionFilters.querySelectorAll("select, input");
 for (const input of attractionInputs) {
-    input.addEventListener("change", applyAttractionFilters)
+    input.addEventListener("change", applySeeAndDoFilters)
 }
 
 async function loadSeeAndDo() {
@@ -98,7 +98,7 @@ async function getFilteredActivities() {
 
   // Om inget "typ av aktivitet"-filter är valt hämtas "activity"-objekt direkt från SMAPI
   if (!selectedType) {
-    return await getData("activity", apiFilters, currentPage, perPage);
+    return await getData("activity", apiFilters);
   }
 
   // Hämtar alla "descriptions" som hör till vald typ av aktivitet
@@ -122,24 +122,6 @@ async function getFilteredActivities() {
   return results.flat();
 }
 
-// Körs när användaren ändrar activity-filter
-async function applyActivityFilters() {
-  container.innerHTML = "Laddar...";
-
-  // Hämtar filtrerade aktiviteter (API + lokal JS-filtrering)
-  const filteredItems = await getFilteredActivities();
-
-  renderSeeAndDo(
-    [
-      {
-        title: "Aktiviteter",
-        items: filteredItems,
-      },
-    ],
-    container,
-  );
-}
-
 function getAttractionFilterValues() {
   return {
     experience: experienceType.value,
@@ -153,7 +135,7 @@ async function getFilteredAttractions() {
   const selectedType = attractionType.value;
 
   if (!selectedType) {
-    return await getData("attraction", apiFilters, currentPage, perPage);
+    return await getData("attraction", apiFilters);
   }
 
   const attractionCategories = attractionTypeMap[selectedType];
@@ -173,20 +155,71 @@ async function getFilteredAttractions() {
   return results.flat();
 }
 
-async function applyAttractionFilters() {
+function hasActiveActivityFilters() {
+  return (
+    activityType.value ||
+    effort.value ||
+    childFriendly.checked ||
+    involvesAnimals.checked ||
+    involvesWater.checked
+  );
+}
+
+function hasActiveAttractionFilters() {
+  return (
+    attractionType.value ||
+    experienceType.value ||
+    attractionChildFriendly.checked ||
+    localSignificance.checked
+  );
+}
+
+async function applySeeAndDoFilters() {
   container.innerHTML = "Laddar...";
 
-  const items = await getFilteredAttractions();
+  const activityActive = hasActiveActivityFilters();
+  const attractionActive = hasActiveAttractionFilters();
+
+  if (activityActive && !attractionActive) {
+    const activities = await getFilteredActivities();
+
+    renderSeeAndDo([
+      {
+        title: "Aktiviteter",
+        items: activities
+      }
+    ], container);
+
+    return;
+  }
+
+  if (attractionActive && !activityActive) {
+    const attractions = await getFilteredAttractions();
+
+    renderSeeAndDo([
+      {
+        title: "Sevärdheter",
+        items: attractions
+      }
+    ], container);
+
+    return;
+  }
+
+  const activities = await getFilteredActivities();
+  const attractions = await getFilteredAttractions();
 
   renderSeeAndDo([
     {
-      items: items,
+      title: "Aktiviteter",
+      items: activities
+    },
+    {
+      title: "Sevärdheter",
+      items: attractions
     }
   ], container);
 }
-
-
-
 
 async function loadFood() {
   const food = categories.food;
