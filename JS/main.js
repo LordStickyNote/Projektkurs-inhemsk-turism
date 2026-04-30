@@ -3,8 +3,12 @@ import { categories } from "./categories.js";
 import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
-import { activityTypeMap, buildActivityApiFilters } from "./filters.js";
-import { filterAttractions } from "./filters.js";
+import {
+  activityTypeMap,
+  buildActivityApiFilters,
+  buildAttractionApiFilters,
+  attractionTypeMap
+} from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
@@ -15,7 +19,7 @@ document
 const container = document.getElementById("results");
 
 const activityFilters = document.getElementById("activityFilters");
-const attractionFilters = document.getElementById("attractionFilters")
+const attractionFilters = document.getElementById("attractionFilters");
 const activityType = document.getElementById("activityType");
 const effort = document.getElementById("effort");
 const childFriendly = document.getElementById("childFriendly");
@@ -24,11 +28,10 @@ const involvesWater = document.getElementById("involvesWater");
 
 const attractionType = document.getElementById("attractionType");
 const experienceType = document.getElementById("experienceType");
-const attractionChildFriendly = document.getElementById("attractionChildFriendly");
+const attractionChildFriendly = document.getElementById(
+  "attractionChildFriendly",
+);
 const localSignificance = document.getElementById("localSignificance");
-
-let currentPage = 1;
-const perPage = 10;
 
 // Sparar ALLA activites från API (innan filtrering)
 let allActivities = [];
@@ -40,6 +43,9 @@ for (const input of activityInputs) {
 }
 
 const attractionInputs = attractionFilters.querySelectorAll("select, input");
+for (const input of attractionInputs) {
+    input.addEventListener("change", applyAttractionFilters)
+}
 
 async function loadSeeAndDo() {
   container.innerHTML = "Laddar...";
@@ -55,9 +61,7 @@ async function loadSeeAndDo() {
     // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
     const items = await getData(
       section.controller,
-      section.filters,
-      currentPage,
-      perPage,
+      section.filters
     );
 
     if (section.controller === "activity") {
@@ -79,12 +83,12 @@ async function loadSeeAndDo() {
 
 // Nödvändiga värden för att kunna filtrera beroende på användarens val, används senare i getFilteredActivities för att rendera resultatet.
 function getActivityFilterValues() {
-    return {
-        effort: effort.value,
-        childFriendly: childFriendly.checked,
-        involvesAnimals: involvesAnimals.checked,
-        involvesWater: involvesWater.checked
-    }
+  return {
+    effort: effort.value,
+    childFriendly: childFriendly.checked,
+    involvesAnimals: involvesAnimals.checked,
+    involvesWater: involvesWater.checked,
+  };
 }
 
 // Hämtar aktiviteter baserat på både API-filter och egna JS-filter
@@ -107,9 +111,7 @@ async function getFilteredActivities() {
       {
         ...apiFilters,
         descriptions: description,
-      },
-      currentPage,
-      perPage,
+      }
     );
   });
 
@@ -122,7 +124,6 @@ async function getFilteredActivities() {
 
 // Körs när användaren ändrar activity-filter
 async function applyActivityFilters() {
-  currentPage = 1;
   container.innerHTML = "Laddar...";
 
   // Hämtar filtrerade aktiviteter (API + lokal JS-filtrering)
@@ -138,6 +139,54 @@ async function applyActivityFilters() {
     container,
   );
 }
+
+function getAttractionFilterValues() {
+  return {
+    experience: experienceType.value,
+    childFriendly: attractionChildFriendly.checked,
+    localSignificance: localSignificance.checked,
+  };
+}
+
+async function getFilteredAttractions() {
+  const apiFilters = buildAttractionApiFilters(getAttractionFilterValues());
+  const selectedType = attractionType.value;
+
+  if (!selectedType) {
+    return await getData("attraction", apiFilters, currentPage, perPage);
+  }
+
+  const attractionCategories = attractionTypeMap[selectedType];
+
+  const requests = attractionCategories.map(category => {
+    return getData(
+        "attraction",
+        {
+            ...apiFilters,
+            categories: category
+        }
+    );
+  });
+
+  const results = await Promise.all(requests);
+
+  return results.flat();
+}
+
+async function applyAttractionFilters() {
+  container.innerHTML = "Laddar...";
+
+  const items = await getFilteredAttractions();
+
+  renderSeeAndDo([
+    {
+      items: items,
+    }
+  ], container);
+}
+
+
+
 
 async function loadFood() {
   const food = categories.food;

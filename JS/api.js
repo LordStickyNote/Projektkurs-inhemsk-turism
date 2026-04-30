@@ -2,13 +2,11 @@ import { API_KEY } from "./config.js";
 
 const BASE_URL = "https://smapi.lnu.se/api/"
 
-export async function getData(controller, filters = {}, page = 1, perPage = 20) {
+export async function getData(controller, filters = {}) {
     const params = new URLSearchParams({
         api_key: API_KEY,
         controller: controller,
         method: "getall",
-        current_page: page,
-        per_page: perPage,
         ...filters
     });
 

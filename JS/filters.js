@@ -60,35 +60,31 @@ export function buildActivityApiFilters(values) {
   return filters;
 }
 
-const attractionTypeMap = {
+export const attractionTypeMap = {
     history: ["HISTORY"],
     art: ["ART", "SOCIAL"],
     nature: ["NATURE & SCIENCE"],
     landmark: ["HISTORY"]
 };
 
-export function filterAttractions(items, filters) {
-    let filtered = items;
+export function buildAttractionApiFilters(values) {
+  const filters = {};
 
-    if (filters.type) {
-        filtered = filtered.filter(item => attractionTypeMap[filters.type]?.includes(item.category))
-    }
+  if (values.experience === "interactive") {
+    filters.interactive = "Y";
+  }
 
-    if (filters.experience === "interactive") {
-        filtered = filtered.filter(item => item.interactive === "Y");
-    }
+  if (values.experience === "static") {
+    filters.static_content = "Y";
+  }
 
-    if (filters.experience === "static") {
-        filtered = filtered.filter(item => item.static_content === "Y");
-    }
+  if (values.childFriendly) {
+    filters.child_friendly = "Y";
+  }
 
-    if (filters.childFriendly) {
-        filtered = filtered.filter(item => item.child_friendly === "Y");
-    }
+  if (values.localSignificance) {
+    filters.significance = "LOCAL"
+  }
 
-    if (filters.localSignificance) {
-        filtered = filtered.filter(item => item.significance === "LOCAL")
-    }
-
-    return filtered;
+  return filters;
 }
