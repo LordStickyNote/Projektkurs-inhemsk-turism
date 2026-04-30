@@ -8,6 +8,7 @@ import {
   buildActivityApiFilters,
   buildAttractionApiFilters,
   attractionTypeMap,
+  filterByEstablishmentIds
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -19,6 +20,8 @@ document
 const container = document.getElementById("results");
 
 const globalChildFriendly = document.getElementById("globalChildFriendly");
+const globalSeeAndDoFilters = document.getElementById("globalSeeAndDoFilters");
+const municipalityFilter = document.getElementById("municipalityFilter");
 
 const activityFilters = document.getElementById("activityFilters");
 const attractionFilters = document.getElementById("attractionFilters");
@@ -46,6 +49,7 @@ for (const input of attractionInputs) {
 }
 
 globalChildFriendly.addEventListener("change", applySeeAndDoFilters);
+municipalityFilter.addEventListener("change", applySeeAndDoFilters);
 
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
@@ -62,6 +66,7 @@ async function loadSeeAndDo() {
 
   activityFilters.hidden = false;
   attractionFilters.hidden = false;
+  globalSeeAndDoFilters.hidden = false;
 
   // Array som innehåller sektioner med titel + data från SMAPI
   const sectionsData = [];
@@ -87,6 +92,8 @@ async function loadSeeAndDo() {
 
   renderSeeAndDo(sectionsData, container);
 }
+
+//-------------------------------------------------------------------------
 
 // Nödvändiga värden för att kunna filtrera beroende på användarens val, används senare i getFilteredActivities för att rendera resultatet.
 function getActivityFilterValues() {
@@ -135,6 +142,8 @@ function getAttractionFilterValues() {
   };
 }
 
+//-------------------------------------------------------------------------
+
 // Funktion för att hämta sevärdheter från SMAPI baserat på användarens val
 async function getFilteredAttractions() {
 
@@ -167,6 +176,8 @@ async function getFilteredAttractions() {
   return results.flat();
 }
 
+//-------------------------------------------------------------------------
+
 // Kollar om något activity-filter är aktivt
 function hasActiveActivityFilters() {
   return (
@@ -186,6 +197,8 @@ function hasActiveAttractionFilters() {
   );
 }
 
+//-------------------------------------------------------------------------
+
 // Funktion som körs när filter ändras under "Se och göra"
 async function applySeeAndDoFilters() {
   container.innerHTML = "Laddar...";
@@ -198,7 +211,8 @@ async function applySeeAndDoFilters() {
     setFilterGroupDisabled(attractionFilters, true);
     setFilterGroupDisabled(activityFilters, false);
 
-    const activities = await getFilteredActivities();
+    let activities = await getFilteredActivities();
+    activities = await filterByMunicipality(activities);
 
     renderSeeAndDo(
       [
@@ -218,7 +232,8 @@ async function applySeeAndDoFilters() {
     setFilterGroupDisabled(activityFilters, true);
     setFilterGroupDisabled(attractionFilters, false);
 
-    const attractions = await getFilteredAttractions();
+    let attractions = await getFilteredAttractions();
+    attractions = await filterByMunicipality(attractions);
 
     renderSeeAndDo(
       [
@@ -234,8 +249,11 @@ async function applySeeAndDoFilters() {
   }
 
   // Om inga filter är aktiva visas resultat från både aktiviter och sevärdheter
-  const activities = await getFilteredActivities();
-  const attractions = await getFilteredAttractions();
+  let activities = await getFilteredActivities();
+  let attractions = await getFilteredAttractions();
+
+  activities = await filterByMunicipality(activities);
+  attractions = await filterByMunicipality(attractions)
 
   renderSeeAndDo(
     [
@@ -254,6 +272,20 @@ async function applySeeAndDoFilters() {
   // Aktiverar båda filtergrupperna 
   setFilterGroupDisabled(activityFilters, false);
   setFilterGroupDisabled(attractionFilters, false);
+}
+
+async function filterByMunicipality(items) {
+    const municipality = municipalityFilter.value;
+
+    if (!municipality) {
+        return items;
+    }
+
+    const establishments = await getData("establishment", {
+        municipalities: municipality
+    })
+
+    return filterByEstablishmentIds(items, establishments)
 }
 
 async function loadFood() {
