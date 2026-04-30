@@ -18,19 +18,17 @@ document
 
 const container = document.getElementById("results");
 
+const globalChildFriendly = document.getElementById("globalChildFriendly");
+
 const activityFilters = document.getElementById("activityFilters");
 const attractionFilters = document.getElementById("attractionFilters");
 const activityType = document.getElementById("activityType");
 const effort = document.getElementById("effort");
-const childFriendly = document.getElementById("childFriendly");
 const involvesAnimals = document.getElementById("involvesAnimals");
 const involvesWater = document.getElementById("involvesWater");
 
 const attractionType = document.getElementById("attractionType");
 const experienceType = document.getElementById("experienceType");
-const attractionChildFriendly = document.getElementById(
-  "attractionChildFriendly",
-);
 const localSignificance = document.getElementById("localSignificance");
 
 // Sparar ALLA activites från API (innan filtrering)
@@ -46,6 +44,8 @@ const attractionInputs = attractionFilters.querySelectorAll("select, input");
 for (const input of attractionInputs) {
   input.addEventListener("change", applySeeAndDoFilters);
 }
+
+globalChildFriendly.addEventListener("change", applySeeAndDoFilters);
 
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
@@ -92,7 +92,7 @@ async function loadSeeAndDo() {
 function getActivityFilterValues() {
   return {
     effort: effort.value,
-    childFriendly: childFriendly.checked,
+    childFriendly: globalChildFriendly.checked,
     involvesAnimals: involvesAnimals.checked,
     involvesWater: involvesWater.checked,
   };
@@ -130,7 +130,7 @@ async function getFilteredActivities() {
 function getAttractionFilterValues() {
   return {
     experience: experienceType.value,
-    childFriendly: attractionChildFriendly.checked,
+    childFriendly: globalChildFriendly.checked,
     localSignificance: localSignificance.checked,
   };
 }
@@ -172,7 +172,6 @@ function hasActiveActivityFilters() {
   return (
     activityType.value ||
     effort.value ||
-    childFriendly.checked ||
     involvesAnimals.checked ||
     involvesWater.checked
   );
@@ -183,7 +182,6 @@ function hasActiveAttractionFilters() {
   return (
     attractionType.value ||
     experienceType.value ||
-    attractionChildFriendly.checked ||
     localSignificance.checked
   );
 }
