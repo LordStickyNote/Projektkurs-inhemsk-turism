@@ -15,15 +15,15 @@ import {
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
-document
-  .querySelector("#accommodationBtn")
-  .addEventListener("click", loadAccommodation);
+document.querySelector("#accommodationBtn").addEventListener("click", loadAccommodation);
 
+let activeCategory = "";
+const globalMunicipalityFilter = document.getElementById("globalMunicipalityFilter")
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters")
 const foodFilters = document.getElementById("foodFilters")
 
-const globalChildFriendly = document.getElementById("globalChildFriendly");
+const childFriendly = document.getElementById("childFriendly");
 const globalSeeAndDoFilters = document.getElementById("globalSeeAndDoFilters");
 const municipalityFilter = document.getElementById("municipalityFilter");
 const priceRange = document.getElementById("priceRange");
@@ -39,6 +39,8 @@ const experienceType = document.getElementById("experienceType");
 const localSignificance = document.getElementById("localSignificance");
 
 const foodType = document.getElementById("foodType");
+const foodPrice = document.getElementById("foodPrice");
+const foodRating = document.getElementById("foodRating");
 
 // Sparar ALLA activites från API (innan filtrering)
 let allActivities = [];
@@ -54,12 +56,15 @@ for (const input of attractionInputs) {
   input.addEventListener("change", applySeeAndDoFilters);
 }
 
-globalChildFriendly.addEventListener("change", applySeeAndDoFilters);
-municipalityFilter.addEventListener("change", applySeeAndDoFilters);
+childFriendly.addEventListener("change", applySeeAndDoFilters);
+municipalityFilter.addEventListener("change", applyCurrentFilters);
 loadMunicipalities();
 priceRange.addEventListener("change", applySeeAndDoFilters);
 
-foodType.addEventListener("change", applyFoodFilters)
+const foodInputs = foodFilters.querySelectorAll("select, input");
+for (const input of foodInputs) {
+  input.addEventListener("change", applyFoodFilters)
+}
 
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
@@ -71,9 +76,27 @@ function setFilterGroupDisabled(filterGroup, disabled) {
   filterGroup.classList.toggle("disabled", disabled);
 }
 
-async function loadSeeAndDo() {
-  container.innerHTML = "Laddar...";
+function applyCurrentFilters() {
+  if (activeCategory === "food") {
+    applyFoodFilters();
+  }
 
+  if (activeCategory === "seeAndDo") {
+    applySeeAndDoFilters();
+  }
+}
+
+function hideFilters() {
+  seeAndDoFilters.hidden = true;
+  foodFilters.hidden = true;
+}
+
+async function loadSeeAndDo() {
+  activeCategory = "seeAndDo";
+  container.innerHTML = "Laddar...";
+  hideFilters()
+
+  globalMunicipalityFilter.hidden = false;
   seeAndDoFilters.hidden = false;
 
   // Array som innehåller sektioner med titel + data från SMAPI
@@ -107,7 +130,7 @@ async function loadSeeAndDo() {
 function getActivityFilterValues() {
   return {
     effort: effort.value,
-    childFriendly: globalChildFriendly.checked,
+    childFriendly: childFriendly.checked,
     involvesAnimals: involvesAnimals.checked,
     involvesWater: involvesWater.checked,
   };
@@ -145,7 +168,7 @@ async function getFilteredActivities() {
 function getAttractionFilterValues() {
   return {
     experience: experienceType.value,
-    childFriendly: globalChildFriendly.checked,
+    childFriendly: childFriendly.checked,
     localSignificance: localSignificance.checked,
   };
 }
@@ -283,7 +306,7 @@ async function applySeeAndDoFilters() {
 }
 
 // Funktion för att filtrera platser beroende på vald kommun
-async function filterByEstablishment(items) {
+async function filterByEstablishment(items, controller) {
     const municipality = municipalityFilter.value;
     const maxPrice = Number(priceRange.value);
 
@@ -299,7 +322,7 @@ async function filterByEstablishment(items) {
       })
     }
 
-    return filterByEstablishmentIds(items, establishments)
+    return filterByEstablishmentIds(items, establishments, controller)
 }
 
 async function loadMunicipalities() {
@@ -319,21 +342,36 @@ async function loadMunicipalities() {
   }
 }
 
+//-------------------------------------------------------------------------
+
+function getFoodFilterValues() {
+  return {
+    type: foodType.value,
+    maxPrice: foodPrice.value ? Number(foodPrice.value) : null,
+    minRating: foodRating.value ? Number(foodRating.value) : null
+  }
+}
+
 async function applyFoodFilters() {
   container.innerHTML = "Laddar...";
 
   const food = categories.food;
-  const items = await getData(food.controller);
+  let items = await getData(food.controller);
 
-  const filtered = filterFoodByType(items, foodType.value);
+  items = filterFood(items, getFoodFilterValues());
 
-  renderFood(filtered, container)
+  items = await filterByEstablishment(items, "food")
+
+  renderFood(items, container)
 }
 
 async function loadFood() {
+  activeCategory = "food";
   container.innerHTML = "Laddar...";
+  hideFilters()
 
   foodFilters.hidden = false;
+  globalMunicipalityFilter.hidden = false;
 
   const food = categories.food;
   const items = await getData(food.controller, food.filters);
