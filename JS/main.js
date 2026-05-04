@@ -10,7 +10,8 @@ import {
   attractionTypeMap,
   filterByEstablishmentIds,
   getMaxPrice,
-  filterFood
+  filterFood,
+  buildAccommodationApiFilters
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -41,6 +42,13 @@ const localSignificance = document.getElementById("localSignificance");
 const foodType = document.getElementById("foodType");
 const foodPrice = document.getElementById("foodPrice");
 const foodRating = document.getElementById("foodRating");
+
+const accomodationFilters = document.getElementById("accommodationFilters");
+const accommodationType = document.getElementById("accommodationType");
+const accommodationRating = document.getElementById("accommodationRating");
+const hasWifi = document.getElementById("hasWifi");
+const freeParking = document.getElementById("freeParking");
+const petFriendly = document.getElementById("petFriendly");
 
 // Sparar ALLA activites från API (innan filtrering)
 let allActivities = [];
@@ -377,6 +385,19 @@ async function loadFood() {
   const items = await getData(food.controller, food.filters);
 
   renderFood(items, container);
+}
+
+function getAccommodationFilterValues() {
+  return {
+    type: accommodationType.value,
+    minRating: accommodationRating
+  }
+}
+
+async function applyAccommodationFilters() {
+  container.innerHTML = "Laddar...";
+
+  const values = 
 }
 
 async function loadAccommodation() {
