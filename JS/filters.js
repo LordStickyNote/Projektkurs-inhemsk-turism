@@ -42,7 +42,7 @@ export function buildActivityApiFilters(values) {
   const filters = {};
 
   if (values.effort) {
-    filters.physical_effort = values.effort;
+    filters.physical_efforts = values.effort;
   }
 
   if (values.childFriendly) {
@@ -93,4 +93,11 @@ export function filterByEstablishmentIds(items, establishments) {
     const allowedIds = establishments.map(place => place.id);
 
     return items.filter(item => allowedIds.includes(item.id))
+}
+
+export function getMaxPrice(priceRangeString) {
+  if (!priceRangeString) return Infinity;
+
+  const parts = priceRangeString.split("-");
+  return Number(parts[1])
 }
