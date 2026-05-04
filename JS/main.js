@@ -43,7 +43,7 @@ const foodType = document.getElementById("foodType");
 const foodPrice = document.getElementById("foodPrice");
 const foodRating = document.getElementById("foodRating");
 
-const accomodationFilters = document.getElementById("accommodationFilters");
+const accommodationFilters = document.getElementById("accommodationFilters");
 const accommodationType = document.getElementById("accommodationType");
 const accommodationRating = document.getElementById("accommodationRating");
 const hasWifi = document.getElementById("hasWifi");
@@ -74,6 +74,11 @@ for (const input of foodInputs) {
   input.addEventListener("change", applyFoodFilters)
 }
 
+const accommodationInputs = accommodationFilters.querySelectorAll("select, input");
+for (const input of accommodationInputs) {
+  input.addEventListener("change", applyAccommodationFilters)
+}
+
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
 
@@ -92,11 +97,16 @@ function applyCurrentFilters() {
   if (activeCategory === "seeAndDo") {
     applySeeAndDoFilters();
   }
+
+  if (activeCategory === "accommodation") {
+    applyAccommodationFilters();
+  }
 }
 
 function hideFilters() {
   seeAndDoFilters.hidden = true;
   foodFilters.hidden = true;
+  accommodationFilters.hidden = true;
 }
 
 async function loadSeeAndDo() {
@@ -355,8 +365,8 @@ async function loadMunicipalities() {
 function getFoodFilterValues() {
   return {
     type: foodType.value,
-    maxPrice: foodPrice.value ? Number(foodPrice.value) : null,
-    minRating: foodRating.value ? Number(foodRating.value) : null
+    maxPrice: foodPrice.value,
+    minRating: foodRating.value
   }
 }
 
@@ -390,18 +400,37 @@ async function loadFood() {
 function getAccommodationFilterValues() {
   return {
     type: accommodationType.value,
-    minRating: accommodationRating
+    minRating: accommodationRating.value,
+    hasWifi: hasWifi.checked,
+    freeParking: freeParking.checked,
+    petFriendly: petFriendly.checked
   }
 }
 
 async function applyAccommodationFilters() {
   container.innerHTML = "Laddar...";
+ 
+  const values = getAccommodationFilterValues();
 
-  const values = 
+  const apiFilters = buildAccommodationApiFilters(values);
+
+  let items = await getData("accommodation", apiFilters);
+
+  items = await filterByEstablishment(items, "accommodation");
+
+  renderAccommodation(items, container);
+
 }
 
 async function loadAccommodation() {
-  const accommodation = categories.accomodation;
+  activeCategory = "accommodation";
+
+  container.innerHTML = "Laddar..."
+  const accommodation = categories.accommodation;
+  hideFilters();
+
+  accommodationFilters.hidden = false;
+  globalMunicipalityFilter.hidden = false;
 
   const items = await getData(accommodation.controller, accommodation.filters);
 
