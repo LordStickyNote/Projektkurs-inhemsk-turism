@@ -42,7 +42,7 @@ export function buildActivityApiFilters(values) {
   const filters = {};
 
   if (values.effort) {
-    filters.physical_effort = values.effort;
+    filters.physical_efforts = values.effort;
   }
 
   if (values.childFriendly) {

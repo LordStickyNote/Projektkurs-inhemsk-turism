@@ -50,6 +50,7 @@ for (const input of attractionInputs) {
 
 globalChildFriendly.addEventListener("change", applySeeAndDoFilters);
 municipalityFilter.addEventListener("change", applySeeAndDoFilters);
+loadMunicipalities();
 
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
@@ -274,18 +275,38 @@ async function applySeeAndDoFilters() {
   setFilterGroupDisabled(attractionFilters, false);
 }
 
+// Funktion för att filtrera platser beroende på vald kommun
 async function filterByMunicipality(items) {
     const municipality = municipalityFilter.value;
 
+    // Om ingen kommun är vald, returnera allt/visa alla platser
     if (!municipality) {
         return items;
     }
 
+    // Hämtar alla objekt som är i vald kommun
     const establishments = await getData("establishment", {
         municipalities: municipality
     })
 
     return filterByEstablishmentIds(items, establishments)
+}
+
+async function loadMunicipalities() {
+  const establishments = await getData("establishment");
+
+  const municipalities = establishments.map(item => item.municipality).filter(municipality => municipality);
+
+  const alfabeticalMunicipalities = [...new Set(municipalities)].sort();
+
+  for (const municipality of alfabeticalMunicipalities) {
+    const option = document.createElement("option");
+
+    option.value = municipality;
+    option.textContent = municipality;
+
+    municipalityFilter.appendChild(option);
+  }
 }
 
 async function loadFood() {
