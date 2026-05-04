@@ -8,7 +8,8 @@ import {
   buildActivityApiFilters,
   buildAttractionApiFilters,
   attractionTypeMap,
-  filterByEstablishmentIds
+  filterByEstablishmentIds,
+  getMaxPrice
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -22,6 +23,7 @@ const container = document.getElementById("results");
 const globalChildFriendly = document.getElementById("globalChildFriendly");
 const globalSeeAndDoFilters = document.getElementById("globalSeeAndDoFilters");
 const municipalityFilter = document.getElementById("municipalityFilter");
+const priceRange = document.getElementById("priceRange");
 
 const activityFilters = document.getElementById("activityFilters");
 const attractionFilters = document.getElementById("attractionFilters");
@@ -51,6 +53,7 @@ for (const input of attractionInputs) {
 globalChildFriendly.addEventListener("change", applySeeAndDoFilters);
 municipalityFilter.addEventListener("change", applySeeAndDoFilters);
 loadMunicipalities();
+priceRange.addEventListener("change", applySeeAndDoFilters);
 
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
@@ -213,7 +216,7 @@ async function applySeeAndDoFilters() {
     setFilterGroupDisabled(activityFilters, false);
 
     let activities = await getFilteredActivities();
-    activities = await filterByMunicipality(activities);
+    activities = await filterByEstablishment(activities);
 
     renderSeeAndDo(
       [
@@ -234,7 +237,7 @@ async function applySeeAndDoFilters() {
     setFilterGroupDisabled(attractionFilters, false);
 
     let attractions = await getFilteredAttractions();
-    attractions = await filterByMunicipality(attractions);
+    attractions = await filterByEstablishment(attractions);
 
     renderSeeAndDo(
       [
@@ -253,8 +256,8 @@ async function applySeeAndDoFilters() {
   let activities = await getFilteredActivities();
   let attractions = await getFilteredAttractions();
 
-  activities = await filterByMunicipality(activities);
-  attractions = await filterByMunicipality(attractions)
+  activities = await filterByEstablishment(activities);
+  attractions = await filterByEstablishment(attractions)
 
   renderSeeAndDo(
     [
@@ -276,18 +279,21 @@ async function applySeeAndDoFilters() {
 }
 
 // Funktion för att filtrera platser beroende på vald kommun
-async function filterByMunicipality(items) {
+async function filterByEstablishment(items) {
     const municipality = municipalityFilter.value;
-
-    // Om ingen kommun är vald, returnera allt/visa alla platser
-    if (!municipality) {
-        return items;
-    }
+    const maxPrice = Number(priceRange.value);
 
     // Hämtar alla objekt som är i vald kommun
-    const establishments = await getData("establishment", {
-        municipalities: municipality
-    })
+    let establishments = await getData("establishment", {
+       ...(municipality) && { municipalities: municipality }
+    });
+
+    if (maxPrice) {
+      establishments = establishments.filter(place => {
+        const placeMax = getMaxPrice(place.price_range);
+        return placeMax <= maxPrice;
+      })
+    }
 
     return filterByEstablishmentIds(items, establishments)
 }

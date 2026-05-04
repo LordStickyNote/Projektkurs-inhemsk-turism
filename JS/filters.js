@@ -94,3 +94,10 @@ export function filterByEstablishmentIds(items, establishments) {
 
     return items.filter(item => allowedIds.includes(item.id))
 }
+
+export function getMaxPrice(priceRangeString) {
+  if (!priceRangeString) return Infinity;
+
+  const parts = priceRangeString.split("-");
+  return Number(parts[1])
+}
