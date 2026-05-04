@@ -12,25 +12,25 @@
     <button id="foodBtn">Mat</button>
     <button id="accommodationBtn">Boenden</button>
     <div id="globalMunicipalityFilter" hidden>
-              <p>Globala filter</p>
-        <label for="municipalityFilter">Kommun</label>
-        <select id="municipalityFilter">
-          <option value="">Alla kommuner</option>
-        </select>
+      <p>Globala filter</p>
+      <label for="municipalityFilter">Kommun</label>
+      <select id="municipalityFilter">
+        <option value="">Alla kommuner</option>
+      </select>
     </div>
     <div id="SeeAndDoFilters" hidden>
-        <label>
-          <input type="checkbox" id="childFriendly" />
-          Barnvänligt
-        </label>
-        <label for="priceRange">Pris</label>
-        <select id="priceRange">
-          <option value="">Alla priser</option>
-          <option value="100">Upp till 100 kr</option>
-          <option value="200">Upp till 200 kr</option>
-          <option value="500">Upp till 500 kr</option>
-          <option value="1000">Upp till 1000 kr</option>
-        </select>
+      <label for="childFriendly">
+        <input type="checkbox" id="childFriendly" />
+        Barnvänligt
+      </label>
+      <label for="priceRange">Pris</label>
+      <select id="priceRange">
+        <option value="">Alla priser</option>
+        <option value="100">Upp till 100 kr</option>
+        <option value="200">Upp till 200 kr</option>
+        <option value="500">Upp till 500 kr</option>
+        <option value="1000">Upp till 1000 kr</option>
+      </select>
       <div id="activityFilters">
         <p>Filtrera aktiviteter</p>
         <label for="activityType">Typ av aktivitet</label>
@@ -50,11 +50,11 @@
           <option value="MEDIUM">Medel</option>
           <option value="HIGH">Aktivt</option>
         </select>
-        <label>
+        <label for="involvesAnimals">
           <input type="checkbox" id="involvesAnimals" />
           Djur
         </label>
-        <label>
+        <label for="involvesWater">
           <input type="checkbox" id="involvesWater" />
           Vatten
         </label>
@@ -76,9 +76,10 @@
           <option value="interactive">Interaktiv</option>
           <option value="static">Klassisk (se & läsa)</option>
         </select>
-
-        <input type="checkbox" id="localSignificance" />
-        Lokala pärlor
+        <label for="localSignificance">
+          <input type="checkbox" id="localSignificance" />
+          Lokala pärlor
+        </label>
       </div>
     </div>
     <div id="foodFilters" hidden>
@@ -106,6 +107,33 @@
         <option value="3">3+</option>
         <option value="4">4+</option>
       </select>
+    </div>
+    <div id="accommodationFilters">
+      <label for="accommodationType">Boendetyp</label>
+      <select id="accommodationType">
+        <option value="">Alla typer</option>
+        <option value="B&B">B&B</option>
+        <option value="Hotell">Hotell</option>
+        <option value="Camping">Camping</option>
+      </select>
+      <label for="accommodationRating">Betyg</label>
+      <select id="accommodationRating">
+        <option value="">Alla betyg</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="4.5">4.5+</option>
+      </select>
+      <label>
+        <input type="checkbox" id="hasWifi" />
+        Wifi
+      </label>
+      <label for="freeParking">
+        <input type="checkbox" id="freeParking">
+        Gratis parkering
+      </label>
+      <label for="petFriednly">
+        <input type="checkbox" id="petFriednly">
+      </label>
     </div>
     <section id="results"></section>
   </body>
