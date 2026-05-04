@@ -89,7 +89,7 @@ export function buildAttractionApiFilters(values) {
   return filters;
 }
 
-export function filterByEstablishmentIds(items, establishments) {
+export function filterByEstablishmentIds(items, establishments, controller) {
     const allowedIds = establishments.map(place => place.id);
 
     return items.filter(item => allowedIds.includes(item.id))
@@ -100,4 +100,35 @@ export function getMaxPrice(priceRangeString) {
 
   const parts = priceRangeString.split("-");
   return Number(parts[1])
+}
+
+export function filterFood(items, filters) {
+  let filtered = items;
+
+  if (filters.type) {
+    const type = filters.type.toLowerCase();
+  
+
+  filtered = filtered.filter((item) => {
+    const description = item.description?.toLowerCase() || "";
+    const subType = item.sub_type?.toLowerCase() || "";
+    const searchTags = item.search_tags?.toLowerCase() || "";
+
+    return (
+      description.includes(type) ||
+      subType.includes(type) ||
+      searchTags.includes(type)
+    );
+  });
+}
+
+if (filters.maxPrice) {
+  filtered = filtered.filter(item => Number(item.avg_dinner_pricing) <= filters.maxPrice);
+}
+
+if (filters.minRating) {
+  filtered = filtered.filter(item => Number(item.rating) >= filters.minRating);
+}
+
+return filtered;
 }

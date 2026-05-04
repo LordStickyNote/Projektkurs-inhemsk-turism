@@ -9,76 +9,104 @@
   </head>
   <body>
     <button id="doBtn">Se och göra</button>
-    <div id="globalSeeAndDoFilters" hidden>
-      <p>Globala filter</p>
-      <label for="municipalityFilter">Kommun</label>
-      <select id="municipalityFilter">
-        <option value="">Alla kommuner</option>
+    <button id="foodBtn">Mat</button>
+    <button id="accommodationBtn">Boenden</button>
+    <div id="globalMunicipalityFilter" hidden>
+              <p>Globala filter</p>
+        <label for="municipalityFilter">Kommun</label>
+        <select id="municipalityFilter">
+          <option value="">Alla kommuner</option>
+        </select>
+    </div>
+    <div id="SeeAndDoFilters" hidden>
+        <label>
+          <input type="checkbox" id="childFriendly" />
+          Barnvänligt
+        </label>
+        <label for="priceRange">Pris</label>
+        <select id="priceRange">
+          <option value="">Alla priser</option>
+          <option value="100">Upp till 100 kr</option>
+          <option value="200">Upp till 200 kr</option>
+          <option value="500">Upp till 500 kr</option>
+          <option value="1000">Upp till 1000 kr</option>
+        </select>
+      <div id="activityFilters">
+        <p>Filtrera aktiviteter</p>
+        <label for="activityType">Typ av aktivitet</label>
+        <select id="activityType">
+          <option value="">Alla typer</option>
+          <option value="fun">Nöje</option>
+          <option value="sport">Sport</option>
+          <option value="swim">Bad</option>
+          <option value="animals">Djur</option>
+          <option value="adventure">Äventyr</option>
+          <option value="nightlife">Nattliv</option>
+        </select>
+        <label for="effort">Aktivitetsnivå</label>
+        <select id="effort">
+          <option value="">Alla nivåer</option>
+          <option value="LOW">Lugnt</option>
+          <option value="MEDIUM">Medel</option>
+          <option value="HIGH">Aktivt</option>
+        </select>
+        <label>
+          <input type="checkbox" id="involvesAnimals" />
+          Djur
+        </label>
+        <label>
+          <input type="checkbox" id="involvesWater" />
+          Vatten
+        </label>
+      </div>
+      <div id="attractionFilters">
+        <p>Filtrera sevärdheter</p>
+        <label for="attractionType">Typ av sevärdhet</label>
+        <select id="attractionType">
+          <option value="">Alla</option>
+          <option value="history">Historia</option>
+          <option value="art">Konst & kultur</option>
+          <option value="nature">Natur</option>
+          <option value="landmark">Landmark</option>
+        </select>
+
+        <label for="experienceType">Typ av upplevelse</label>
+        <select id="experienceType">
+          <option value="">Alla</option>
+          <option value="interactive">Interaktiv</option>
+          <option value="static">Klassisk (se & läsa)</option>
+        </select>
+
+        <input type="checkbox" id="localSignificance" />
+        Lokala pärlor
+      </div>
+    </div>
+    <div id="foodFilters" hidden>
+      <p>Filter</p>
+      <label for="foodType">Typ av mat</label>
+      <select id="foodType">
+        <option value="">Alla typer</option>
+        <option value="asian">Asiatiskt</option>
+        <option value="pizza">Pizza</option>
+        <option value="kebab">Kebab</option>
+        <option value="hamburgare">Hamburgare</option>
+        <option value="sallad">Sallad</option>
+        <option value="husman">Husman</option>
       </select>
-      <label>
-        <input type="checkbox" id="globalChildFriendly" />
-        Barnvänligt
-      </label>
-      <label for="priceRange">Pris</label>
-      <select id="priceRange">
+      <label for="foodPrice">Pris per person</label>
+      <select id="foodPrice">
         <option value="">Alla priser</option>
         <option value="100">Upp till 100 kr</option>
         <option value="200">Upp till 200 kr</option>
         <option value="500">Upp till 500 kr</option>
-        <option value="1000">Upp till 1000 kr</option>
+      </select>
+      <label for="foodRating">Betyg</label>
+      <select id="foodRating">
+        <option value="">Alla betyg</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
       </select>
     </div>
-    <div id="activityFilters" hidden>
-      <p>Filtrera aktiviteter</p>
-      <label for="activityType">Typ av aktivitet</label>
-      <select id="activityType">
-        <option value="">Alla typer</option>
-        <option value="fun">Nöje</option>
-        <option value="sport">Sport</option>
-        <option value="swim">Bad</option>
-        <option value="animals">Djur</option>
-        <option value="adventure">Äventyr</option>
-        <option value="nightlife">Nattliv</option>
-      </select>
-      <label for="effort">Aktivitetsnivå</label>
-      <select id="effort">
-        <option value="">Alla nivåer</option>
-        <option value="LOW">Lugnt</option>
-        <option value="MEDIUM">Medel</option>
-        <option value="HIGH">Aktivt</option>
-      </select>
-      <label>
-        <input type="checkbox" id="involvesAnimals" />
-        Djur
-      </label>
-      <label>
-        <input type="checkbox" id="involvesWater" />
-        Vatten
-      </label>
-    </div>
-    <div id="attractionFilters" hidden>
-      <p>Filtrera sevärdheter</p>
-      <label for="attractionType">Typ av sevärdhet</label>
-      <select id="attractionType">
-        <option value="">Alla</option>
-        <option value="history">Historia</option>
-        <option value="art">Konst & kultur</option>
-        <option value="nature">Natur</option>
-        <option value="landmark">Landmark</option>
-      </select>
-
-      <label for="experienceType">Typ av upplevelse</label>
-      <select id="experienceType">
-        <option value="">Alla</option>
-        <option value="interactive">Interaktiv</option>
-        <option value="static">Klassisk (se & läsa)</option>
-      </select>
-
-      <input type="checkbox" id="localSignificance" />
-      Lokala pärlor
-    </div>
-    <button id="foodBtn">Mat</button>
-    <button id="accommodationBtn">Boenden</button>
     <section id="results"></section>
   </body>
 </html>
