@@ -148,7 +148,7 @@ a {
 
 .card-listing img {
   width: 100%;
-  object-fit:cover;
+  object-fit: cover;
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
   height: 100px;
@@ -260,7 +260,7 @@ a {
   gap: var(--space-2);
   align-items: center;
   justify-content: center;
-  padding: calc(var(--space-1) / 2) var(--space-1);
+  padding: calc(var(--space-1) / 2) calc(var(--space-1) / 2);
   display: flex;
   cursor: pointer;
   text-wrap: nowrap;
@@ -268,6 +268,7 @@ a {
   color: var(--color-bg);
   border: var(--color-bg-card) solid 2px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .tab {

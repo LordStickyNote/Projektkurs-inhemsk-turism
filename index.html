@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Titelsida</title>
     <script type="module" src="JS/main.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/CSS/style.css" />
   </head>
   <body>
-    <button id="doBtn">Se och göra</button>
-    <button id="foodBtn">Mat</button>
-    <button id="accommodationBtn">Boenden</button>
+    <span class="tab-container">
+      <button class="tab" id="doBtn">Se och göra</button>
+      <button class="tab" id="foodBtn">Mat</button>
+      <button class="tab" id="accommodationBtn">Boenden</button>
+    </span>
     <div id="globalMunicipalityFilter" hidden>
               <p>Globala filter</p>
         <label for="municipalityFilter">Kommun</label>
