@@ -10,7 +10,7 @@ import {
   attractionTypeMap,
   filterByEstablishmentIds,
   getMaxPrice,
-  filterFoodByType
+  filterFood
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -58,6 +58,8 @@ globalChildFriendly.addEventListener("change", applySeeAndDoFilters);
 municipalityFilter.addEventListener("change", applySeeAndDoFilters);
 loadMunicipalities();
 priceRange.addEventListener("change", applySeeAndDoFilters);
+
+foodType.addEventListener("change", applyFoodFilters)
 
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
@@ -317,11 +319,23 @@ async function loadMunicipalities() {
   }
 }
 
-async function loadFood() {
+async function applyFoodFilters() {
+  container.innerHTML = "Laddar...";
+
   const food = categories.food;
+  const items = await getData(food.controller);
+
+  const filtered = filterFoodByType(items, foodType.value);
+
+  renderFood(filtered, container)
+}
+
+async function loadFood() {
+  container.innerHTML = "Laddar...";
 
   foodFilters.hidden = false;
 
+  const food = categories.food;
   const items = await getData(food.controller, food.filters);
 
   renderFood(items, container);

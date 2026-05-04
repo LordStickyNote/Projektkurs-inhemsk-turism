@@ -102,14 +102,14 @@ export function getMaxPrice(priceRangeString) {
   return Number(parts[1])
 }
 
-export function filterFoodByType(items) {
-  const selectedType = foodType.value.toLowerCase();
+export function filterFood(items, filters) {
+  let filtered = items;
 
-  if (!selectedType) {
-    return items;
-  }
+  if (filters.type) {
+    const type = filters.type.toLowerCase();
+  
 
-  return items.filter(item => {
+  filtered = filtered.filter((item) => {
     const description = item.description?.toLowerCase() || "";
     const subType = item.sub_type?.toLowerCase() || "";
     const searchTags = item.search_tags?.toLowerCase() || "";
@@ -118,6 +118,22 @@ export function filterFoodByType(items) {
       description.includes(selectedType) ||
       subType.includes(selectedType) ||
       searchTags.includes(selectedType)
-    )
-  })
+    );
+  });
+}
+
+if (filters.maxPrice) {
+  filtered = filtered.filter(item => {
+    const lunch = Number(item.avg_lunch_pricing);
+    const dinner = Number(item.avg_dinner_pricing);
+
+    return lunch <= filters.maxPrice || dinner <= filters.maxPrice;
+  });
+}
+
+if (filters.minRating) {
+  filtered = filtered.filter(item => Number(item.rating) >= filters.minRating);
+}
+
+return filtered;
 }
