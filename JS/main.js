@@ -9,7 +9,8 @@ import {
   buildAttractionApiFilters,
   attractionTypeMap,
   filterByEstablishmentIds,
-  getMaxPrice
+  getMaxPrice,
+  filterFoodByType
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -19,6 +20,8 @@ document
   .addEventListener("click", loadAccommodation);
 
 const container = document.getElementById("results");
+const seeAndDoFilters = document.getElementById("SeeAndDoFilters")
+const foodFilters = document.getElementById("foodFilters")
 
 const globalChildFriendly = document.getElementById("globalChildFriendly");
 const globalSeeAndDoFilters = document.getElementById("globalSeeAndDoFilters");
@@ -31,10 +34,11 @@ const activityType = document.getElementById("activityType");
 const effort = document.getElementById("effort");
 const involvesAnimals = document.getElementById("involvesAnimals");
 const involvesWater = document.getElementById("involvesWater");
-
 const attractionType = document.getElementById("attractionType");
 const experienceType = document.getElementById("experienceType");
 const localSignificance = document.getElementById("localSignificance");
+
+const foodType = document.getElementById("foodType");
 
 // Sparar ALLA activites från API (innan filtrering)
 let allActivities = [];
@@ -68,9 +72,7 @@ function setFilterGroupDisabled(filterGroup, disabled) {
 async function loadSeeAndDo() {
   container.innerHTML = "Laddar...";
 
-  activityFilters.hidden = false;
-  attractionFilters.hidden = false;
-  globalSeeAndDoFilters.hidden = false;
+  seeAndDoFilters.hidden = false;
 
   // Array som innehåller sektioner med titel + data från SMAPI
   const sectionsData = [];
@@ -317,6 +319,8 @@ async function loadMunicipalities() {
 
 async function loadFood() {
   const food = categories.food;
+
+  foodFilters.hidden = false;
 
   const items = await getData(food.controller, food.filters);
 

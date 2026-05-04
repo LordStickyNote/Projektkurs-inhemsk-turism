@@ -101,3 +101,23 @@ export function getMaxPrice(priceRangeString) {
   const parts = priceRangeString.split("-");
   return Number(parts[1])
 }
+
+export function filterFoodByType(items) {
+  const selectedType = foodType.value.toLowerCase();
+
+  if (!selectedType) {
+    return items;
+  }
+
+  return items.filter(item => {
+    const description = item.description?.toLowerCase() || "";
+    const subType = item.sub_type?.toLowerCase() || "";
+    const searchTags = item.search_tags?.toLowerCase() || "";
+
+    return (
+      description.includes(selectedType) ||
+      subType.includes(selectedType) ||
+      searchTags.includes(selectedType)
+    )
+  })
+}
