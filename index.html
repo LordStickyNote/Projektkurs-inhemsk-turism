@@ -6,33 +6,49 @@
     <title>Titelsida</title>
     <script type="module" src="JS/main.js"></script>
     <link rel="stylesheet" href="/CSS/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <body class="gap-4">
     <span class="tab-container">
       <button class="tab" id="doBtn">Se och göra</button>
       <button class="tab" id="foodBtn">Mat</button>
       <button class="tab" id="accommodationBtn">Boenden</button>
     </span>
+    <div class="width-full row row-between card">
+      <select class="btn btn-outline btn-sm" name="sortList" id="sortList">
+        <option value="Betyg" selected>Betyg</option>
+        <option value="Pris">Pris</option>
+      </select>
+      <span class="row gap-2">
+        <button class="btn"></button>
+        <button class="btn"></button>
+      </span>
+    </div>
     <div id="globalMunicipalityFilter" hidden>
-              <p>Globala filter</p>
-        <label for="municipalityFilter">Kommun</label>
-        <select id="municipalityFilter">
-          <option value="">Alla kommuner</option>
-        </select>
+      <p>Globala filter</p>
+      <label for="municipalityFilter">Kommun</label>
+      <select id="municipalityFilter">
+        <option value="">Alla kommuner</option>
+      </select>
     </div>
     <div id="SeeAndDoFilters" hidden>
-        <label>
-          <input type="checkbox" id="childFriendly" />
-          Barnvänligt
-        </label>
-        <label for="priceRange">Pris</label>
-        <select id="priceRange">
-          <option value="">Alla priser</option>
-          <option value="100">Upp till 100 kr</option>
-          <option value="200">Upp till 200 kr</option>
-          <option value="500">Upp till 500 kr</option>
-          <option value="1000">Upp till 1000 kr</option>
-        </select>
+      <label>
+        <input type="checkbox" id="childFriendly" />
+        Barnvänligt
+      </label>
+      <label for="priceRange">Pris</label>
+      <select id="priceRange">
+        <option value="">Alla priser</option>
+        <option value="100">Upp till 100 kr</option>
+        <option value="200">Upp till 200 kr</option>
+        <option value="500">Upp till 500 kr</option>
+        <option value="1000">Upp till 1000 kr</option>
+      </select>
       <div id="activityFilters">
         <p>Filtrera aktiviteter</p>
         <label for="activityType">Typ av aktivitet</label>
@@ -109,6 +125,48 @@
         <option value="4">4+</option>
       </select>
     </div>
-    <section id="results"></section>
+    <hr />
+    <section class="grid gap-6" id="results">
+      <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content">
+          <h3>High Chaparral</h3>
+          <h4 class="text-faded">Kulltorp</h4>
+          <span class="gap-2">
+            <span class="badge badge-red">Temapark</span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content">
+          <h3>High Chaparral</h3>
+          <h4 class="text-faded">Kulltorp</h4>
+          <span class="gap-2">
+            <span class="badge badge-red">Temapark</span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content">
+          <h3>High Chaparral</h3>
+          <h4 class="text-faded">Kulltorp</h4>
+          <span class="gap-2">
+            <span class="badge badge-red">Temapark</span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content">
+          <h3>High Chaparral</h3>
+          <h4 class="text-faded">Kulltorp</h4>
+          <span class="gap-2">
+            <span class="badge badge-red">Temapark</span>
+          </span>
+        </span>
+      </div>
+    </section>
   </body>
 </html>
