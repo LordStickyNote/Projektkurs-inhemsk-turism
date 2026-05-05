@@ -17,7 +17,7 @@
   --text-xs: 0.6rem;
   --text-sm: 0.8rem;
   --text-base: 1rem;
-  --text-lg: 1.25rem;
+  --text-lg: 1.1rem;
   --text-xl: 1.5rem;
   --text-2xl: 2rem;
   --text-3xl: 2.75rem;
@@ -44,6 +44,8 @@
 
 body {
   background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
 }
 
 hr {
@@ -95,12 +97,18 @@ h3 {
 
 h4 {
   font-size: var(--text-md);
-  font-weight: 500;
+  font-weight: 600;
+  margin: 0;
+}
+
+h5{
   margin: 0;
 }
 
 p {
   margin: 0;
+  font-size: var(--text-base);
+  text-wrap: wrap;
 }
 
 body {
@@ -108,7 +116,8 @@ body {
   font-weight: 400;
   color: var(--color-text);
   line-height: 1.6;
-  font-family: "DM Sans", system-ui, sans-serif;
+  font-family: "Manrope", system-ui, sans-serif;
+  padding: var(--space-3);
 }
 
 .text-faded {
@@ -128,11 +137,12 @@ a {
   gap: var(--space-2);
   align-items: center;
   justify-content: center;
-  padding: calc(var(--space-5) / 2) var(--space-5);
+  padding: calc(var(--space-8) / 2) var(--space-5);
   display: flex;
   text-wrap: nowrap;
   background-color: var(--color-bg-card);
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 /*---- card structures ----*/
@@ -148,13 +158,13 @@ a {
 
 .card-listing img {
   width: 100%;
-  object-fit:cover;
+  object-fit: cover;
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
-  height: 100px;
+  height: 100%;
 }
 .card-listing-content {
-  padding: calc(var(--space-5) / 2) var(--space-5);
+  padding: calc(var(--space-4) / 2) var(--space-3);
   justify-content: left;
   display: flex;
   flex-direction: column;
@@ -219,7 +229,7 @@ a {
   color: var(--color-text);
 }
 .btn-outline:hover {
-  border: 2px solid var(--color-primary-hover);
+  border: 1px solid var(--color-primary-hover);
   background-color: #ffffff00;
   color: var(--color-primary-hover);
 }
@@ -233,17 +243,24 @@ a {
   letter-spacing: 1px;
 }
 
+/*==== input ====*/
+
+/*---- droplist ----*/
+
 /*==== stars ====*/
 .star {
   fill: #02ad6f;
   filter: drop-shadow(0 2px 2.1px rgba(0, 0, 0, 0.12));
   width: 24px;
   height: 24px;
+    justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
-.star svg {
-  width: 24px;
-  height: 24px;
+.star-sm{
+  height: 16px;
+  width: 16px;
 }
 
 .star-container {
@@ -260,7 +277,7 @@ a {
   gap: var(--space-2);
   align-items: center;
   justify-content: center;
-  padding: calc(var(--space-1) / 2) var(--space-1);
+  padding: calc(var(--space-1) / 2) calc(var(--space-1) / 2);
   display: flex;
   cursor: pointer;
   text-wrap: nowrap;
@@ -268,6 +285,7 @@ a {
   color: var(--color-bg);
   border: var(--color-bg-card) solid 2px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .tab {
@@ -302,7 +320,6 @@ a {
 .badge {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  margin-right: var(--space-1);
   font-size: var(--text-xs);
   padding: calc(var(--space-2) / 2) var(--space-2);
   font-weight: bold;
@@ -354,6 +371,11 @@ a {
 .justify-right {
   display: flex;
   justify-content: right;
+}
+/*---- align ----*/
+.align-center {
+  display: flex;
+  align-items: center;
 }
 
 /*---- width ----*/
