@@ -132,3 +132,29 @@ if (filters.minRating) {
 
 return filtered;
 }
+
+export function buildAccommodationApiFilters(values) {
+  const filters = {};
+
+  if (values.type) {
+    filters.descriptions = values.type;
+  }
+
+  if (values.minRating) {
+    filters.min_rating = values.minRating;
+  }
+
+  if (values.hasWifi) {
+    filters.wifi = "Y";
+  }
+
+  if (values.freeParking) {
+    filters.free_parking = "Y";
+  }
+
+  if (values.petFriendly) {
+    filters.pet_friendly = "Y";
+  }
+
+  return filters;
+}

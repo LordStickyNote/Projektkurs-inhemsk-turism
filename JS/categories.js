@@ -22,7 +22,7 @@ export const categories = {
         filters: {}
     },
 
-    accomodation: {
+    accommodation: {
         label: "Boenden",
         controller: "accommodation",
         filters: {}

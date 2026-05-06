@@ -37,6 +37,7 @@
       </select>
     </div>
     <div id="SeeAndDoFilters" hidden>
+      <label for="childFriendly">
       <label>
         <input type="checkbox" id="childFriendly" />
         Barnvänligt
@@ -68,11 +69,11 @@
           <option value="MEDIUM">Medel</option>
           <option value="HIGH">Aktivt</option>
         </select>
-        <label>
+        <label for="involvesAnimals">
           <input type="checkbox" id="involvesAnimals" />
           Djur
         </label>
-        <label>
+        <label for="involvesWater">
           <input type="checkbox" id="involvesWater" />
           Vatten
         </label>
@@ -94,9 +95,10 @@
           <option value="interactive">Interaktiv</option>
           <option value="static">Klassisk (se & läsa)</option>
         </select>
-
-        <input type="checkbox" id="localSignificance" />
-        Lokala pärlor
+        <label for="localSignificance">
+          <input type="checkbox" id="localSignificance" />
+          Lokala pärlor
+        </label>
       </div>
     </div>
     <div id="foodFilters" hidden>
@@ -125,6 +127,36 @@
         <option value="4">4+</option>
       </select>
     </div>
+    <div id="accommodationFilters" hidden>
+      <p>Filter</p>
+      <label for="accommodationType">Boendetyp</label>
+      <select id="accommodationType">
+        <option value="">Alla typer</option>
+        <option value="B&B">B&B</option>
+        <option value="Hotell">Hotell</option>
+        <option value="Camping">Camping</option>
+      </select>
+      <label for="accommodationRating">Betyg</label>
+      <select id="accommodationRating">
+        <option value="">Alla betyg</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="4.5">4.5+</option>
+      </select>
+      <label>
+        <input type="checkbox" id="hasWifi" />
+        Wifi
+      </label>
+      <label for="freeParking">
+        <input type="checkbox" id="freeParking">
+        Gratis parkering
+      </label>
+      <label for="petFriednly">
+        <input type="checkbox" id="petFriendly">
+        Tillåter husdjur
+      </label>
+    </div>
+    <section id="results"></section>
     <hr />
     <section class="grid gap-6" id="results">
       <div class="card card-listing">

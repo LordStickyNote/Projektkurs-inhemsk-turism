@@ -10,7 +10,8 @@ import {
   attractionTypeMap,
   filterByEstablishmentIds,
   getMaxPrice,
-  filterFood
+  filterFood,
+  buildAccommodationApiFilters
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -42,6 +43,13 @@ const foodType = document.getElementById("foodType");
 const foodPrice = document.getElementById("foodPrice");
 const foodRating = document.getElementById("foodRating");
 
+const accommodationFilters = document.getElementById("accommodationFilters");
+const accommodationType = document.getElementById("accommodationType");
+const accommodationRating = document.getElementById("accommodationRating");
+const hasWifi = document.getElementById("hasWifi");
+const freeParking = document.getElementById("freeParking");
+const petFriendly = document.getElementById("petFriendly");
+
 // Sparar ALLA activites från API (innan filtrering)
 let allActivities = [];
 let allAttractions = [];
@@ -66,6 +74,11 @@ for (const input of foodInputs) {
   input.addEventListener("change", applyFoodFilters)
 }
 
+const accommodationInputs = accommodationFilters.querySelectorAll("select, input");
+for (const input of accommodationInputs) {
+  input.addEventListener("change", applyAccommodationFilters)
+}
+
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
 
@@ -84,11 +97,16 @@ function applyCurrentFilters() {
   if (activeCategory === "seeAndDo") {
     applySeeAndDoFilters();
   }
+
+  if (activeCategory === "accommodation") {
+    applyAccommodationFilters();
+  }
 }
 
 function hideFilters() {
   seeAndDoFilters.hidden = true;
   foodFilters.hidden = true;
+  accommodationFilters.hidden = true;
 }
 
 async function loadSeeAndDo() {
@@ -347,8 +365,8 @@ async function loadMunicipalities() {
 function getFoodFilterValues() {
   return {
     type: foodType.value,
-    maxPrice: foodPrice.value ? Number(foodPrice.value) : null,
-    minRating: foodRating.value ? Number(foodRating.value) : null
+    maxPrice: foodPrice.value,
+    minRating: foodRating.value
   }
 }
 
@@ -379,8 +397,40 @@ async function loadFood() {
   renderFood(items, container);
 }
 
+function getAccommodationFilterValues() {
+  return {
+    type: accommodationType.value,
+    minRating: accommodationRating.value,
+    hasWifi: hasWifi.checked,
+    freeParking: freeParking.checked,
+    petFriendly: petFriendly.checked
+  }
+}
+
+async function applyAccommodationFilters() {
+  container.innerHTML = "Laddar...";
+ 
+  const values = getAccommodationFilterValues();
+
+  const apiFilters = buildAccommodationApiFilters(values);
+
+  let items = await getData("accommodation", apiFilters);
+
+  items = await filterByEstablishment(items, "accommodation");
+
+  renderAccommodation(items, container);
+
+}
+
 async function loadAccommodation() {
-  const accommodation = categories.accomodation;
+  activeCategory = "accommodation";
+
+  container.innerHTML = "Laddar..."
+  const accommodation = categories.accommodation;
+  hideFilters();
+
+  accommodationFilters.hidden = false;
+  globalMunicipalityFilter.hidden = false;
 
   const items = await getData(accommodation.controller, accommodation.filters);
 
