@@ -364,10 +364,7 @@ async function applySeeAndDoFilters() {
 
   currentSections = [
     {
-      items: activities,
-    },
-    {
-      items: attractions,
+      items: [...activities, ...attractions]
     },
   ];
 
