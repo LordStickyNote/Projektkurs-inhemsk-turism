@@ -3,6 +3,7 @@ import { categories } from "./categories.js";
 import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
+import { renderMap } from "./map.js";
 import {
   activityTypeMap,
   buildActivityApiFilters,
@@ -479,3 +480,5 @@ async function loadAccommodation() {
 
   renderAccommodation(items, container);
 }
+
+//-------------------------------------------------------------------------
