@@ -22,6 +22,9 @@ document
   .addEventListener("click", loadAccommodation);
 
 let activeCategory = "";
+let currentView = "list";
+let currentSections = [];
+
 const globalMunicipalityFilter = document.getElementById(
   "globalMunicipalityFilter",
 );
@@ -188,7 +191,8 @@ async function loadSeeAndDo() {
     });
   }
 
-  renderSeeAndDo(sectionsData, container);
+  currentSections = sectionsData;
+  renderCurrentView(renderSeeAndDo);
 }
 
 //-------------------------------------------------------------------------
@@ -309,15 +313,13 @@ async function applySeeAndDoFilters() {
     let activities = await getFilteredActivities();
     activities = await filterByEstablishment(activities);
 
-    renderSeeAndDo(
-      [
-        {
-          title: "Aktiviteter",
-          items: activities,
-        },
-      ],
-      container,
-    );
+    currentSections = [
+      {
+        items: activities,
+      },
+    ];
+
+    renderCurrentView(renderSeeAndDo);
 
     return;
   }
@@ -330,14 +332,13 @@ async function applySeeAndDoFilters() {
     let attractions = await getFilteredAttractions();
     attractions = await filterByEstablishment(attractions);
 
-    renderSeeAndDo(
-      [
-        {
-          items: attractions,
-        },
-      ],
-      container,
-    );
+    currentSections = [
+      {
+        items: attractions,
+      },
+    ];
+
+    renderCurrentView(renderSeeAndDo);
 
     return;
   }
@@ -349,17 +350,16 @@ async function applySeeAndDoFilters() {
   activities = await filterByEstablishment(activities);
   attractions = await filterByEstablishment(attractions);
 
-  renderSeeAndDo(
-    [
-      {
-        items: activities,
-      },
-      {
-        items: attractions,
-      },
-    ],
-    container,
-  );
+  currentSections = [
+    {
+      items: activities,
+    },
+    {
+      items: attractions,
+    },
+  ];
+
+  renderCurrentView(renderSeeAndDo);
 
   // Aktiverar båda filtergrupperna
   setFilterGroupDisabled(activityFilters, false);
@@ -483,13 +483,20 @@ async function loadAccommodation() {
 
 //-------------------------------------------------------------------------
 
-let currentView = "list";
-let currentSections = [];
+document.getElementById("listViewBtn").addEventListener("click", () => {
+  currentView = "list";
+  renderCurrentView(renderSeeAndDo);
+});
+
+document.getElementById("mapViewBtn").addEventListener("click", () => {
+  currentView = "map";
+  renderCurrentView(renderSeeAndDo);
+});
 
 function renderCurrentView(renderListFunction) {
   if (currentView === "map") {
-    renderMap(currentSections, container)
+    renderMap(currentSections, container);
   } else {
-    renderListFunction(currentSections, container)
+    renderListFunction(currentSections, container);
   }
 }

@@ -10,7 +10,6 @@ export function renderMap(sections, container) {
 
   for (const section of sections) {
     for (const item of section.items) {
-        if (item.lat || !item.lng) continue;
 
         L.marker([Number(item.lat), Number(item.lng)])
         .addTo(map)
