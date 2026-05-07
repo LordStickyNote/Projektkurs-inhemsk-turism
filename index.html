@@ -12,6 +12,8 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <body class="gap-4">
     <span class="tab-container">
@@ -155,6 +157,10 @@
         <input type="checkbox" id="petFriendly">
         Tillåter husdjur
       </label>
+    </div>
+    <div id="toggleButtons" hidden>
+      <button id="listViewBtn">Lista</button>
+      <button id="mapViewBtn">Karta</button>
     </div>
     <section id="results"></section>
     <hr />
