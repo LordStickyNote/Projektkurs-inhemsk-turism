@@ -59,6 +59,8 @@ const hasWifi = document.getElementById("hasWifi");
 const freeParking = document.getElementById("freeParking");
 const petFriendly = document.getElementById("petFriendly");
 
+const toggleButtons = document.getElementById("toggleButtons");
+
 // Sparar ALLA activites från API (innan filtrering)
 let allActivities = [];
 let allAttractions = [];
@@ -117,6 +119,7 @@ function hideFilters() {
   seeAndDoFilters.hidden = true;
   foodFilters.hidden = true;
   accommodationFilters.hidden = true;
+  toggleButtons.hidden = true;
 }
 
 async function loadSeeAndDo() {
@@ -169,6 +172,7 @@ async function loadSeeAndDo() {
 
   globalMunicipalityFilter.hidden = false;
   seeAndDoFilters.hidden = false;
+  toggleButtons.hidden = false;
 
   // Array som innehåller sektioner med titel + data från SMAPI
   const sectionsData = [];
@@ -475,6 +479,7 @@ async function loadFood() {
 
   foodFilters.hidden = false;
   globalMunicipalityFilter.hidden = false;
+  toggleButtons.hidden = false;
 
   const food = categories.food;
   let items = await getData(food.controller, food.filters);
@@ -532,8 +537,9 @@ async function loadAccommodation() {
 
   accommodationFilters.hidden = false;
   globalMunicipalityFilter.hidden = false;
+  toggleButtons.hidden = false;
 
-  const items = await getData(accommodation.controller, accommodation.filters);
+  let items = await getData(accommodation.controller, accommodation.filters);
 
   items = await useEstablishmentForCards(items);
 
@@ -564,7 +570,13 @@ let currentRenderFunction = renderSeeAndDo;
 function renderCurrentView() {
   if (currentView === "map") {
     renderMap(currentSections, container);
-  } else {
-    currentRenderFunction(currentSections, container);
+    return;
   }
+
+  if (currentRenderFunction === renderSeeAndDo) {
+    renderSeeAndDo(currentSections, container)
+    return;
+  }
+
+  currentRenderFunction(currentSections[0].items, container)
 }
