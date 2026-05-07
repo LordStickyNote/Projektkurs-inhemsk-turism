@@ -11,18 +11,22 @@ import {
   filterByEstablishmentIds,
   getMaxPrice,
   filterFood,
-  buildAccommodationApiFilters
+  buildAccommodationApiFilters,
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
-document.querySelector("#accommodationBtn").addEventListener("click", loadAccommodation);
+document
+  .querySelector("#accommodationBtn")
+  .addEventListener("click", loadAccommodation);
 
 let activeCategory = "";
-const globalMunicipalityFilter = document.getElementById("globalMunicipalityFilter")
+const globalMunicipalityFilter = document.getElementById(
+  "globalMunicipalityFilter",
+);
 const container = document.getElementById("results");
-const seeAndDoFilters = document.getElementById("SeeAndDoFilters")
-const foodFilters = document.getElementById("foodFilters")
+const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
+const foodFilters = document.getElementById("foodFilters");
 
 const childFriendly = document.getElementById("childFriendly");
 const globalSeeAndDoFilters = document.getElementById("globalSeeAndDoFilters");
@@ -71,12 +75,13 @@ priceRange.addEventListener("change", applySeeAndDoFilters);
 
 const foodInputs = foodFilters.querySelectorAll("select, input");
 for (const input of foodInputs) {
-  input.addEventListener("change", applyFoodFilters)
+  input.addEventListener("change", applyFoodFilters);
 }
 
-const accommodationInputs = accommodationFilters.querySelectorAll("select, input");
+const accommodationInputs =
+  accommodationFilters.querySelectorAll("select, input");
 for (const input of accommodationInputs) {
-  input.addEventListener("change", applyAccommodationFilters)
+  input.addEventListener("change", applyAccommodationFilters);
 }
 
 function setFilterGroupDisabled(filterGroup, disabled) {
@@ -111,8 +116,51 @@ function hideFilters() {
 
 async function loadSeeAndDo() {
   activeCategory = "seeAndDo";
-  container.innerHTML = "Laddar...";
-  hideFilters()
+  container.innerHTML = `
+  <section class="grid gap-6">
+  <div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div><div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div><div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div><div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div>
+      </section>`;
+  hideFilters();
 
   globalMunicipalityFilter.hidden = false;
   seeAndDoFilters.hidden = false;
@@ -195,8 +243,7 @@ function getAttractionFilterValues() {
 
 // Funktion för att hämta sevärdheter från SMAPI baserat på användarens val
 async function getFilteredAttractions() {
-
-  // Bygger filter som SMAPI förstår direkt, kopplas till funktion i filter.js  
+  // Bygger filter som SMAPI förstår direkt, kopplas till funktion i filter.js
   const apiFilters = buildAttractionApiFilters(getAttractionFilterValues());
 
   // Hämtar vald typ av sevärdhet i filtret. T.ex. Historia, natur etc.
@@ -240,9 +287,7 @@ function hasActiveActivityFilters() {
 // Kollar om något attraction-filter är aktivt
 function hasActiveAttractionFilters() {
   return (
-    attractionType.value ||
-    experienceType.value ||
-    localSignificance.checked
+    attractionType.value || experienceType.value || localSignificance.checked
   );
 }
 
@@ -287,7 +332,6 @@ async function applySeeAndDoFilters() {
     renderSeeAndDo(
       [
         {
-          title: "Sevärdheter",
           items: attractions,
         },
       ],
@@ -302,51 +346,51 @@ async function applySeeAndDoFilters() {
   let attractions = await getFilteredAttractions();
 
   activities = await filterByEstablishment(activities);
-  attractions = await filterByEstablishment(attractions)
+  attractions = await filterByEstablishment(attractions);
 
   renderSeeAndDo(
     [
       {
-        title: "Aktiviteter",
         items: activities,
       },
       {
-        title: "Sevärdheter",
         items: attractions,
       },
     ],
     container,
   );
 
-  // Aktiverar båda filtergrupperna 
+  // Aktiverar båda filtergrupperna
   setFilterGroupDisabled(activityFilters, false);
   setFilterGroupDisabled(attractionFilters, false);
 }
 
 // Funktion för att filtrera platser beroende på vald kommun
 async function filterByEstablishment(items, controller) {
-    const municipality = municipalityFilter.value;
-    const maxPrice = Number(priceRange.value);
+  const municipality = municipalityFilter.value;
+  const maxPrice = Number(priceRange.value);
 
-    // Hämtar alla objekt som är i vald kommun
-    let establishments = await getData("establishment", {
-       ...(municipality) && { municipalities: municipality }
+  // Hämtar alla objekt som är i vald kommun
+  let establishments = await getData("establishment", {
+    ...(municipality && { municipalities: municipality }),
+  });
+
+  if (maxPrice) {
+    establishments = establishments.filter((place) => {
+      const placeMax = getMaxPrice(place.price_range);
+      return placeMax <= maxPrice;
     });
+  }
 
-    if (maxPrice) {
-      establishments = establishments.filter(place => {
-        const placeMax = getMaxPrice(place.price_range);
-        return placeMax <= maxPrice;
-      })
-    }
-
-    return filterByEstablishmentIds(items, establishments, controller)
+  return filterByEstablishmentIds(items, establishments, controller);
 }
 
 async function loadMunicipalities() {
   const establishments = await getData("establishment");
 
-  const municipalities = establishments.map(item => item.municipality).filter(municipality => municipality);
+  const municipalities = establishments
+    .map((item) => item.municipality)
+    .filter((municipality) => municipality);
 
   const alfabeticalMunicipalities = [...new Set(municipalities)].sort();
 
@@ -366,8 +410,8 @@ function getFoodFilterValues() {
   return {
     type: foodType.value,
     maxPrice: foodPrice.value,
-    minRating: foodRating.value
-  }
+    minRating: foodRating.value,
+  };
 }
 
 async function applyFoodFilters() {
@@ -378,15 +422,15 @@ async function applyFoodFilters() {
 
   items = filterFood(items, getFoodFilterValues());
 
-  items = await filterByEstablishment(items, "food")
+  items = await filterByEstablishment(items, "food");
 
-  renderFood(items, container)
+  renderFood(items, container);
 }
 
 async function loadFood() {
   activeCategory = "food";
   container.innerHTML = "Laddar...";
-  hideFilters()
+  hideFilters();
 
   foodFilters.hidden = false;
   globalMunicipalityFilter.hidden = false;
@@ -403,13 +447,13 @@ function getAccommodationFilterValues() {
     minRating: accommodationRating.value,
     hasWifi: hasWifi.checked,
     freeParking: freeParking.checked,
-    petFriendly: petFriendly.checked
-  }
+    petFriendly: petFriendly.checked,
+  };
 }
 
 async function applyAccommodationFilters() {
   container.innerHTML = "Laddar...";
- 
+
   const values = getAccommodationFilterValues();
 
   const apiFilters = buildAccommodationApiFilters(values);
@@ -419,13 +463,12 @@ async function applyAccommodationFilters() {
   items = await filterByEstablishment(items, "accommodation");
 
   renderAccommodation(items, container);
-
 }
 
 async function loadAccommodation() {
   activeCategory = "accommodation";
 
-  container.innerHTML = "Laddar..."
+  container.innerHTML = "Laddar...";
   const accommodation = categories.accommodation;
   hideFilters();
 
