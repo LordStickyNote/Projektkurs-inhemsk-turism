@@ -21,14 +21,19 @@ document
   .querySelector("#accommodationBtn")
   .addEventListener("click", loadAccommodation);
 
+// Håller koll på vilken huvudkategori användaren är inne på. Behövs då kommunfiltret används av flera kategorier.
 let activeCategory = "";
+
+// Håller koll om användaren visar karta eller lista.
 let currentView = "list";
+
+// Senaste filtrerade datan som ska renderas, används av både lista och karta.
 let currentSections = [];
+
+// Ett sorts cacheminne för establishment-data.
 let allEstablishments = [];
 
-const globalMunicipalityFilter = document.getElementById(
-  "globalMunicipalityFilter",
-);
+const globalMunicipalityFilter = document.getElementById("globalMunicipalityFilter");
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
@@ -61,7 +66,7 @@ const petFriendly = document.getElementById("petFriendly");
 
 const toggleButtons = document.getElementById("toggleButtons");
 
-// Sparar ALLA activites från API (innan filtrering)
+// Sparar ALLA activites/attractions från API (innan filtrering)
 let allActivities = [];
 let allAttractions = [];
 
@@ -101,6 +106,7 @@ function setFilterGroupDisabled(filterGroup, disabled) {
   filterGroup.classList.toggle("disabled", disabled);
 }
 
+// Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
 function applyCurrentFilters() {
   if (activeCategory === "food") {
     applyFoodFilters();
@@ -115,6 +121,7 @@ function applyCurrentFilters() {
   }
 }
 
+// Gömmer alla filter innan rätt filter visas genom respektive funktion.
 function hideFilters() {
   seeAndDoFilters.hidden = true;
   foodFilters.hidden = true;
@@ -122,6 +129,7 @@ function hideFilters() {
   toggleButtons.hidden = true;
 }
 
+// Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   activeCategory = "seeAndDo";
   container.innerHTML = `
@@ -387,31 +395,34 @@ async function getAllEstablishments() {
   return allEstablishments;
 }
 
+// Lägger på establishmentinformation på objekt från andra controllers. Behövs för bland annat hämta stad då detta inte återfinns i controllers som activity/attraction/food osv. 
 async function useEstablishmentForCards(items) {
   const establishments = await getAllEstablishments();
 
+  // Hittar matchande establishment med samma ID som objektet (items)
   return items.map((item) => {
     const establishment = establishments.find(
       (place) => String(place.id) === String(item.id),
     );
 
     return {
-      ...item,
-      ...establishment,
+      ...item, // Behåller controller-specifik data
+      ...establishment, // lägger till visningsdata för resultatskorten
     };
   });
 }
 
-// Funktion för att filtrera platser beroende på vald kommun
+// Funktion för att filtrera platser beroende på vald kommun. Filtreras via establishment.
 async function filterByEstablishment(items, controller) {
   const municipality = municipalityFilter.value;
   const maxPrice = Number(priceRange.value);
 
-  // Hämtar alla objekt som är i vald kommun
+  // Hämtar alla objekt som är i vald kommun direkt i anropet
   let establishments = await getData("establishment", {
     ...(municipality && { municipalities: municipality }),
   });
 
+  // Filtrerar pris lokalt på establishment-datan
   if (maxPrice) {
     establishments = establishments.filter((place) => {
       const placeMax = getMaxPrice(place.price_range);
@@ -419,16 +430,20 @@ async function filterByEstablishment(items, controller) {
     });
   }
 
+  // Matchar filtrerade establishments mot akutell controller-dataƒ
   return filterByEstablishmentIds(items, establishments, controller);
 }
 
+// Hämtar alla kommuner från establishment och fyller dropdown meny.
 async function loadMunicipalities() {
   const establishments = await getData("establishment");
 
+  // Plockar ut alla kommunnamn
   const municipalities = establishments
     .map((item) => item.municipality)
     .filter((municipality) => municipality);
 
+    // Tar bort dubletter och sorterar kommunerna alfabetiskt.
   const alfabeticalMunicipalities = [...new Set(municipalities)].sort();
 
   for (const municipality of alfabeticalMunicipalities) {
@@ -443,7 +458,10 @@ async function loadMunicipalities() {
 
 //-------------------------------------------------------------------------
 
+// Läser av alla filtervärden för mat-kategorin
 function getFoodFilterValues() {
+
+  // Samlar formulärdata i ett objekt
   return {
     type: foodType.value,
     maxPrice: foodPrice.value,
@@ -451,27 +469,39 @@ function getFoodFilterValues() {
   };
 }
 
+// Körs när användaren andrar något mat-filter
 async function applyFoodFilters() {
   container.innerHTML = "Laddar...";
 
   const food = categories.food;
+
+  // Hämtar alla matobjekt från food-controllern.
   let items = await getData(food.controller);
 
+  // Filtrerar mat lokalt i JS.
   items = filterFood(items, getFoodFilterValues());
 
+  // Filtrear på gemensam establishment-data t.ex. kommun och pris.
   items = await filterByEstablishment(items, "food");
+
+  // Lägger på establishment-data så korten får namn, plats, rating osv.
   items = await useEstablishmentForCards(items);
 
+  // Sparar resultatet globalt så både lista och karta kan rendera samma data.
   currentSections = [
     {
       items: items,
     },
   ];
 
+  // Anger vilken renderfunktion som ska användas.
   currentRenderFunction = renderFood;
+
+  // Renderar aktuell vy, lista eller karta.
   renderCurrentView();
 }
 
+// Laddar startsidan var mat kategorin.
 async function loadFood() {
   activeCategory = "food";
   container.innerHTML = "Laddar...";
@@ -495,6 +525,7 @@ async function loadFood() {
   renderCurrentView();
 }
 
+// Samlar alla filtervärden för boenden.
 function getAccommodationFilterValues() {
   return {
     type: accommodationType.value,
@@ -505,15 +536,19 @@ function getAccommodationFilterValues() {
   };
 }
 
+// Körs när användaren ändrar boendefilter.
 async function applyAccommodationFilters() {
   container.innerHTML = "Laddar...";
 
+  // Hämtar aktuella filter-värden
   const values = getAccommodationFilterValues();
 
+  // Bygger API-filter som accommodation-controllern förstår.
   const apiFilters = buildAccommodationApiFilters(values);
 
   let items = await getData("accommodation", apiFilters);
 
+  // Hämtar filtrerande boenden direkt från SMAPI.
   items = await filterByEstablishment(items, "accommodation");
 
   items = await useEstablishmentForCards(items);
@@ -528,6 +563,7 @@ async function applyAccommodationFilters() {
   renderCurrentView();
 }
 
+// Laddar startsida för boenden.
 async function loadAccommodation() {
   activeCategory = "accommodation";
 
@@ -567,16 +603,19 @@ document.getElementById("mapViewBtn").addEventListener("click", () => {
 
 let currentRenderFunction = renderSeeAndDo;
 
+// Renderar antingen karta eller lista bereonde på currentView
 function renderCurrentView() {
   if (currentView === "map") {
     renderMap(currentSections, container);
     return;
   }
 
+  // SeeAndDo-renderaren vill ha sections.
   if (currentRenderFunction === renderSeeAndDo) {
     renderSeeAndDo(currentSections, container)
     return;
   }
 
+  // Food och accommodation-renderarna vill bara ha items-arrayen
   currentRenderFunction(currentSections[0].items, container)
 }
