@@ -482,3 +482,14 @@ async function loadAccommodation() {
 }
 
 //-------------------------------------------------------------------------
+
+let currentView = "list";
+let currentSections = [];
+
+function renderCurrentView(renderListFunction) {
+  if (currentView === "map") {
+    renderMap(currentSections, container)
+  } else {
+    renderListFunction(currentSections, container)
+  }
+}
