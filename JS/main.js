@@ -142,6 +142,8 @@ function hideFilters() {
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   activeCategory = "seeAndDo";
+  currentPage = 1;
+  
   container.innerHTML = `
   <section class="grid gap-6">
   <div class="card card-listing">
@@ -198,7 +200,7 @@ async function loadSeeAndDo() {
   // Loopar igenom sections (activity + attraction, se categories.js)
   for (const section of categories.seeAndDo.sections) {
     // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
-    const items = await getData(section.controller, section.filters);
+    const items = await getData(section.controller, section.filters, currentPage, perPage);
 
     if (section.controller === "activity") {
       allActivities = items;
@@ -239,7 +241,7 @@ async function getFilteredActivities() {
 
   // Om inget "typ av aktivitet"-filter är valt hämtas "activity"-objekt direkt från SMAPI
   if (!selectedType) {
-    return await getData("activity", apiFilters);
+    return await getData("activity", apiFilters, usePagination ? currentPage : null, usePagination ? perPage : null);
   }
 
   // Hämtar alla "descriptions" som hör till vald typ av aktivitet
@@ -250,7 +252,9 @@ async function getFilteredActivities() {
     return getData("activity", {
       ...apiFilters,
       descriptions: description,
-    });
+    },
+    usePagination ? currentPage : null, usePagination ? perPage : null
+  );
   });
 
   // Väntar på att alla API-anrop ska bli klara
@@ -281,7 +285,7 @@ async function getFilteredAttractions() {
 
   // Om ingen typ är vald hämtas sevärdheter med övriga filter
   if (!selectedType) {
-    return await getData("attraction", apiFilters);
+    return await getData("attraction", apiFilters, usePagination ? currentPage : null, usePagination ? perPage : null);
   }
 
   // Hämtar de SMAPI-kategorierna som hör till vald typ från filter.js.
@@ -292,7 +296,9 @@ async function getFilteredAttractions() {
     return getData("attraction", {
       ...apiFilters,
       categories: category,
-    });
+    },
+    usePagination ? currentPage : null, usePagination ? perPage : null
+  );
   });
 
   // Väntar tills alla anrop till SMAPI är klara
@@ -484,9 +490,13 @@ async function applyFoodFilters() {
   container.innerHTML = "Laddar...";
 
   const food = categories.food;
+  const values = getFoodFilterValues();
+  const apiFilters = buildFoodApiFilters(values);
+
+  const usePagination = shouldUsePagination();
 
   // Hämtar alla matobjekt från food-controllern.
-  let items = await getData(food.controller);
+  let items = await getData(food.controller, apiFilters, usePagination ? currentPage : null, usePagination ? perPage : null);
 
   // Filtrerar mat lokalt i JS.
   items = filterFood(items, getFoodFilterValues());
@@ -514,6 +524,8 @@ async function applyFoodFilters() {
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
   activeCategory = "food";
+  currentPage = 1;
+
   container.innerHTML = "Laddar...";
   hideFilters();
 
@@ -522,7 +534,7 @@ async function loadFood() {
   toggleButtons.hidden = false;
 
   const food = categories.food;
-  let items = await getData(food.controller, food.filters);
+  let items = await getData(food.controller, food.filters, currentPage, perPage);
   items = await useEstablishmentForCards(items);
 
   currentSections = [
@@ -556,7 +568,9 @@ async function applyAccommodationFilters() {
   // Bygger API-filter som accommodation-controllern förstår.
   const apiFilters = buildAccommodationApiFilters(values);
 
-  let items = await getData("accommodation", apiFilters);
+  const usePagination = shouldUsePagination();
+
+  let items = await getData("accommodation", apiFilters, usePagination ? currentPage : null, usePagination ? perPage : null);
 
   // Hämtar filtrerande boenden direkt från SMAPI.
   items = await filterByEstablishment(items, "accommodation");
@@ -577,6 +591,8 @@ async function applyAccommodationFilters() {
 async function loadAccommodation() {
   activeCategory = "accommodation";
 
+  currentPage = 1;
+
   container.innerHTML = "Laddar...";
   const accommodation = categories.accommodation;
   hideFilters();
@@ -585,7 +601,7 @@ async function loadAccommodation() {
   globalMunicipalityFilter.hidden = false;
   toggleButtons.hidden = false;
 
-  let items = await getData(accommodation.controller, accommodation.filters);
+  let items = await getData(accommodation.controller, accommodation.filters, currentPage, perPage);
 
   items = await useEstablishmentForCards(items);
 
