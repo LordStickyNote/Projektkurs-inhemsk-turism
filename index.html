@@ -12,8 +12,11 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <body class="gap-4">
     <span class="tab-container">
@@ -38,20 +41,22 @@
         <option value="">Alla kommuner</option>
       </select>
     </div>
-    <div id="SeeAndDoFilters" hidden>
-      <label for="childFriendly">
-      <label>
+    <div id="SeeAndDoFilters" class="card filter-menu" hidden>
+      <span>
+        <label for="childFriendly">Barnvänligt</label>
         <input type="checkbox" id="childFriendly" />
-        Barnvänligt
-      </label>
-      <label for="priceRange">Pris</label>
-      <select id="priceRange">
-        <option value="">Alla priser</option>
-        <option value="100">Upp till 100 kr</option>
-        <option value="200">Upp till 200 kr</option>
-        <option value="500">Upp till 500 kr</option>
-        <option value="1000">Upp till 1000 kr</option>
-      </select>
+      </span>
+
+      <span>
+        <label for="priceRange">Pris</label>
+        <select id="priceRange">
+          <option value="">Alla priser</option>
+          <option value="100">Upp till 100 kr</option>
+          <option value="200">Upp till 200 kr</option>
+          <option value="500">Upp till 500 kr</option>
+          <option value="1000">Upp till 1000 kr</option>
+        </select>
+      </span>
       <div id="activityFilters">
         <p>Filtrera aktiviteter</p>
         <label for="activityType">Typ av aktivitet</label>
@@ -150,11 +155,11 @@
         Wifi
       </label>
       <label for="freeParking">
-        <input type="checkbox" id="freeParking">
+        <input type="checkbox" id="freeParking" />
         Gratis parkering
       </label>
       <label for="petFriednly">
-        <input type="checkbox" id="petFriendly">
+        <input type="checkbox" id="petFriendly" />
         Tillåter husdjur
       </label>
     </div>
@@ -170,7 +175,7 @@
         <span class="card-listing-content width-full">
           <div class="sl-text sl-text-lg"></div>
           <div class="sl-text sl-text-md"></div>
-          
+
           <span class="gap-2">
             <span class="badge sl-badge"></span>
           </span>

@@ -156,7 +156,7 @@ a {
   justify-content: space-between;
   align-items: start;
   padding: 0;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
 
 .card-listing img {
@@ -175,7 +175,8 @@ a {
   height: fit-content;
   box-sizing: border-box;
   overflow-x: hidden;
-  word-break: break-word;}
+  word-break: break-word;
+}
 
 /*==== buttons ====*/
 
@@ -469,4 +470,47 @@ a {
 #map {
   height: 500px;
   border-radius: var(--radius-xl);
+}
+
+/*==== form ====*/
+
+/*---- input ----*/
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #555;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--color-bg-elevated);
+  border-color: var(--color-primary);
+}
+
+/*==== filter ====*/
+
+/*---- filter menu ----*/
+.filter-menu {
+  position: absolute;
+  z-index: 30;
+  width: 100vw;
+  display: flex;
+  flex-flow: column;
+  align-items: start;
+  gap: var(--space-4);
+}
+
+.filter-menu span{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
