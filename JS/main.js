@@ -114,6 +114,10 @@ function setFilterGroupDisabled(filterGroup, disabled) {
 
 // Pagination används bara när inga lokala/cross-controller-filter riskerar att missa data.
 function shouldUsePagination() {
+  if (currentView === "map") {
+    return false;
+  }
+
   const hasFoodType = activeCategory === "food" && foodType.value;
   const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
 
@@ -197,6 +201,7 @@ async function loadSeeAndDo() {
 
   skeletonLoaders();
   hideFilters();
+  const usePagination = shouldUsePagination();
 
   globalMunicipalityFilter.hidden = false;
   seeAndDoFilters.hidden = false;
@@ -211,8 +216,8 @@ async function loadSeeAndDo() {
     const items = await getData(
       section.controller,
       section.filters,
-      currentPage,
-      perPage,
+      usePagination ? currentPage : null,
+      usePagination ? perPage : null,
     );
 
     if (section.controller === "activity") {
@@ -564,6 +569,7 @@ async function loadFood() {
 
   skeletonLoaders();
   hideFilters();
+  const usePagination = shouldUsePagination();
 
   foodFilters.hidden = false;
   globalMunicipalityFilter.hidden = false;
@@ -573,8 +579,8 @@ async function loadFood() {
   let items = await getData(
     food.controller,
     food.filters,
-    currentPage,
-    perPage,
+    usePagination ? currentPage : null,
+    usePagination ? perPage: null,
   );
   items = await useEstablishmentForCards(items);
 
@@ -642,6 +648,7 @@ async function loadAccommodation() {
   skeletonLoaders();
   const accommodation = categories.accommodation;
   hideFilters();
+  const usePagination = shouldUsePagination();
 
   accommodationFilters.hidden = false;
   globalMunicipalityFilter.hidden = false;
@@ -650,8 +657,8 @@ async function loadAccommodation() {
   let items = await getData(
     accommodation.controller,
     accommodation.filters,
-    currentPage,
-    perPage,
+    usePagination ? currentPage : null,
+    usePagination ? perPage : null,
   );
 
   items = await useEstablishmentForCards(items);
@@ -670,12 +677,12 @@ async function loadAccommodation() {
 
 document.getElementById("listViewBtn").addEventListener("click", () => {
   currentView = "list";
-  renderCurrentView();
+  applyCurrentFilters();
 });
 
 document.getElementById("mapViewBtn").addEventListener("click", () => {
   currentView = "map";
-  renderCurrentView();
+  applyCurrentFilters();
 });
 
 let currentRenderFunction = renderSeeAndDo;
