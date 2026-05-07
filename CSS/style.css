@@ -469,3 +469,8 @@ article{
     opacity: 100%;
   }
 }
+
+#map {
+  height: 500px;
+  border-radius: var(--radius-xl);
+}
