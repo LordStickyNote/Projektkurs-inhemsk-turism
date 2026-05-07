@@ -313,7 +313,7 @@ a {
 
 /* active tab */
 
-.tab-active {
+.tab:active {
   background: var(--color-primary);
   border: var(--color-primary) solid 2px;
   color: var(--color-bg);
@@ -408,10 +408,6 @@ a {
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-}
-
-article{
-  width: 100%;
 }
 
 /*==== skeleton loader ====*/
