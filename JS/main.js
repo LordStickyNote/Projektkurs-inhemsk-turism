@@ -24,6 +24,7 @@ document
 let activeCategory = "";
 let currentView = "list";
 let currentSections = [];
+let allEstablishments = [];
 
 const globalMunicipalityFilter = document.getElementById(
   "globalMunicipalityFilter",
@@ -185,14 +186,16 @@ async function loadSeeAndDo() {
       allAttractions = items;
     }
 
+    const cardItems = await useEstablishmentForCards(items);
     // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
     sectionsData.push({
-      items: items,
+      items: cardItems,
     });
   }
 
   currentSections = sectionsData;
-  renderCurrentView(renderSeeAndDo);
+  currentRenderFunction = renderSeeAndDo;
+  renderCurrentView();
 }
 
 //-------------------------------------------------------------------------
@@ -311,7 +314,9 @@ async function applySeeAndDoFilters() {
     setFilterGroupDisabled(activityFilters, false);
 
     let activities = await getFilteredActivities();
+
     activities = await filterByEstablishment(activities);
+    activities = await useEstablishmentForCards(activities);
 
     currentSections = [
       {
@@ -319,7 +324,8 @@ async function applySeeAndDoFilters() {
       },
     ];
 
-    renderCurrentView(renderSeeAndDo);
+    currentRenderFunction = renderSeeAndDo;
+    renderCurrentView();
 
     return;
   }
@@ -330,7 +336,9 @@ async function applySeeAndDoFilters() {
     setFilterGroupDisabled(attractionFilters, false);
 
     let attractions = await getFilteredAttractions();
+
     attractions = await filterByEstablishment(attractions);
+    attractions = await useEstablishmentForCards(attractions);
 
     currentSections = [
       {
@@ -338,7 +346,8 @@ async function applySeeAndDoFilters() {
       },
     ];
 
-    renderCurrentView(renderSeeAndDo);
+    currentRenderFunction = renderSeeAndDo;
+    renderCurrentView();
 
     return;
   }
@@ -349,6 +358,9 @@ async function applySeeAndDoFilters() {
 
   activities = await filterByEstablishment(activities);
   attractions = await filterByEstablishment(attractions);
+
+  activities = await useEstablishmentForCards(activities);
+  attractions = await useEstablishmentForCards(attractions);
 
   currentSections = [
     {
@@ -364,6 +376,29 @@ async function applySeeAndDoFilters() {
   // Aktiverar båda filtergrupperna
   setFilterGroupDisabled(activityFilters, false);
   setFilterGroupDisabled(attractionFilters, false);
+}
+
+async function getAllEstablishments() {
+  if (allEstablishments.length === 0) {
+    allEstablishments = await getData("establishment");
+  }
+
+  return allEstablishments;
+}
+
+async function useEstablishmentForCards(items) {
+  const establishments = await getAllEstablishments();
+
+  return items.map((item) => {
+    const establishment = establishments.find(
+      (place) => String(place.id) === String(item.id),
+    );
+
+    return {
+      ...item,
+      ...establishment,
+    };
+  });
 }
 
 // Funktion för att filtrera platser beroende på vald kommun
@@ -424,14 +459,16 @@ async function applyFoodFilters() {
   items = filterFood(items, getFoodFilterValues());
 
   items = await filterByEstablishment(items, "food");
+  items = await useEstablishmentForCards(items);
 
-    currentSections = [
+  currentSections = [
     {
-      items: items
-    }
+      items: items,
+    },
   ];
 
-  renderCurrentView(renderFood)
+  currentRenderFunction = renderFood;
+  renderCurrentView();
 }
 
 async function loadFood() {
@@ -443,15 +480,17 @@ async function loadFood() {
   globalMunicipalityFilter.hidden = false;
 
   const food = categories.food;
-  const items = await getData(food.controller, food.filters);
+  let items = await getData(food.controller, food.filters);
+  items = await useEstablishmentForCards(items);
 
   currentSections = [
     {
-      items: items
-    }
+      items: items,
+    },
   ];
 
-  renderCurrentView(renderFood)
+  currentRenderFunction = renderFood;
+  renderCurrentView();
 }
 
 function getAccommodationFilterValues() {
@@ -475,13 +514,16 @@ async function applyAccommodationFilters() {
 
   items = await filterByEstablishment(items, "accommodation");
 
-    currentSections = [
+  items = await useEstablishmentForCards(items);
+
+  currentSections = [
     {
-      items: items
-    }
+      items: items,
+    },
   ];
 
-  renderCurrentView(renderAccommodation)
+  currentRenderFunction = renderAccommodation;
+  renderCurrentView();
 }
 
 async function loadAccommodation() {
@@ -496,25 +538,28 @@ async function loadAccommodation() {
 
   const items = await getData(accommodation.controller, accommodation.filters);
 
-    currentSections = [
+  items = await useEstablishmentForCards(items);
+
+  currentSections = [
     {
-      items: items
-    }
+      items: items,
+    },
   ];
 
-  renderCurrentView(renderAccommodation)
+  currentRenderFunction = renderAccommodation;
+  renderCurrentView();
 }
 
 //-------------------------------------------------------------------------
 
 document.getElementById("listViewBtn").addEventListener("click", () => {
   currentView = "list";
-  renderCurrentView(renderSeeAndDo);
+  renderCurrentView();
 });
 
 document.getElementById("mapViewBtn").addEventListener("click", () => {
   currentView = "map";
-  renderCurrentView(renderSeeAndDo);
+  renderCurrentView();
 });
 
 let currentRenderFunction = renderSeeAndDo;
