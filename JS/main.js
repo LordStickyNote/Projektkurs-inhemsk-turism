@@ -425,7 +425,13 @@ async function applyFoodFilters() {
 
   items = await filterByEstablishment(items, "food");
 
-  renderFood(items, container);
+    currentSections = [
+    {
+      items: items
+    }
+  ];
+
+  renderCurrentView(renderFood)
 }
 
 async function loadFood() {
@@ -439,7 +445,13 @@ async function loadFood() {
   const food = categories.food;
   const items = await getData(food.controller, food.filters);
 
-  renderFood(items, container);
+  currentSections = [
+    {
+      items: items
+    }
+  ];
+
+  renderCurrentView(renderFood)
 }
 
 function getAccommodationFilterValues() {
@@ -463,7 +475,13 @@ async function applyAccommodationFilters() {
 
   items = await filterByEstablishment(items, "accommodation");
 
-  renderAccommodation(items, container);
+    currentSections = [
+    {
+      items: items
+    }
+  ];
+
+  renderCurrentView(renderAccommodation)
 }
 
 async function loadAccommodation() {
@@ -478,7 +496,13 @@ async function loadAccommodation() {
 
   const items = await getData(accommodation.controller, accommodation.filters);
 
-  renderAccommodation(items, container);
+    currentSections = [
+    {
+      items: items
+    }
+  ];
+
+  renderCurrentView(renderAccommodation)
 }
 
 //-------------------------------------------------------------------------
@@ -493,10 +517,12 @@ document.getElementById("mapViewBtn").addEventListener("click", () => {
   renderCurrentView(renderSeeAndDo);
 });
 
-function renderCurrentView(renderListFunction) {
+let currentRenderFunction = renderSeeAndDo;
+
+function renderCurrentView() {
   if (currentView === "map") {
     renderMap(currentSections, container);
   } else {
-    renderListFunction(currentSections, container);
+    currentRenderFunction(currentSections, container);
   }
 }
