@@ -13,13 +13,15 @@ import {
   getMaxPrice,
   filterFood,
   buildAccommodationApiFilters,
+  buildFoodApiFilters
 } from "./filters.js";
 
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
-document
-  .querySelector("#accommodationBtn")
-  .addEventListener("click", loadAccommodation);
+document.querySelector("#accommodationBtn").addEventListener("click", loadAccommodation);
+
+let currentPage = 1;
+const perPage = 20;
 
 // Håller koll på vilken huvudkategori användaren är inne på. Behövs då kommunfiltret används av flera kategorier.
 let activeCategory = "";
@@ -104,6 +106,14 @@ function setFilterGroupDisabled(filterGroup, disabled) {
   }
 
   filterGroup.classList.toggle("disabled", disabled);
+}
+
+// Pagination används bara när inga lokala/cross-controller-filter riskerar att missa data.
+function shouldUsePagination() {
+  const hasFoodType = activeCategory === "food" && foodType.value;
+  const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
+
+  return !hasFoodType && !hasEstablishmentFilters;
 }
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
