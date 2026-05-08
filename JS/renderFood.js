@@ -1,14 +1,13 @@
 export function renderFood(items, container) {
-    container.innerHTML = "";
+  container.innerHTML = "";
 
-    const sectionElement = document.createElement("section");
-        sectionElement.classList.add("grid", "width-full", "gap-6");
+  const sectionElement = document.createElement("section");
+  sectionElement.classList.add("grid", "width-full", "gap-6");
 
-    
-    for (const item of items) {
-        const article = document.createElement("article");
+  for (const item of items) {
+    const article = document.createElement("article");
 
-        article.innerHTML = `
+    article.innerHTML = `
             <div class="card card-listing">
         <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
         <span class="card-listing-content width-full">
@@ -30,7 +29,7 @@ export function renderFood(items, container) {
       </div>
             `;
 
-        sectionElement.append(article);
-    }
-    container.append(sectionElement)
+    sectionElement.append(article);
+  }
+  container.append(sectionElement);
 }
