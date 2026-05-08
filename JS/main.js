@@ -43,7 +43,6 @@ const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
 
 const childFriendly = document.getElementById("childFriendly");
-const globalSeeAndDoFilters = document.getElementById("globalSeeAndDoFilters");
 const municipalityFilter = document.getElementById("municipalityFilter");
 const priceRange = document.getElementById("priceRange");
 
@@ -91,10 +90,6 @@ prevPageBtn.addEventListener("click", () => {
   reloadCurrentCategory();
   scrollToTop();
 })
-
-// Sparar ALLA activites/attractions från API (innan filtrering)
-let allActivities = [];
-let allAttractions = [];
 
 const activityInputs = activityFilters.querySelectorAll("select, input");
 for (const input of activityInputs) {
@@ -145,17 +140,13 @@ function shouldUsePagination() {
 }
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
-function applyCurrentFilters() {
+function applyCurrentFilters(resetPage = true) {
   if (activeCategory === "food") {
-    applyFoodFilters();
-  }
-
-  if (activeCategory === "seeAndDo") {
-    applySeeAndDoFilters();
-  }
-
-  if (activeCategory === "accommodation") {
-    applyAccommodationFilters();
+    applyFoodFilters(resetPage);
+  } else if (activeCategory === "seeAndDo") {
+    applySeeAndDoFilters(resetPage);
+  } else if (activeCategory === "accommodation") {
+    applyAccommodationFilters(resetPage);
   }
 }
 
@@ -241,14 +232,6 @@ async function loadSeeAndDo() {
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
     );
-
-    if (section.controller === "activity") {
-      allActivities = items;
-    }
-
-    if (section.controller === "attraction") {
-      allAttractions = items;
-    }
 
     const cardItems = await useEstablishmentForCards(items);
     // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
@@ -727,32 +710,18 @@ let currentRenderFunction = renderSeeAndDo;
 // Renderar antingen karta eller lista bereonde på currentView
 function renderCurrentView() {
   if (currentView === "map") {
-    pagination.hidden = true;
     renderMap(currentSections, container);
-    return;
-  }
-
-   if (currentRenderFunction === renderSeeAndDo) {
+  } else if (currentRenderFunction === renderSeeAndDo) {
     renderSeeAndDo(currentSections, container);
   } else {
-   currentRenderFunction(currentSections[0].items, container); 
+    currentRenderFunction(currentSections[0].items, container);
   }
 
-    updatePaginationControls();
-  }
+  updatePaginationControls();
+}
 
 function reloadCurrentCategory() {
-  if (activeCategory === "food") {
-    applyFoodFilters(false);
-  }
-
-  if (activeCategory === "seeAndDo") {
-    applySeeAndDoFilters(false);
-  }
-
-  if (activeCategory === "accommodation") {
-    applyAccommodationFilters(false);
-  }
+  applyCurrentFilters(false);
 }
 
 function scrollToTop() {
@@ -786,7 +755,7 @@ function updatePaginationControls() {
   let hasNextPage = false;
 
   for (const section of currentSections) {
-    if (section.items.length === perPage) {
+    if (section.items.length >= perPage) {
       hasNextPage = true;
     }
   }
