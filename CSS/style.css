@@ -314,7 +314,7 @@ a {
 
 /* active tab */
 
-.tab-active {
+.tab:active {
   background: var(--color-primary);
   border: var(--color-primary) solid 2px;
   color: var(--color-bg);
