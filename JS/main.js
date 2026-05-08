@@ -72,7 +72,9 @@ const toggleButtons = document.getElementById("toggleButtons");
 
 const prevPageBtn = document.getElementById("prevPageBtn");
 const nextPageBtn = document.getElementById("nextPageBtn");
-const pageNumber = document.getElementById("pageNumber")
+const pageNumber = document.getElementById("pageNumber");
+const pagination = document.getElementById("pagination")
+pagination.hidden = true;
 
 nextPageBtn.addEventListener("click", () => {
   currentPage++;
@@ -214,6 +216,8 @@ function skeletonLoaders() {
 
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
+  setActiveCategoryButton("doBtn");
+
   activeCategory = "seeAndDo";
   currentPage = 1;
 
@@ -590,6 +594,8 @@ async function applyFoodFilters(resetPage = true) {
 
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
+  setActiveCategoryButton("foodBtn");
+
   activeCategory = "food";
   currentPage = 1;
 
@@ -671,8 +677,9 @@ async function applyAccommodationFilters(resetPage = true) {
 
 // Laddar startsida för boenden.
 async function loadAccommodation() {
-  activeCategory = "accommodation";
+  setActiveCategoryButton("accommodationBtn");
 
+  activeCategory = "accommodation";
   currentPage = 1;
 
   skeletonLoaders();
@@ -720,21 +727,19 @@ let currentRenderFunction = renderSeeAndDo;
 // Renderar antingen karta eller lista bereonde på currentView
 function renderCurrentView() {
   if (currentView === "map") {
+    pagination.hidden = true;
     renderMap(currentSections, container);
     return;
   }
 
-  // SeeAndDo-renderaren vill ha sections.
-  if (currentRenderFunction === renderSeeAndDo) {
+   if (currentRenderFunction === renderSeeAndDo) {
     renderSeeAndDo(currentSections, container);
-    return;
+  } else {
+   currentRenderFunction(currentSections[0].items, container); 
   }
 
-  // Food och accommodation-renderarna vill bara ha items-arrayen
-  currentRenderFunction(currentSections[0].items, container);
-  
-  updatePaginationControls();
-}
+    updatePaginationControls();
+  }
 
 function reloadCurrentCategory() {
   if (activeCategory === "food") {
@@ -760,6 +765,13 @@ function scrollToTop() {
 function updatePaginationControls() {
   const usePagination = shouldUsePagination();
 
+  if (!activeCategory) {
+    pagination.hidden = true;
+    return;
+  }
+
+  pagination.hidden = false;
+
   pageNumber.textContent = currentPage;
 
   if (!usePagination) {
@@ -780,4 +792,14 @@ function updatePaginationControls() {
   }
 
   nextPageBtn.disabled = !hasNextPage;
+}
+
+function setActiveCategoryButton(activeButtonId) {
+  const buttons = document.querySelectorAll(".tab");
+
+  for (const button of buttons) {
+    button.classList.remove("active");
+  }
+
+  document.getElementById(activeButtonId).classList.add("active");
 }
