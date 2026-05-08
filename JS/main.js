@@ -732,6 +732,8 @@ function renderCurrentView() {
 
   // Food och accommodation-renderarna vill bara ha items-arrayen
   currentRenderFunction(currentSections[0].items, container);
+  
+  updatePaginationControls();
 }
 
 function reloadCurrentCategory() {
@@ -753,4 +755,29 @@ function scrollToTop() {
     top: 0,
     behavior: "smooth"
   })
+}
+
+function updatePaginationControls() {
+  const usePagination = shouldUsePagination();
+
+  pageNumber.textContent = currentPage;
+
+  if (!usePagination) {
+    pageNumber.textContent = "1";
+    prevPageBtn.disabled = true;
+    nextPageBtn.disabled = true;
+    return;
+  }
+
+  prevPageBtn.disabled = currentPage === 1;
+
+  let hasNextPage = false;
+
+  for (const section of currentSections) {
+    if (section.items.length === perPage) {
+      hasNextPage = true;
+    }
+  }
+
+  nextPageBtn.disabled = !hasNextPage;
 }
