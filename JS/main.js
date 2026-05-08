@@ -37,7 +37,9 @@ let currentSections = [];
 // Ett sorts cacheminne för establishment-data.
 let allEstablishments = [];
 
-const globalMunicipalityFilter = document.getElementById("globalMunicipalityFilter",);
+const globalMunicipalityFilter = document.getElementById(
+  "globalMunicipalityFilter",
+);
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
@@ -72,7 +74,7 @@ const toggleButtons = document.getElementById("toggleButtons");
 const prevPageBtn = document.getElementById("prevPageBtn");
 const nextPageBtn = document.getElementById("nextPageBtn");
 const pageNumber = document.getElementById("pageNumber");
-const pagination = document.getElementById("pagination")
+const pagination = document.getElementById("pagination");
 pagination.hidden = true;
 
 nextPageBtn.addEventListener("click", () => {
@@ -80,7 +82,7 @@ nextPageBtn.addEventListener("click", () => {
   pageNumber.textContent = currentPage;
   reloadCurrentCategory();
   scrollToTop();
-})
+});
 
 prevPageBtn.addEventListener("click", () => {
   if (currentPage === 1) return;
@@ -89,7 +91,7 @@ prevPageBtn.addEventListener("click", () => {
   pageNumber.textContent = currentPage;
   reloadCurrentCategory();
   scrollToTop();
-})
+});
 
 const activityInputs = activityFilters.querySelectorAll("select, input");
 for (const input of activityInputs) {
@@ -373,7 +375,7 @@ function hasActiveAttractionFilters() {
 
 // Funktion som körs när filter ändras under "Se och göra"
 async function applySeeAndDoFilters(resetPage = true) {
-    if (resetPage) {
+  if (resetPage) {
     currentPage = 1;
   }
 
@@ -442,7 +444,8 @@ async function applySeeAndDoFilters(resetPage = true) {
     },
   ];
 
-  renderCurrentView(renderSeeAndDo);
+  currentRenderFunction = renderSeeAndDo;
+  renderCurrentView();
 
   // Aktiverar båda filtergrupperna
   setFilterGroupDisabled(activityFilters, false);
@@ -493,7 +496,7 @@ async function filterByEstablishment(items, controller) {
   }
 
   // Matchar filtrerade establishments mot akutell controller-dataƒ
-  return filterByEstablishmentIds(items, establishments, controller);
+  return filterByEstablishmentIds(items, establishments);
 }
 
 // Hämtar alla kommuner från establishment och fyller dropdown meny.
@@ -595,7 +598,7 @@ async function loadFood() {
     food.controller,
     food.filters,
     usePagination ? currentPage : null,
-    usePagination ? perPage: null,
+    usePagination ? perPage : null,
   );
   items = await useEstablishmentForCards(items);
 
@@ -622,7 +625,7 @@ function getAccommodationFilterValues() {
 
 // Körs när användaren ändrar boendefilter.
 async function applyAccommodationFilters(resetPage = true) {
-    if (resetPage) {
+  if (resetPage) {
     currentPage = 1;
   }
 
@@ -727,8 +730,8 @@ function reloadCurrentCategory() {
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
-  })
+    behavior: "smooth",
+  });
 }
 
 function updatePaginationControls() {
