@@ -37,9 +37,7 @@ let currentSections = [];
 // Ett sorts cacheminne för establishment-data.
 let allEstablishments = [];
 
-const globalMunicipalityFilter = document.getElementById(
-  "globalMunicipalityFilter",
-);
+const globalMunicipalityFilter = document.getElementById("globalMunicipalityFilter",);
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
@@ -71,6 +69,24 @@ const freeParking = document.getElementById("freeParking");
 const petFriendly = document.getElementById("petFriendly");
 
 const toggleButtons = document.getElementById("toggleButtons");
+
+const prevPageBtn = document.getElementById("prevPageBtn");
+const nextPageBtn = document.getElementById("nextPageBtn");
+const pageNumber = document.getElementById("pageNumber")
+
+nextPageBtn.addEventListener("click", () => {
+  currentPage++;
+
+  pageNumber.textContent = currentPage;
+})
+
+prevPageBtn.addEventListener("click", () => {
+  if (currentPage === 1) return;
+
+  currentPage--;
+
+  pageNumber.textContent = currentPage;
+})
 
 // Sparar ALLA activites/attractions från API (innan filtrering)
 let allActivities = [];
