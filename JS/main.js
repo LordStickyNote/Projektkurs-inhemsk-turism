@@ -76,16 +76,18 @@ const pageNumber = document.getElementById("pageNumber")
 
 nextPageBtn.addEventListener("click", () => {
   currentPage++;
-
   pageNumber.textContent = currentPage;
+  reloadCurrentCategory();
+  scrollToTop();
 })
 
 prevPageBtn.addEventListener("click", () => {
   if (currentPage === 1) return;
 
   currentPage--;
-
   pageNumber.textContent = currentPage;
+  reloadCurrentCategory();
+  scrollToTop();
 })
 
 // Sparar ALLA activites/attractions från API (innan filtrering)
@@ -383,7 +385,11 @@ function hasActiveAttractionFilters() {
 //-------------------------------------------------------------------------
 
 // Funktion som körs när filter ändras under "Se och göra"
-async function applySeeAndDoFilters() {
+async function applySeeAndDoFilters(resetPage = true) {
+    if (resetPage) {
+    currentPage = 1;
+  }
+
   skeletonLoaders();
 
   const activityActive = hasActiveActivityFilters();
@@ -538,7 +544,11 @@ function getFoodFilterValues() {
 }
 
 // Körs när användaren andrar något mat-filter
-async function applyFoodFilters() {
+async function applyFoodFilters(resetPage = true) {
+  if (resetPage) {
+    currentPage = 1;
+  }
+
   skeletonLoaders();
 
   const food = categories.food;
@@ -622,7 +632,11 @@ function getAccommodationFilterValues() {
 }
 
 // Körs när användaren ändrar boendefilter.
-async function applyAccommodationFilters() {
+async function applyAccommodationFilters(resetPage = true) {
+    if (resetPage) {
+    currentPage = 1;
+  }
+
   skeletonLoaders();
 
   // Hämtar aktuella filter-värden
@@ -718,4 +732,25 @@ function renderCurrentView() {
 
   // Food och accommodation-renderarna vill bara ha items-arrayen
   currentRenderFunction(currentSections[0].items, container);
+}
+
+function reloadCurrentCategory() {
+  if (activeCategory === "food") {
+    applyFoodFilters(false);
+  }
+
+  if (activeCategory === "seeAndDo") {
+    applySeeAndDoFilters(false);
+  }
+
+  if (activeCategory === "accommodation") {
+    applyAccommodationFilters(false);
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  })
 }
