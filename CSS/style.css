@@ -156,7 +156,7 @@ a {
   justify-content: space-between;
   align-items: start;
   padding: 0;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
 
 .card-listing img {
@@ -175,7 +175,8 @@ a {
   height: fit-content;
   box-sizing: border-box;
   overflow-x: hidden;
-  word-break: break-word;}
+  word-break: break-word;
+}
 
 /*==== buttons ====*/
 
@@ -410,6 +411,10 @@ a {
   grid-template-columns: repeat(2, 1fr);
 }
 
+article {
+  width: 100%;
+}
+
 /*==== skeleton loader ====*/
 
 /*---- img ----*/
@@ -469,4 +474,10 @@ a {
 #map {
   height: 500px;
   border-radius: var(--radius-xl);
+}
+
+.active {
+  background: var(--color-primary-hover);
+  border: var(--color-primary-hover) solid 2px;
+  color: var(--color-bg);
 }

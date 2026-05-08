@@ -89,9 +89,8 @@ export function buildAttractionApiFilters(values) {
   return filters;
 }
 
-export function filterByEstablishmentIds(items, establishments, controller) {
+export function filterByEstablishmentIds(items, establishments) {
     const allowedIds = establishments.map(place => place.id);
-
     return items.filter(item => allowedIds.includes(item.id))
 }
 
@@ -122,15 +121,21 @@ export function filterFood(items, filters) {
   });
 }
 
-if (filters.maxPrice) {
-  filtered = filtered.filter(item => Number(item.avg_dinner_pricing) <= filters.maxPrice);
-}
-
-if (filters.minRating) {
-  filtered = filtered.filter(item => Number(item.rating) >= filters.minRating);
-}
-
 return filtered;
+}
+
+export function buildFoodApiFilters(values) {
+  const filters = {};
+
+  if (values.maxPrice) {
+    filters.max_avg_dinner_pricing = values.maxPrice;
+  }
+
+  if (values.minRating) {
+    filters.min_rating = values.minRating;
+  }
+
+  return filters;
 }
 
 export function buildAccommodationApiFilters(values) {
