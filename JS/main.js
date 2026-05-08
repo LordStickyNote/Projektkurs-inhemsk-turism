@@ -735,6 +735,11 @@ function scrollToTop() {
 }
 
 function updatePaginationControls() {
+  if (currentView === "map") {
+    pagination.hidden = true;
+    return;
+  }
+
   const usePagination = shouldUsePagination();
 
   if (!activeCategory) {
