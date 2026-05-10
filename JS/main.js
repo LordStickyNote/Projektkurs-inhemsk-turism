@@ -237,7 +237,7 @@ async function loadSeeAndDo() {
     // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
     const items = await getData(
       section.controller,
-      section.filters,
+      {},
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
     );
@@ -493,10 +493,15 @@ async function filterByEstablishment(items, controller) {
   const municipality = municipalityFilter.value;
   const maxPrice = Number(priceRange.value);
 
-  // Hämtar alla objekt som är i vald kommun direkt i anropet
-  let establishments = await getData("establishment", {
-    ...(municipality && { municipalities: municipality }),
-  });
+  let establishments;
+
+  if (municipality) {
+    establishments = await getData("establishment", {
+      municipalities: municipality,
+    });
+  } else {
+    establishments = await getAllEstablishments();
+  }
 
   // Filtrerar pris lokalt på establishment-datan
   if (maxPrice) {
@@ -507,7 +512,7 @@ async function filterByEstablishment(items, controller) {
   }
 
   // Matchar filtrerade establishments mot akutell controller-dataƒ
-  return filterByEstablishmentIds(items, establishments);
+  return filterByEstablishmentIds(items, establishments, controller);
 }
 
 // Hämtar alla kommuner från establishment och fyller dropdown meny.

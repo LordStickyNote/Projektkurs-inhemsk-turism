@@ -24,6 +24,8 @@ export async function getData(controller, filters = {}, page = null, perPage = n
         }
         const data = await response.json();
 
+        console.log(data)
+
         return data.payload;
     } catch (error) {
         console.error("Fel vid hämtning av SMAPI:", error);
