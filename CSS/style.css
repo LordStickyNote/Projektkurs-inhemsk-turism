@@ -476,6 +476,11 @@ article {
   border-radius: var(--radius-xl);
 }
 
+.map-skeleton-loader {
+  height: 500px;
+  border-radius: var(--radius-xl);
+}
+
 .active {
   background: var(--color-primary-hover);
   border: var(--color-primary-hover) solid 2px;

@@ -207,6 +207,13 @@ function skeletonLoaders() {
       </section>`;
 }
 
+function mapSkeletonLoader() {
+  container.innerHTML = `
+  <div class="card card-listing map-skeleton-loader">
+        <div class="sl-img"></div>
+      </div>`;
+}
+
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   setActiveCategoryButton("doBtn");
@@ -379,7 +386,11 @@ async function applySeeAndDoFilters(resetPage = true) {
     currentPage = 1;
   }
 
-  skeletonLoaders();
+  if (currentView === "map") {
+    mapSkeletonLoader();
+  } else {
+    skeletonLoaders();
+  }
 
   const activityActive = hasActiveActivityFilters();
   const attractionActive = hasActiveAttractionFilters();
@@ -539,7 +550,11 @@ async function applyFoodFilters(resetPage = true) {
     currentPage = 1;
   }
 
-  skeletonLoaders();
+    if (currentView === "map") {
+    mapSkeletonLoader();
+  } else {
+    skeletonLoaders();
+  }
 
   const food = categories.food;
   const values = getFoodFilterValues();
@@ -629,7 +644,11 @@ async function applyAccommodationFilters(resetPage = true) {
     currentPage = 1;
   }
 
-  skeletonLoaders();
+    if (currentView === "map") {
+    mapSkeletonLoader();
+  } else {
+    skeletonLoaders();
+  }
 
   // Hämtar aktuella filter-värden
   const values = getAccommodationFilterValues();
@@ -700,11 +719,13 @@ async function loadAccommodation() {
 
 document.getElementById("listViewBtn").addEventListener("click", () => {
   currentView = "list";
+  mapSkeletonLoader();
   applyCurrentFilters();
 });
 
 document.getElementById("mapViewBtn").addEventListener("click", () => {
   currentView = "map";
+  pagination.hidden = true;
   applyCurrentFilters();
 });
 
