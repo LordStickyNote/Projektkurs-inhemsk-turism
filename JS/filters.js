@@ -89,7 +89,7 @@ export function buildAttractionApiFilters(values) {
   return filters;
 }
 
-export function filterByEstablishmentIds(items, establishments) {
+export function filterByEstablishmentIds(items, establishments, controller) {
     const allowedIds = establishments.map(place => place.id);
     return items.filter(item => allowedIds.includes(item.id))
 }

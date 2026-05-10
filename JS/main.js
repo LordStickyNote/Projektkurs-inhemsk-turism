@@ -207,6 +207,13 @@ function skeletonLoaders() {
       </section>`;
 }
 
+function mapSkeletonLoader() {
+  container.innerHTML = `
+  <div class="card card-listing map-skeleton-loader">
+        <div class="sl-img"></div>
+      </div>`;
+}
+
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   setActiveCategoryButton("doBtn");
@@ -230,7 +237,7 @@ async function loadSeeAndDo() {
     // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
     const items = await getData(
       section.controller,
-      section.filters,
+      {},
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
     );
@@ -379,7 +386,11 @@ async function applySeeAndDoFilters(resetPage = true) {
     currentPage = 1;
   }
 
-  skeletonLoaders();
+  if (currentView === "map") {
+    mapSkeletonLoader();
+  } else {
+    skeletonLoaders();
+  }
 
   const activityActive = hasActiveActivityFilters();
   const attractionActive = hasActiveAttractionFilters();
@@ -482,10 +493,15 @@ async function filterByEstablishment(items, controller) {
   const municipality = municipalityFilter.value;
   const maxPrice = Number(priceRange.value);
 
-  // Hämtar alla objekt som är i vald kommun direkt i anropet
-  let establishments = await getData("establishment", {
-    ...(municipality && { municipalities: municipality }),
-  });
+  let establishments;
+
+  if (municipality) {
+    establishments = await getData("establishment", {
+      municipalities: municipality,
+    });
+  } else {
+    establishments = await getAllEstablishments();
+  }
 
   // Filtrerar pris lokalt på establishment-datan
   if (maxPrice) {
@@ -496,7 +512,7 @@ async function filterByEstablishment(items, controller) {
   }
 
   // Matchar filtrerade establishments mot akutell controller-dataƒ
-  return filterByEstablishmentIds(items, establishments);
+  return filterByEstablishmentIds(items, establishments, controller);
 }
 
 // Hämtar alla kommuner från establishment och fyller dropdown meny.
@@ -539,7 +555,11 @@ async function applyFoodFilters(resetPage = true) {
     currentPage = 1;
   }
 
-  skeletonLoaders();
+    if (currentView === "map") {
+    mapSkeletonLoader();
+  } else {
+    skeletonLoaders();
+  }
 
   const food = categories.food;
   const values = getFoodFilterValues();
@@ -629,7 +649,11 @@ async function applyAccommodationFilters(resetPage = true) {
     currentPage = 1;
   }
 
-  skeletonLoaders();
+    if (currentView === "map") {
+    mapSkeletonLoader();
+  } else {
+    skeletonLoaders();
+  }
 
   // Hämtar aktuella filter-värden
   const values = getAccommodationFilterValues();
@@ -700,11 +724,13 @@ async function loadAccommodation() {
 
 document.getElementById("listViewBtn").addEventListener("click", () => {
   currentView = "list";
+  mapSkeletonLoader();
   applyCurrentFilters();
 });
 
 document.getElementById("mapViewBtn").addEventListener("click", () => {
   currentView = "map";
+  pagination.hidden = true;
   applyCurrentFilters();
 });
 
