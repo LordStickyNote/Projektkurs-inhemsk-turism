@@ -457,6 +457,10 @@ a {
   grid-template-columns: repeat(2, 1fr);
 }
 
+article {
+  width: 100%;
+}
+
 /*==== skeleton loader ====*/
 
 /*---- img ----*/

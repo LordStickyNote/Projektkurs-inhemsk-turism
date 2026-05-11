@@ -6,12 +6,10 @@ export const categories = {
             {
                 title: "Aktiviteter",
                 controller: "activity",
-                filters: {}
             },
             {
                 title: "Sevärdheter",
                 controller: "attraction",
-                filters: {}
             }
         ]
     },
@@ -19,12 +17,10 @@ export const categories = {
     food: {
         label: "Resturanger",
         controller: "food",
-        filters: {}
     },
 
     accommodation: {
         label: "Boenden",
         controller: "accommodation",
-        filters: {}
     }
 };
