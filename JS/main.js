@@ -216,6 +216,7 @@ function mapSkeletonLoader() {
 
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
+  resetFilters();
   setActiveCategoryButton("doBtn");
 
   activeCategory = "seeAndDo";
@@ -600,6 +601,7 @@ async function applyFoodFilters(resetPage = true) {
 
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
+  resetFilters();
   setActiveCategoryButton("foodBtn");
 
   activeCategory = "food";
@@ -687,6 +689,7 @@ async function applyAccommodationFilters(resetPage = true) {
 
 // Laddar startsida för boenden.
 async function loadAccommodation() {
+  resetFilters();
   setActiveCategoryButton("accommodationBtn");
 
   activeCategory = "accommodation";
@@ -805,4 +808,31 @@ function setActiveCategoryButton(activeButtonId) {
   }
 
   document.getElementById(activeButtonId).classList.add("active");
+}
+
+function resetFilters() {
+  // Global
+  municipalityFilter.value = "";
+
+  // "Se och göra"
+  activityType.value = "";
+  effort.value = "";
+  involvesAnimals.checked = false;
+  involvesWater.checked = false;
+  attractionType.value = "";
+  experienceType.value = "";
+  localSignificance.checked = false;
+  childFriendly.checked = false;
+
+  // "Mat"
+  foodType.value = "";
+  foodPrice.value = "";
+  foodRating.value = "";
+
+  // "Boenden"
+  accommodationType.value = "";
+  accommodationRating.value = "";
+  hasWifi.checked = false;
+  freeParking.checked = false;
+  petFriendly.checked = false;
 }
