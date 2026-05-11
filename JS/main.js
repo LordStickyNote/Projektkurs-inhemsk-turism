@@ -82,6 +82,7 @@ pagination.hidden = true;
 const resetFilterBtn = document.getElementById("resetFilterBtn");
 resetFilterBtn.addEventListener("click", () => {
   resetFilters();
+  resetButtonActive();
   reloadCurrentCategory()
 })
 
@@ -103,28 +104,28 @@ prevPageBtn.addEventListener("click", () => {
 
 const activityInputs = activityFilters.querySelectorAll("select, input");
 for (const input of activityInputs) {
-  input.addEventListener("change", applySeeAndDoFilters);
+  input.addEventListener("change", handleFilterChange);
 }
 
 const attractionInputs = attractionFilters.querySelectorAll("select, input");
 for (const input of attractionInputs) {
-  input.addEventListener("change", applySeeAndDoFilters);
+  input.addEventListener("change", handleFilterChange);
 }
 
-childFriendly.addEventListener("change", applySeeAndDoFilters);
-municipalityFilter.addEventListener("change", applyCurrentFilters);
+childFriendly.addEventListener("change", handleFilterChange);
+municipalityFilter.addEventListener("change", handleFilterChange);
 loadMunicipalities();
-priceRange.addEventListener("change", applySeeAndDoFilters);
+priceRange.addEventListener("change", handleFilterChange);
 
 const foodInputs = foodFilters.querySelectorAll("select, input");
 for (const input of foodInputs) {
-  input.addEventListener("change", applyFoodFilters);
+  input.addEventListener("change", handleFilterChange);
 }
 
 const accommodationInputs =
   accommodationFilters.querySelectorAll("select, input");
 for (const input of accommodationInputs) {
-  input.addEventListener("change", applyAccommodationFilters);
+  input.addEventListener("change", handleFilterChange);
 }
 
 function setFilterGroupDisabled(filterGroup, disabled) {
@@ -151,6 +152,8 @@ function shouldUsePagination() {
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
 function applyCurrentFilters(resetPage = true) {
+  resetButtonActive();
+
   if (activeCategory === "food") {
     applyFoodFilters(resetPage);
   } else if (activeCategory === "seeAndDo") {
@@ -169,6 +172,7 @@ function hideFilters() {
   resetFilterBtn.hidden = true;
 }
 
+// Funktion för att köra skeleton-loaders innan de riktiga "korten" laddats in
 function skeletonLoaders() {
   container.innerHTML = `
   <section class="grid gap-6">
@@ -216,6 +220,7 @@ function skeletonLoaders() {
       </section>`;
 }
 
+// Funktion för att köra en skeleton-loader som passar kartans mall
 function mapSkeletonLoader() {
   container.innerHTML = `
   <div class="card card-listing map-skeleton-loader">
@@ -226,6 +231,7 @@ function mapSkeletonLoader() {
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   resetFilters();
+  resetButtonActive();
   setActiveCategoryButton("doBtn");
 
   activeCategory = "seeAndDo";
@@ -612,6 +618,7 @@ async function applyFoodFilters(resetPage = true) {
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
   resetFilters();
+  resetButtonActive();
   setActiveCategoryButton("foodBtn");
 
   activeCategory = "food";
@@ -701,6 +708,7 @@ async function applyAccommodationFilters(resetPage = true) {
 // Laddar startsida för boenden.
 async function loadAccommodation() {
   resetFilters();
+  resetButtonActive();
   setActiveCategoryButton("accommodationBtn");
 
   activeCategory = "accommodation";
@@ -737,6 +745,7 @@ async function loadAccommodation() {
 
 //-------------------------------------------------------------------------
 
+// Funktion som körs när knappen för listvy klickas.
 listViewBtn.addEventListener("click", () => {
   currentView = "list";
   mapSkeletonLoader();
@@ -745,6 +754,7 @@ listViewBtn.addEventListener("click", () => {
   listViewBtn.disabled = true;
 });
 
+// Funktion som körs när knappen för kartvy klickas.
 mapViewBtn.addEventListener("click", () => {
   currentView = "map";
   pagination.hidden = true;
@@ -851,4 +861,36 @@ function resetFilters() {
   hasWifi.checked = false;
   freeParking.checked = false;
   petFriendly.checked = false;
+}
+
+function resetButtonActive() {
+  const hasActiveFilters =
+  municipalityFilter.value ||
+  activityType.value ||
+  effort.value ||
+  involvesAnimals.checked ||
+  involvesWater.checked ||
+  attractionType.value ||
+  experienceType.value ||
+  localSignificance.checked ||
+  childFriendly.checked ||
+  foodType.value ||
+  foodPrice.value ||
+  foodRating.value ||
+  accommodationType.value ||
+  accommodationRating.value ||
+  hasWifi.checked ||
+  freeParking.checked ||
+  petFriendly.checked;
+
+  if (hasActiveFilters === false) {
+    resetFilterBtn.disabled = true;
+  } else {
+    resetFilterBtn.disabled = false;
+  }
+}
+
+function handleFilterChange() {
+  applyCurrentFilters();
+  resetButtonActive();
 }
