@@ -16,6 +16,7 @@ import {
   buildFoodApiFilters,
 } from "./filters.js";
 
+// Kopplar de tre huvudkategorierna med klick-event.
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
 document
@@ -37,17 +38,18 @@ let currentSections = [];
 // Ett sorts cacheminne för establishment-data.
 let allEstablishments = [];
 
-const globalMunicipalityFilter = document.getElementById(
-  "globalMunicipalityFilter",
-);
+// DOM-element: Globala huvudfilter och container för att ladda resultat
+const globalMunicipalityFilter = document.getElementById("globalMunicipalityFilter");
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
 
+// DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
 const municipalityFilter = document.getElementById("municipalityFilter");
 const priceRange = document.getElementById("priceRange");
 
+// DOM-element: aktivitets- och servärdhetsfiltren
 const activityFilters = document.getElementById("activityFilters");
 const attractionFilters = document.getElementById("attractionFilters");
 const activityType = document.getElementById("activityType");
@@ -58,10 +60,12 @@ const attractionType = document.getElementById("attractionType");
 const experienceType = document.getElementById("experienceType");
 const localSignificance = document.getElementById("localSignificance");
 
+// DOM-element: mat-filter
 const foodType = document.getElementById("foodType");
 const foodPrice = document.getElementById("foodPrice");
 const foodRating = document.getElementById("foodRating");
 
+// DOM-element: boende-filter
 const accommodationFilters = document.getElementById("accommodationFilters");
 const accommodationType = document.getElementById("accommodationType");
 const accommodationRating = document.getElementById("accommodationRating");
@@ -69,10 +73,12 @@ const hasWifi = document.getElementById("hasWifi");
 const freeParking = document.getElementById("freeParking");
 const petFriendly = document.getElementById("petFriendly");
 
+// DOM-element: list/kart toggle
 const toggleButtons = document.getElementById("toggleButtons");
 const listViewBtn = document.getElementById("listViewBtn");
 const mapViewBtn = document.getElementById("mapViewBtn");
 
+// DOM-element: paginering
 const prevPageBtn = document.getElementById("prevPageBtn");
 const nextPageBtn = document.getElementById("nextPageBtn");
 const pageNumber = document.getElementById("pageNumber");
@@ -102,11 +108,13 @@ prevPageBtn.addEventListener("click", () => {
   scrollToTop();
 });
 
+// Lyssnar efter ändringar i alla aktivitetsfiltren och kör handleFilterChange.
 const activityInputs = activityFilters.querySelectorAll("select, input");
 for (const input of activityInputs) {
   input.addEventListener("change", handleFilterChange);
 }
 
+// Lyssnar efter ändringar i alla sevärdhetsfiltren och kör handleFilterChange.
 const attractionInputs = attractionFilters.querySelectorAll("select, input");
 for (const input of attractionInputs) {
   input.addEventListener("change", handleFilterChange);
@@ -114,20 +122,22 @@ for (const input of attractionInputs) {
 
 childFriendly.addEventListener("change", handleFilterChange);
 municipalityFilter.addEventListener("change", handleFilterChange);
-loadMunicipalities();
+loadMunicipalities(); // Fyller kommunfiltret med alternativ när sidan laddas.
 priceRange.addEventListener("change", handleFilterChange);
 
+// Lyssnar på ändringar i alla mat-filter.
 const foodInputs = foodFilters.querySelectorAll("select, input");
 for (const input of foodInputs) {
   input.addEventListener("change", handleFilterChange);
 }
 
-const accommodationInputs =
-  accommodationFilters.querySelectorAll("select, input");
+// Lyssnar på ändringar i alla boenden-filter
+const accommodationInputs = accommodationFilters.querySelectorAll("select, input");
 for (const input of accommodationInputs) {
   input.addEventListener("change", handleFilterChange);
 }
 
+// Aktiverar eller inaktiverar alla inputs i en filtergrupp. Används i "Se och göra" så man endast kan filtrera på en kategori i taget.
 function setFilterGroupDisabled(filterGroup, disabled) {
   const inputs = filterGroup.querySelectorAll("select, input");
 
@@ -138,6 +148,7 @@ function setFilterGroupDisabled(filterGroup, disabled) {
   filterGroup.classList.toggle("disabled", disabled);
 }
 
+// Uppdaterar list/karta-knapparna så att aktiv vy:s knapp är inaktiverad. 
 function updateViewButtons() {
   listViewBtn.disabled = currentView === "list";
   mapViewBtn.disabled = currentView === "map";
@@ -785,10 +796,12 @@ function renderCurrentView() {
   updatePaginationControls();
 }
 
+// Laddar om aktiv kategori utan att återställa sidnumreringen.
 function reloadCurrentCategory() {
   applyCurrentFilters(false);
 }
 
+// Scrollar mjukt till toppen av sidan, används vid sidbyte
 function scrollToTop() {
   window.scrollTo({
     top: 0,
@@ -796,6 +809,7 @@ function scrollToTop() {
   });
 }
 
+// Uppdaterar paginerings-UI:t: döljer/visar det beroende på kart- eller listvy samt aktiverar/inaktiverar knapparna beroende på aktuell sida och data.
 function updatePaginationControls() {
   if (currentView === "map") {
     pagination.hidden = true;
@@ -833,6 +847,7 @@ function updatePaginationControls() {
   nextPageBtn.disabled = !hasNextPage;
 }
 
+// Marker rätt huvudkategori som aktiv.
 function setActiveCategoryButton(activeButtonId) {
   const buttons = document.querySelectorAll(".tab");
 
@@ -843,6 +858,7 @@ function setActiveCategoryButton(activeButtonId) {
   document.getElementById(activeButtonId).classList.add("active");
 }
 
+// Återställer alla filterfällt till standardvärde.
 function resetFilters() {
   // Global
   municipalityFilter.value = "";
@@ -870,6 +886,7 @@ function resetFilters() {
   petFriendly.checked = false;
 }
 
+// Aktiverar eller inaktiverar "Återställ filter"-knappen beroende på om något filter är aktivt eller inte. 
 function resetButtonActive() {
   const hasActiveFilters =
   municipalityFilter.value ||
@@ -897,6 +914,7 @@ function resetButtonActive() {
   }
 }
 
+// Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
 function handleFilterChange() {
   applyCurrentFilters();
   resetButtonActive();
