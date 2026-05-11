@@ -3,170 +3,173 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inhemsk turism</title>
-
-    <script type="module" src="JS/main.js" defer></script>
-    <link rel="stylesheet" href="style.css" />
+    <title>Titelsida</title>
+    <script type="module" src="JS/main.js"></script>
+    <link rel="stylesheet" href="/CSS/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
-  d
-  <body>
-    <div class="app-shell">
-      <header class="site-header">
-        <nav class="tab-container" aria-label="Kategorier">
-          <button id="doBtn" class="tab tab-active" type="button">
-            Att göra
-          </button>
-
-          <button id="foodBtn" class="tab" type="button">Mat</button>
-
-          <button id="accommodationBtn" class="tab" type="button">
-            Boende
-          </button>
-        </nav>
-      </header>
-
-      <main class="site-main">
-        <section class="toolbar">
-          <button id="sortBtn" type="button">Sortera</button>
-
-          <div class="view-buttons">
-            <button id="listViewBtn" type="button" aria-label="Visa lista">
-              ☰
-            </button>
-
-            <button id="mapViewBtn" type="button" aria-label="Visa karta">
-              📍
-            </button>
-          </div>
-        </section>
-
-        <section class="filters-panel">
-          <div id="globalMunicipalityFilter" hidden>
-            <p>Globala filter</p>
-
-            <label for="municipalityFilter">Kommun</label>
-            <select id="municipalityFilter">
-              <option value="">Alla kommuner</option>
-            </select>
-          </div>
-
-          <div id="SeeAndDoFilters" hidden>
-            <p>Filter för att göra</p>
-
-            <label>
-              <input type="checkbox" id="childFriendly" />
-              Barnvänligt
-            </label>
-
-            <label for="priceRange">Pris</label>
-            <select id="priceRange">
-              <option value="">Alla priser</option>
-              <option value="100">Upp till 100 kr</option>
-              <option value="200">Upp till 200 kr</option>
-              <option value="500">Upp till 500 kr</option>
-              <option value="1000">Upp till 1000 kr</option>
-            </select>
-
-            <div id="activityFilters">
-              <p>Filtrera aktiviteter</p>
-
-              <label for="activityType">Typ av aktivitet</label>
-              <select id="activityType">
-                <option value="">Alla typer</option>
-                <option value="fun">Nöje</option>
-                <option value="sport">Sport</option>
-                <option value="swim">Bad</option>
-                <option value="animals">Djur</option>
-                <option value="adventure">Äventyr</option>
-                <option value="nightlife">Nattliv</option>
-              </select>
-
-              <label for="effort">Aktivitetsnivå</label>
-              <select id="effort">
-                <option value="">Alla nivåer</option>
-                <option value="LOW">Lugnt</option>
-                <option value="MEDIUM">Medel</option>
-                <option value="HIGH">Aktivt</option>
-              </select>
-
-              <label>
-                <input type="checkbox" id="involvesAnimals" />
-                Djur
-              </label>
-
-              <label>
-                <input type="checkbox" id="involvesWater" />
-                Vatten
-              </label>
-            </div>
-
-            <div id="attractionFilters">
-              <p>Filtrera sevärdheter</p>
-
-              <label for="attractionType">Typ av sevärdhet</label>
-              <select id="attractionType">
-                <option value="">Alla</option>
-                <option value="history">Historia</option>
-                <option value="art">Konst & kultur</option>
-                <option value="nature">Natur</option>
-                <option value="landmark">Landmark</option>
-              </select>
-
-              <label for="experienceType">Typ av upplevelse</label>
-              <select id="experienceType">
-                <option value="">Alla</option>
-                <option value="interactive">Interaktiv</option>
-                <option value="static">Klassisk</option>
-              </select>
-
-              <label>
-                <input type="checkbox" id="localSignificance" />
-                Lokala pärlor
-              </label>
-            </div>
-          </div>
-
-          <div id="foodFilters" hidden>
-            <p>Filter för mat</p>
-
-            <label for="foodType">Typ av mat</label>
-            <select id="foodType">
-              <option value="">Alla typer</option>
-              <option value="asian">Asiatiskt</option>
-              <option value="pizza">Pizza</option>
-              <option value="kebab">Kebab</option>
-              <option value="hamburgare">Hamburgare</option>
-              <option value="sallad">Sallad</option>
-              <option value="husman">Husman</option>
-            </select>
-
-            <label for="foodPrice">Pris per person</label>
-            <select id="foodPrice">
-              <option value="">Alla priser</option>
-              <option value="100">Upp till 100 kr</option>
-              <option value="200">Upp till 200 kr</option>
-              <option value="500">Upp till 500 kr</option>
-            </select>
-
-            <label for="foodRating">Betyg</label>
-            <select id="foodRating">
-              <option value="">Alla betyg</option>
-              <option value="3">3+</option>
-              <option value="4">4+</option>
-            </select>
-          </div>
-        </section>
-
-        <section
-          id="results"
-          class="results-grid"
-          aria-label="Resultat"
-        ></section>
-      </main>
-
-      <footer class="bottom-actions">
-        <button id="filterToggleBtn" type="button">Filter ⚙</button>
-      </footer>
+  <body class="gap-4">
+    <span class="tab-container">
+      <button class="tab" id="doBtn">Se och göra</button>
+      <button class="tab" id="foodBtn">Mat</button>
+      <button class="tab" id="accommodationBtn">Boenden</button>
+    </span>
+    <div class="width-full row row-between card">
+      <select class="btn btn-outline btn-sm" name="sortList" id="sortList">
+        <option value="Betyg" selected>Betyg</option>
+        <option value="Pris">Pris</option>
+      </select>
+      <span class="row gap-2">
+        <button class="btn"></button>
+        <button class="btn"></button>
+      </span>
     </div>
+    <div id="globalMunicipalityFilter" hidden>
+      <p>Globala filter</p>
+      <label for="municipalityFilter">Kommun</label>
+      <select id="municipalityFilter">
+        <option value="">Alla kommuner</option>
+      </select>
+    </div>
+    <div id="SeeAndDoFilters" hidden>
+      <label for="childFriendly">
+        <input type="checkbox" id="childFriendly" />
+        Barnvänligt
+      </label>
+      <label for="priceRange">Pris</label>
+      <select id="priceRange">
+        <option value="">Alla priser</option>
+        <option value="100">Upp till 100 kr</option>
+        <option value="200">Upp till 200 kr</option>
+        <option value="500">Upp till 500 kr</option>
+        <option value="1000">Upp till 1000 kr</option>
+      </select>
+      <div id="activityFilters">
+        <p>Filtrera aktiviteter</p>
+        <label for="activityType">Typ av aktivitet</label>
+        <select id="activityType">
+          <option value="">Alla typer</option>
+          <option value="fun">Nöje</option>
+          <option value="sport">Sport</option>
+          <option value="swim">Bad</option>
+          <option value="animals">Djur</option>
+          <option value="adventure">Äventyr</option>
+          <option value="nightlife">Nattliv</option>
+        </select>
+        <label for="effort">Aktivitetsnivå</label>
+        <select id="effort">
+          <option value="">Alla nivåer</option>
+          <option value="LOW">Lugnt</option>
+          <option value="MEDIUM">Medel</option>
+          <option value="HIGH">Aktivt</option>
+        </select>
+        <label for="involvesAnimals">
+          <input type="checkbox" id="involvesAnimals" />
+          Djur
+        </label>
+        <label for="involvesWater">
+          <input type="checkbox" id="involvesWater" />
+          Vatten
+        </label>
+      </div>
+      <div id="attractionFilters">
+        <p>Filtrera sevärdheter</p>
+        <label for="attractionType">Typ av sevärdhet</label>
+        <select id="attractionType">
+          <option value="">Alla</option>
+          <option value="history">Historia</option>
+          <option value="art">Konst & kultur</option>
+          <option value="nature">Natur</option>
+          <option value="landmark">Landmark</option>
+        </select>
+
+        <label for="experienceType">Typ av upplevelse</label>
+        <select id="experienceType">
+          <option value="">Alla</option>
+          <option value="interactive">Interaktiv</option>
+          <option value="static">Klassisk (se & läsa)</option>
+        </select>
+        <label for="localSignificance">
+          <input type="checkbox" id="localSignificance" />
+          Lokala pärlor
+        </label>
+      </div>
+    </div>
+    <div id="foodFilters" hidden>
+      <p>Filter</p>
+      <label for="foodType">Typ av mat</label>
+      <select id="foodType">
+        <option value="">Alla typer</option>
+        <option value="asian">Asiatiskt</option>
+        <option value="pizza">Pizza</option>
+        <option value="kebab">Kebab</option>
+        <option value="hamburgare">Hamburgare</option>
+        <option value="sallad">Sallad</option>
+        <option value="husman">Husman</option>
+      </select>
+      <label for="foodPrice">Pris per person</label>
+      <select id="foodPrice">
+        <option value="">Alla priser</option>
+        <option value="100">Upp till 100 kr</option>
+        <option value="200">Upp till 200 kr</option>
+        <option value="500">Upp till 500 kr</option>
+      </select>
+      <label for="foodRating">Betyg</label>
+      <select id="foodRating">
+        <option value="">Alla betyg</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+      </select>
+    </div>
+    <div id="accommodationFilters" hidden>
+      <p>Filter</p>
+      <label for="accommodationType">Boendetyp</label>
+      <select id="accommodationType">
+        <option value="">Alla typer</option>
+        <option value="B&B">B&B</option>
+        <option value="Hotell">Hotell</option>
+        <option value="Camping">Camping</option>
+      </select>
+      <label for="accommodationRating">Betyg</label>
+      <select id="accommodationRating">
+        <option value="">Alla betyg</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="4.5">4.5+</option>
+      </select>
+      <label>
+        <input type="checkbox" id="hasWifi" />
+        Wifi
+      </label>
+      <label for="freeParking">
+        <input type="checkbox" id="freeParking" />
+        Gratis parkering
+      </label>
+      <label for="petFriendly">
+        <input type="checkbox" id="petFriendly" />
+        Tillåter husdjur
+      </label>
+    </div>
+    <div id="toggleButtons" hidden>
+      <button id="listViewBtn">Lista</button>
+      <button id="mapViewBtn">Karta</button>
+    </div>
+    <section id="results"></section>
+    <div id="pagination">
+      <button id="prevPageBtn">Föregående</button>
+      <span id="pageNumber">1</span>
+      <button id="nextPageBtn">Nästa</button>
+    </div>
+    <hr />
   </body>
 </html>
