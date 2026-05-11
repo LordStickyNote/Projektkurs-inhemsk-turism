@@ -138,6 +138,11 @@ function setFilterGroupDisabled(filterGroup, disabled) {
   filterGroup.classList.toggle("disabled", disabled);
 }
 
+function updateViewButtons() {
+  listViewBtn.disabled = currentView === "list";
+  mapViewBtn.disabled = currentView === "map";
+}
+
 // Pagination används bara när inga lokala/cross-controller-filter riskerar att missa data.
 function shouldUsePagination() {
   if (currentView === "map") {
@@ -230,6 +235,7 @@ function mapSkeletonLoader() {
 
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
+  updateViewButtons();
   resetFilters();
   resetButtonActive();
   setActiveCategoryButton("doBtn");
@@ -617,6 +623,7 @@ async function applyFoodFilters(resetPage = true) {
 
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
+  updateViewButtons();
   resetFilters();
   resetButtonActive();
   setActiveCategoryButton("foodBtn");
@@ -703,10 +710,12 @@ async function applyAccommodationFilters(resetPage = true) {
 
   currentRenderFunction = renderAccommodation;
   renderCurrentView();
+  updateViewButtons();
 }
 
 // Laddar startsida för boenden.
 async function loadAccommodation() {
+  updateViewButtons();
   resetFilters();
   resetButtonActive();
   setActiveCategoryButton("accommodationBtn");
@@ -750,8 +759,7 @@ listViewBtn.addEventListener("click", () => {
   currentView = "list";
   mapSkeletonLoader();
   applyCurrentFilters();
-  mapViewBtn.disabled = false;
-  listViewBtn.disabled = true;
+  updateViewButtons();
 });
 
 // Funktion som körs när knappen för kartvy klickas.
@@ -759,8 +767,7 @@ mapViewBtn.addEventListener("click", () => {
   currentView = "map";
   pagination.hidden = true;
   applyCurrentFilters();
-  listViewBtn.disabled = false;
-  mapViewBtn.disabled = true;
+  updateViewButtons();
 });
 
 let currentRenderFunction = renderSeeAndDo;
