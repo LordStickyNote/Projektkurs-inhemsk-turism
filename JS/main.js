@@ -70,12 +70,20 @@ const freeParking = document.getElementById("freeParking");
 const petFriendly = document.getElementById("petFriendly");
 
 const toggleButtons = document.getElementById("toggleButtons");
+const listViewBtn = document.getElementById("listViewBtn");
+const mapViewBtn = document.getElementById("mapViewBtn");
 
 const prevPageBtn = document.getElementById("prevPageBtn");
 const nextPageBtn = document.getElementById("nextPageBtn");
 const pageNumber = document.getElementById("pageNumber");
 const pagination = document.getElementById("pagination");
 pagination.hidden = true;
+
+const resetFilterBtn = document.getElementById("resetFilterBtn");
+resetFilterBtn.addEventListener("click", () => {
+  resetFilters();
+  reloadCurrentCategory()
+})
 
 nextPageBtn.addEventListener("click", () => {
   currentPage++;
@@ -158,6 +166,7 @@ function hideFilters() {
   foodFilters.hidden = true;
   accommodationFilters.hidden = true;
   toggleButtons.hidden = true;
+  resetFilterBtn.hidden = true;
 }
 
 function skeletonLoaders() {
@@ -229,6 +238,7 @@ async function loadSeeAndDo() {
   globalMunicipalityFilter.hidden = false;
   seeAndDoFilters.hidden = false;
   toggleButtons.hidden = false;
+  resetFilterBtn.hidden = false;
 
   // Array som innehåller sektioner med titel + data från SMAPI
   const sectionsData = [];
@@ -614,6 +624,7 @@ async function loadFood() {
   foodFilters.hidden = false;
   globalMunicipalityFilter.hidden = false;
   toggleButtons.hidden = false;
+  resetFilterBtn.hidden = false;
 
   const food = categories.food;
   let items = await getData(
@@ -703,6 +714,7 @@ async function loadAccommodation() {
   accommodationFilters.hidden = false;
   globalMunicipalityFilter.hidden = false;
   toggleButtons.hidden = false;
+  resetFilterBtn.hidden = false;
 
   let items = await getData(
     accommodation.controller,
@@ -725,16 +737,20 @@ async function loadAccommodation() {
 
 //-------------------------------------------------------------------------
 
-document.getElementById("listViewBtn").addEventListener("click", () => {
+listViewBtn.addEventListener("click", () => {
   currentView = "list";
   mapSkeletonLoader();
   applyCurrentFilters();
+  mapViewBtn.disabled = false;
+  listViewBtn.disabled = true;
 });
 
-document.getElementById("mapViewBtn").addEventListener("click", () => {
+mapViewBtn.addEventListener("click", () => {
   currentView = "map";
   pagination.hidden = true;
   applyCurrentFilters();
+  listViewBtn.disabled = false;
+  mapViewBtn.disabled = true;
 });
 
 let currentRenderFunction = renderSeeAndDo;
