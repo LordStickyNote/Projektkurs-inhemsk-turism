@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Titelsida</title>
     <script type="module" src="JS/main.js"></script>
-    <link rel="stylesheet" href="/CSS/style.css" />
+    <script type="module" src="JS/temp.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="/CSS/style.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <body class="gap-4">
     <span class="tab-container">
@@ -26,9 +31,21 @@
         <option value="Betyg" selected>Betyg</option>
         <option value="Pris">Pris</option>
       </select>
-      <span class="row gap-2">
-        <button class="btn"></button>
-        <button class="btn"></button>
+      <span class="row gap-2 btn-square-container">
+        <button id="listViewBtn" class="btn btn-square"></button>
+        <button id="mapViewBtn" class="btn btn-square">
+          <?xml version="1.0" encoding="UTF-8"?>
+          <svg
+            id="Gps"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1114.67 962.67"
+          >
+            <path
+              class="cls-1"
+              d="m512.52,130.06c-134.59,0-243.69,102.17-243.69,228.21s234.73,474.34,234.73,474.34c0,0,252.66-348.31,252.66-474.34s-109.1-228.21-243.69-228.21Zm0,312.74c-48.14,0-87.17-39.03-87.17-87.17s39.03-87.17,87.17-87.17,87.17,39.03,87.17,87.17-39.03,87.17-87.17,87.17Z"
+            />
+          </svg>
+        </button>
       </span>
     </div>
     <div id="globalMunicipalityFilter" hidden>
@@ -38,68 +55,99 @@
         <option value="">Alla kommuner</option>
       </select>
     </div>
-    <div id="SeeAndDoFilters" hidden>
-      <label for="childFriendly">
-        <input type="checkbox" id="childFriendly" />
-        Barnvänligt
-      </label>
-      <label for="priceRange">Pris</label>
-      <select id="priceRange">
-        <option value="">Alla priser</option>
-        <option value="100">Upp till 100 kr</option>
-        <option value="200">Upp till 200 kr</option>
-        <option value="500">Upp till 500 kr</option>
-        <option value="1000">Upp till 1000 kr</option>
-      </select>
-      <div id="activityFilters">
-        <p>Filtrera aktiviteter</p>
-        <label for="activityType">Typ av aktivitet</label>
-        <select id="activityType">
-          <option value="">Alla typer</option>
-          <option value="fun">Nöje</option>
-          <option value="sport">Sport</option>
-          <option value="swim">Bad</option>
-          <option value="animals">Djur</option>
-          <option value="adventure">Äventyr</option>
-          <option value="nightlife">Nattliv</option>
-        </select>
-        <label for="effort">Aktivitetsnivå</label>
-        <select id="effort">
-          <option value="">Alla nivåer</option>
-          <option value="LOW">Lugnt</option>
-          <option value="MEDIUM">Medel</option>
-          <option value="HIGH">Aktivt</option>
-        </select>
-        <label for="involvesAnimals">
-          <input type="checkbox" id="involvesAnimals" />
-          Djur
-        </label>
-        <label for="involvesWater">
-          <input type="checkbox" id="involvesWater" />
-          Vatten
-        </label>
-      </div>
-      <div id="attractionFilters">
-        <p>Filtrera sevärdheter</p>
-        <label for="attractionType">Typ av sevärdhet</label>
-        <select id="attractionType">
-          <option value="">Alla</option>
-          <option value="history">Historia</option>
-          <option value="art">Konst & kultur</option>
-          <option value="nature">Natur</option>
-          <option value="landmark">Landmark</option>
-        </select>
+    <div class="filter-menu-container" id="filter-menu-containerSeeAndDo">
+      <div id="SeeAndDoFilters" class="card filter-menu" hidden>
+        <div class="filter-category width-full">
+          <div class="collapsible-header">
+            <h3>Filtrera priser</h3>
+            <hr />
+          </div>
+          <span>
+            <label for="childFriendly">Barnvänligt</label>
+            <input type="checkbox" id="childFriendly" />
+          </span>
 
-        <label for="experienceType">Typ av upplevelse</label>
-        <select id="experienceType">
-          <option value="">Alla</option>
-          <option value="interactive">Interaktiv</option>
-          <option value="static">Klassisk (se & läsa)</option>
-        </select>
-        <label for="localSignificance">
-          <input type="checkbox" id="localSignificance" />
-          Lokala pärlor
-        </label>
+          <span>
+            <label for="priceRange">Pris</label>
+            <select id="priceRange">
+              <option value="">Alla priser</option>
+              <option value="100">Upp till 100 kr</option>
+              <option value="200">Upp till 200 kr</option>
+              <option value="500">Upp till 500 kr</option>
+              <option value="1000">Upp till 1000 kr</option>
+            </select>
+          </span>
+        </div>
+        <div id="activityFilters" class="width-full filter-category">
+          <div class="collapsible-header">
+            <h3>Filtrera aktiviteter</h3>
+            <hr />
+          </div>
+          <span>
+            <label for="activityType">Typ av aktivitet</label>
+            <select id="activityType">
+              <option value="">Alla typer</option>
+              <option value="fun">Nöje</option>
+              <option value="sport">Sport</option>
+              <option value="swim">Bad</option>
+              <option value="animals">Djur</option>
+              <option value="adventure">Äventyr</option>
+              <option value="nightlife">Nattliv</option>
+            </select>
+          </span>
+          <span>
+            <label for="effort">Aktivitetsnivå</label>
+            <select id="effort">
+              <option value="">Alla nivåer</option>
+              <option value="LOW">Lugnt</option>
+              <option value="MEDIUM">Medel</option>
+              <option value="HIGH">Aktivt</option>
+            </select>
+          </span>
+          <span>
+            <label for="involvesAnimals"> Djur </label>
+            <input type="checkbox" id="involvesAnimals" />
+          </span>
+          <span>
+            <label for="involvesWater"> Vatten </label>
+            <input type="checkbox" id="involvesWater" />
+          </span>
+        </div>
+        <div id="attractionFilters" class="filter-category width-full">
+          <div class="collapsible-header">
+            <h3>Filtrera sevärdheter</h3>
+            <hr />
+          </div>
+          <span>
+            <label for="attractionType">Typ av sevärdhet</label>
+            <select id="attractionType">
+              <option value="">Alla</option>
+              <option value="history">Historia</option>
+              <option value="art">Konst & kultur</option>
+              <option value="nature">Natur</option>
+              <option value="landmark">Landmark</option>
+            </select>
+          </span>
+
+          <span>
+            <label for="experienceType">Typ av upplevelse</label>
+            <select id="experienceType">
+              <option value="">Alla</option>
+              <option value="interactive">Interaktiv</option>
+              <option value="static">Klassisk (se & läsa)</option>
+            </select>
+          </span>
+          <span>
+            <label for="localSignificance"> Lokala pärlor </label>
+            <input type="checkbox" id="localSignificance" />
+          </span>
+        </div>
+        <div class="row gap-4 width-full">
+          <button class="btn btn-outline">Rensa filter</button>
+          <button id="filterBtn" class="btn btn-primary width-full">
+            Filtrera
+          </button>
+        </div>
       </div>
     </div>
     <div id="foodFilters" hidden>
@@ -149,18 +197,18 @@
         Wifi
       </label>
       <label for="freeParking">
-        <input type="checkbox" id="freeParking">
+        <input type="checkbox" id="freeParking" />
         Gratis parkering
       </label>
-      <label for="petFriendly">
-        <input type="checkbox" id="petFriendly">
+      <label for="petFriednly">
+        <input type="checkbox" id="petFriendly" />
         Tillåter husdjur
       </label>
     </div>
-    <div id="toggleButtons" hidden>
-      <button id="listViewBtn">Lista</button>
-      <button id="mapViewBtn">Karta</button>
     </div>
+    <button id="btn-float-SeeAndDo" class="btn-float btn btn-primary">
+      Filter
+    </button>
     <section id="results"></section>
     <div id="pagination">
       <button id="prevPageBtn">Föregående</button>
@@ -168,5 +216,48 @@
       <button id="nextPageBtn">Nästa</button>
     </div>
     <hr />
+    <section class="grid gap-6" id="results">
+      <div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content">
+          <h3>High Chaparral</h3>
+          <h4 class="text-faded">Kulltorp</h4>
+          <span class="gap-2">
+            <span class="badge badge-red">Temapark</span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content">
+          <h3>High Chaparral</h3>
+          <h4 class="text-faded">Kulltorp</h4>
+          <span class="gap-2">
+            <span class="badge badge-red">Temapark</span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content">
+          <h3>High Chaparral</h3>
+          <h4 class="text-faded">Kulltorp</h4>
+          <span class="gap-2">
+            <span class="badge badge-red">Temapark</span>
+          </span>
+        </span>
+      </div>
+    </section>
   </body>
 </html>
