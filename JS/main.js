@@ -497,6 +497,7 @@ async function applySeeAndDoFilters(resetPage = true) {
   setFilterGroupDisabled(attractionFilters, false);
 }
 
+// Hämtar alla establishments från SMAPI eller returnerar data som redan finns cachad.
 async function getAllEstablishments() {
   if (allEstablishments.length === 0) {
     allEstablishments = await getData("establishment");
