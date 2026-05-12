@@ -83,6 +83,12 @@ const pageNumber = document.getElementById("pageNumber");
 const pagination = document.getElementById("pagination");
 pagination.hidden = true;
 
+// DOM-element: sortering
+const sortList = document.getElementById("sortList");
+sortList.addEventListener("change", () => {
+  reloadCurrentCategory();
+})
+
 const resetFilterBtn = document.getElementById("resetFilterBtn");
 resetFilterBtn.addEventListener("click", () => {
   resetFilters();
@@ -295,7 +301,7 @@ async function loadSeeAndDo() {
     // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
     const items = await getData(
       section.controller,
-      {},
+      getSortApiFilters(),
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
     );
@@ -326,7 +332,11 @@ function getActivityFilterValues() {
 
 // Hämtar aktiviteter baserat på både API-filter och egna JS-filter
 async function getFilteredActivities() {
-  const apiFilters = buildActivityApiFilters(getActivityFilterValues()); // Hämtar API-filter
+  const apiFilters = {
+    ...buildActivityApiFilters(getActivityFilterValues()),
+    ...getSortApiFilters(),
+  }; // Hämtar API-filter
+
   const selectedType = activityType.value;
   const usePagination = shouldUsePagination();
 
@@ -377,7 +387,11 @@ function getAttractionFilterValues() {
 // Funktion för att hämta sevärdheter från SMAPI baserat på användarens val
 async function getFilteredAttractions() {
   // Bygger filter som SMAPI förstår direkt, kopplas till funktion i filter.js
-  const apiFilters = buildAttractionApiFilters(getAttractionFilterValues());
+  const apiFilters = {
+    ...buildAttractionApiFilters(getAttractionFilterValues()),
+    ...getSortApiFilters(),
+
+  };
 
   // Hämtar vald typ av sevärdhet i filtret. T.ex. Historia, natur etc.
   const selectedType = attractionType.value;
@@ -622,7 +636,10 @@ async function applyFoodFilters(resetPage = true) {
 
   const food = categories.food;
   const values = getFoodFilterValues();
-  const apiFilters = buildFoodApiFilters(values);
+  const apiFilters = {
+    ...buildFoodApiFilters(values),
+    ...getSortApiFilters(),
+  }
 
   const usePagination = shouldUsePagination();
 
@@ -680,7 +697,7 @@ async function loadFood() {
   const food = categories.food;
   let items = await getData(
     food.controller,
-    food.filters,
+    getSortApiFilters(),
     usePagination ? currentPage : null,
     usePagination ? perPage : null,
   );
@@ -723,7 +740,10 @@ async function applyAccommodationFilters(resetPage = true) {
   const values = getAccommodationFilterValues();
 
   // Bygger API-filter som accommodation-controllern förstår.
-  const apiFilters = buildAccommodationApiFilters(values);
+  const apiFilters = {
+    ...buildAccommodationApiFilters(values),
+    ...getSortApiFilters(),
+  };
 
   const usePagination = shouldUsePagination();
 
@@ -774,7 +794,7 @@ async function loadAccommodation() {
 
   let items = await getData(
     accommodation.controller,
-    accommodation.filters,
+    getSortApiFilters(),
     usePagination ? currentPage : null,
     usePagination ? perPage : null,
   );
@@ -963,4 +983,22 @@ function showFiltersForCategory() {
   } else if (activeCategory === "accommodation") {
     accommodationFilters.hidden = false;
   }
+}
+
+function getSortApiFilters() {
+  if (sortList.value === "rating") {
+    return {
+      order_by: "rating",
+      sort_in: "DESC",
+    }
+  }
+
+  if (sortList.value === "name") {
+    return {
+      order_by: "name",
+      sort_in: "ASC",
+    }
+  }
+
+  return {};
 }
