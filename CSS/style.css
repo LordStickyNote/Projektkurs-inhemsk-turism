@@ -274,7 +274,7 @@ a {
   background-color: var(--color-bg-card);
   color: var(--color-text);
   border-radius: var(--radius-sm);
-  padding: calc(var(--space-5) / 2);
+  padding: calc(var(--space-2) / 2);
 }
 .btn-square:hover {
   border: 1px solid var(--color-primary-hover);
@@ -291,8 +291,8 @@ a {
 
 .btn-square svg {
   fill: var(--color-text);
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 }
 
 /*---- button sizes ----*/
