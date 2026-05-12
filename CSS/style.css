@@ -232,6 +232,7 @@ a {
   left: 0;
   bottom: 0;
   margin: var(--space-6);
+  z-index: 2000;
   -webkit-box-shadow:
     0px 10px 13px -7px #000000,
     5px 5px 10px 11px rgba(0, 0, 0, 0.07);
@@ -366,7 +367,7 @@ a {
 
 /* active tab */
 
-.tab:active {
+.tab.active {
   background: var(--color-primary);
   border: var(--color-primary) solid 2px;
   color: var(--color-bg);
@@ -543,8 +544,13 @@ article {
 
 /*---- map ----*/
 #map {
-  height: 500px;
+  height: 600px;
   border-radius: var(--radius-lg);
+}
+
+.map-skeleton-loader {
+  height: 600px;
+  border-radius: var(--radius-xl);
 }
 
 /*==== form ====*/
@@ -610,7 +616,7 @@ input[type="checkbox"]:checked {
   position: fixed;
   height: 100vh;
   width: 100vw;
-  z-index: 30;
+  z-index: 3000;
   backdrop-filter: brightness(80%) blur(2px);
   margin: calc(2 * calc(var(--space-3) * (-1)));
   display: none;

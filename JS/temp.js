@@ -1,16 +1,11 @@
-let SeeAndDoFiltersMenu = document.getElementById("filter-menu-containerSeeAndDo");
-let SeeAndDoFiltersMenuFilterBtn = document.getElementById("filterBtn");
+const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
+const openFilterBtn = document.getElementById("btn-float-SeeAndDo");
+const closeFilterBtn = document.getElementById("filterBtn");
 
-let btnFloatSeeAndDo = document.getElementById("btn-float-SeeAndDo");
+openFilterBtn.addEventListener("click", () => {
+    filterMenu.style.display = "flex";
+})
 
-btnFloatSeeAndDo.addEventListener("click", () => (showPopup(SeeAndDoFiltersMenu)))
-
-SeeAndDoFiltersMenuFilterBtn.addEventListener("click", () => (closePopup(SeeAndDoFiltersMenu)))
-
-
-function closePopup(popup){
-    popup.style.display="none";
-}
-function showPopup(popup){
-    popup.style.display="flex";
-}
+closeFilterBtn.addEventListener("click", () => {
+    filterMenu.style.display = "none";
+})
