@@ -160,9 +160,13 @@ function shouldUsePagination() {
   }
 
   const hasFoodType = activeCategory === "food" && foodType.value;
+
+  const hasActivityType = activeCategory === "seeAndDo" && activityType.value;
+  const hasAttractionType = activeCategory === "seeAndDo" && attractionType.value;
+
   const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
 
-  return !hasFoodType && !hasEstablishmentFilters;
+  return !hasFoodType && !hasEstablishmentFilters && !hasActivityType && !hasAttractionType;
 }
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
@@ -909,6 +913,9 @@ function resetFilters() {
   hasWifi.checked = false;
   freeParking.checked = false;
   petFriendly.checked = false;
+
+  setFilterGroupDisabled(activityFilters, false);
+  setFilterGroupDisabled(attractionFilters, false);
 }
 
 // Aktiverar eller inaktiverar "Återställ filter"-knappen beroende på om något filter är aktivt eller inte.
