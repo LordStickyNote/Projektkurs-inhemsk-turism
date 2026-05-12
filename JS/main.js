@@ -88,6 +88,7 @@ const sortList = document.getElementById("sortList");
 sortList.addEventListener("change", () => {
   reloadCurrentCategory();
 })
+const toggleAndSortingDiv = document.getElementById("toggleAndSortingDiv");
 
 const resetFilterBtn = document.getElementById("resetFilterBtn");
 resetFilterBtn.addEventListener("click", () => {
@@ -193,6 +194,7 @@ function hideFilters() {
   seeAndDoFilters.hidden = true;
   foodFilters.hidden = true;
   accommodationFilters.hidden = true;
+  toggleAndSortingDiv.hidden = false;
 }
 
 // Funktion för att köra skeleton-loaders innan de riktiga "korten" laddats in
