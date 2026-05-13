@@ -110,3 +110,26 @@ function saveAnswer(question, value) {
 
     console.log(quizState)
 }
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+    } else {
+        
+    }
+})
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+    }
+})
+
+function mapQuizToFilters() {
+    return {}
+}
+
+renderQuestion();
+

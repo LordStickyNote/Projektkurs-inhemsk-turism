@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz</title>
 
+    <script type="module" src="JS/quiz.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,40 +18,23 @@
   <body class="height-screen" style="padding: var(--space-10)">
     <div class="justify-center height-full stack gap-10">
       <div class="btn-back">
-        <a><h6 class="btn">< Tillbaka</h6></a>
+        <a><h6 class="btn">Tillbaka</h6></a>
       </div>
       <div class="gap-4 stack">
-        <h1 class="display">Vad för typ av ställe är du mest intreserad av?</h1>
+        <h1 class="display"></h1>
         <div class="row gap-3">
           <div class="progress-bar-container card width-full">
             <div class="progress-bar"></div>
           </div>
-          <h6>1/4</h6>
+          <h6>1/5</h6>
         </div>
       </div>
       <div class="stack gap-6" id="quiz-container">
-        <label class="card-answer card row-between row">
-          <h3>Natur</h3>
-          <input type="radio" name="card-awnser" id="" />
-        </label>
-        <label class="card-answer card row-between row">
-          <h3>Natur</h3>
-          <input type="radio" name="card-awnser" id="" />
-        </label>
-        <label class="card-answer card row-between row">
-          <h3>Natur</h3>
-          <input type="radio" name="card-awnser" id="" /> </label
-        ><label class="card-answer card row-between row">
-          <h3>Natur</h3>
-          <input type="radio" name="card-awnser" id="" />
-        </label>
-        <label class="align-center justify-center text-faded"
-          ><h6>Hoppa över frågan</h6></label
-        >
+       
       </div>
       <div class="row gap-4">
-        <button class="width-full btn btn-secondary">Föregående</button>
-        <button class="width-full btn btn-primary">Nästa</button>
+        <button id="prevBtn" class="width-full btn btn-secondary">Föregående</button>
+        <button id="nextBtn" class="width-full btn btn-primary">Nästa</button>
       </div>
     </div>
   </body>
