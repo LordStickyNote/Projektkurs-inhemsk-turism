@@ -86,6 +86,12 @@ function renderQuestion() {
         input.name = question.id;
         input.value = option.value;
 
+        if (question.multiple) {
+            input.checked = quizState[question.id].includes(option.value);
+        } else {
+            input.checked = quizState[question.id] === option.value;
+        }
+
         input.addEventListener("change", () => {
             saveAnswer(question, option.value);
         });
