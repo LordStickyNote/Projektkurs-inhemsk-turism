@@ -87,7 +87,7 @@ function renderQuestion() {
         input.value = option.value;
 
         input.addEventListener("change", () => {
-            
+            saveAnswer(question, option.value);
         });
 
         label.innerHTML = `<h3>${option.label}</h3>`;
@@ -95,4 +95,18 @@ function renderQuestion() {
 
         container.appendChild(label);
     }
+}
+
+function saveAnswer(question, value) {
+    if (question.multiple) {
+       if (quizState[question.id].includes(value)) {
+        quizState[question.id] = quizState[question.id].filter(item => item !== value);
+       } else {
+        quizState[question.id].push(value);
+       }
+    } else {
+        quizState[question.id] = value;
+    }
+
+    console.log(quizState)
 }
