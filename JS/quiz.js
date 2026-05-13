@@ -1,9 +1,11 @@
+let currentQuestionIndex = 0;
+
 const quizState = {
-    interest: "",
+    interest: [],
     effort: "",
     childFriendly: false,
-    preferences: "",
-    foodTypes: ""
+    preferences: [],
+    foodTypes: []
 }
 
 const quizQuestions = [
@@ -66,3 +68,31 @@ const quizQuestions = [
         ]
     }
 ]
+
+function renderQuestion() {
+    const question = quizQuestions[currentQuestionIndex];
+    const container = document.getElementById("quiz-container");
+
+    document.querySelector("h1").textContent = question.title;
+
+    container.innerHTML = "";
+
+    for (const option of question.options) {
+        const label = document.createElement("label");
+        label.className = "card-answer card row-between row";
+
+        const input = document.createElement("input");
+        input.type = question.multiple ? "checkbox" : "radio";
+        input.name = question.id;
+        input.value = option.value;
+
+        input.addEventListener("change", () => {
+            
+        });
+
+        label.innerHTML = `<h3>${option.label}</h3>`;
+        label.appendChild(input);
+
+        container.appendChild(label);
+    }
+}
