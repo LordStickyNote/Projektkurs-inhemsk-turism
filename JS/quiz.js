@@ -144,12 +144,27 @@ prevBtn.addEventListener("click", () => {
 });
 
 function mapQuizToFilters() {
+    const activityThemes = [];
+
+    if (quizState.interest.includes("animals")) {
+        activityThemes.push("animals");
+    }
+
+    if (quizState.interest.includes("adventure")) {
+        activityThemes.push("adventure");
+    }
+
+    if (quizState.interest.includes("water")) {
+        activityThemes.push("swim")
+    }
+
   return {
     activity: {
         effort: quizState.effort,
         childFriendly: quizState.childFriendly || quizState.preferences.includes("familyFriendly"),
         involvesAnimals: quizState.interest.includes("animals"),
-        involvesWater: quizState.interest.includes("water") || quizState.preferences.includes("nearWater")
+        involvesWater: quizState.interest.includes("water") || quizState.preferences.includes("nearWater"),
+        activityThemes
     },
 
     attraction: {
@@ -170,17 +185,53 @@ function mapQuizToFilters() {
  async function getQuizActivities(filters) {
     const apiFilters = buildActivityApiFilters(filters.activity);
 
-    const items = await getData("activity", apiFilters);
+    if (filters.activity.activityThemes.length === 0) {
+        return await getData("activity", apiFilters);
+    }
 
-    return items;
+    const requests = [];
+
+    for (const theme of filters.activity.acitvityThemes) {
+        const descriptions = activityTypeMap[theme];
+
+        for (const description of descriptions) {
+            requests.push(
+                getData("activity", {
+                    ...apiFilters,
+                    descriptions: description
+                })
+            );
+        }
+    }
+
+    const results = await Promise.all(requests);
+    return results.flat();
  }
 
  async function getQuizAttractions(filters) {
     const apiFilters = buildAttractionApiFilters(filters.attraction);
 
-    const items = await getData("attraction", apiFilters);
+    if (filters.attraction.types.length === 0) {
+        return await getData("attraction", apiFilters);
+    }
 
-    return items;
+    const requests = [];
+
+    for (const type of filters.attraction.types) {
+        const categories = attractionTypeMap[type];
+
+        for (const category of categories) {
+            requests.push(
+                getData("attraction", {
+                    ...apiFilters,
+                    categories: category
+                })
+            );
+        }
+    }
+
+    const results = await Promise.all(requests);
+    return results.flat();
  }
 
 async function showResults() {
