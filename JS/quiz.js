@@ -139,6 +139,7 @@ nextBtn.addEventListener("click", () => {
     currentQuestionIndex++;
     renderQuestion();
   } else {
+    
   }
 });
 
@@ -150,7 +151,33 @@ prevBtn.addEventListener("click", () => {
 });
 
 function mapQuizToFilters() {
-  return {};
+  return {
+    activity: {
+        effort: quizState.effort,
+        childFriendly: quizState.childFriendly || quizState.preferences.includes("familyFriendly"),
+        involvesAnimals: quizState.interest.includes("animals"),
+        involvesWater: quizState.interest.includes("water") || quizState.preferences.includes("nearWater")
+    },
+
+    attraction: {
+        childFriendly: quizState.childFriendly || quizState.preferences.includes("familyFriendly"),
+        localSignificance: quizState.preferences.includes("localGem"),
+        types: quizState.interest.filter(value => ["nature", "history", "art"].includes(value))
+    },
+
+    food: {
+        types: quizState.foodTypes,
+        minRating: quizState.preferences.includes("highRating") ? 4 : "",
+        maxPrice: quizState.preferences.includes("budget") ? 200 : ""
+    },
+
+    preferences: {
+        highRating: quizState.preferences.includes("highRating"),
+        budget: quizState.preferences.includes("budget"),
+        localGem: quizState.preferences.includes("localGem"),
+        nearWater: quizState.preferences.includes("nearWater")
+    }
+  };
 }
 
 renderQuestion();
