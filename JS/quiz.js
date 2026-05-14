@@ -1,3 +1,13 @@
+import { getData } from "./api.js";
+import { 
+    buildActivityApiFilters,
+    buildAttractionApiFilters,
+    buildFoodApiFilters,
+    activityTypeMap,
+    attractionTypeMap,
+    filterFood
+ } from "./filters.js"
+
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 
@@ -139,7 +149,7 @@ nextBtn.addEventListener("click", () => {
     currentQuestionIndex++;
     renderQuestion();
   } else {
-    
+    showResults();
   }
 });
 
@@ -178,6 +188,16 @@ function mapQuizToFilters() {
         nearWater: quizState.preferences.includes("nearWater")
     }
   };
+}
+
+async function showResults() {
+    const filters = mapQuizToFilters();
+
+    console.log("Quiz klart:", quizState)
+    console.log("Filter:", filters)
+
+    document.querySelector("h1").textContent = "Dina rekommendationer";
+    document.getElementById("quiz-container").innerHTML = `<p>Här ska resultat visas.</p>`
 }
 
 renderQuestion();
