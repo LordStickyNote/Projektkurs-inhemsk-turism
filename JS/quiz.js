@@ -2,10 +2,8 @@ import { getData } from "./api.js";
 import { 
     buildActivityApiFilters,
     buildAttractionApiFilters,
-    buildFoodApiFilters,
     activityTypeMap,
     attractionTypeMap,
-    filterFood
  } from "./filters.js"
 
 const nextBtn = document.getElementById("nextBtn");
@@ -18,7 +16,6 @@ const quizState = {
   effort: "",
   childFriendly: false,
   preferences: [],
-  foodTypes: [],
 };
 
 const quizQuestions = [
@@ -33,7 +30,6 @@ const quizQuestions = [
       { label: "Bad & vatten", value: "water" },
       { label: "Djur & familjeaktiviteter", value: "animals" },
       { label: "Äventyr", value: "adventure" },
-      { label: "Mat", value: "food" },
     ],
   },
   {
@@ -66,20 +62,7 @@ const quizQuestions = [
       { label: "Nära vatten", value: "nearWater" },
       { label: "Familjevänligt", value: "familyFriendly" },
     ],
-  },
-  {
-    id: "foodTypes",
-    title: "Vilken typ av mat gillar du?",
-    multiple: true,
-    options: [
-      { label: "Asiatiskt", value: "asian" },
-      { label: "Pizza", value: "pizza" },
-      { label: "Hamburgare", value: "hamburgare" },
-      { label: "Husman", value: "husman" },
-      { label: "Vegetariskt", value: "vegetarian" },
-      { label: "Café & fika", value: "cafe" },
-    ],
-  },
+  }
 ];
 
 function renderQuestion() {
@@ -175,12 +158,6 @@ function mapQuizToFilters() {
         types: quizState.interest.filter(value => ["nature", "history", "art"].includes(value))
     },
 
-    food: {
-        types: quizState.foodTypes,
-        minRating: quizState.preferences.includes("highRating") ? 4 : "",
-        maxPrice: quizState.preferences.includes("budget") ? 200 : ""
-    },
-
     preferences: {
         highRating: quizState.preferences.includes("highRating"),
         budget: quizState.preferences.includes("budget"),
@@ -190,6 +167,22 @@ function mapQuizToFilters() {
   };
 }
 
+ async function getQuizActivities(filters) {
+    const apiFilters = buildActivityApiFilters(filters.activity);
+
+    const items = await getData("activity", apiFilters);
+
+    return items;
+ }
+
+ async function getQuizAttractions(filters) {
+    const apiFilters = buildAttractionApiFilters(filters.attraction);
+
+    const items = await getData("attraction", apiFilters);
+
+    return items;
+ }
+
 async function showResults() {
     const filters = mapQuizToFilters();
 
@@ -197,7 +190,18 @@ async function showResults() {
     console.log("Filter:", filters)
 
     document.querySelector("h1").textContent = "Dina rekommendationer";
-    document.getElementById("quiz-container").innerHTML = `<p>Här ska resultat visas.</p>`
+    document.getElementById("quiz-container").innerHTML = `<p>Laddar...</p>`;
+
+    const activities = await getQuizActivities(filters);
+    const attractions = await getQuizAttractions(filters);
+
+    console.log("Aktiviteter:", activities)
+    console.log("Sevärdheter:", attractions)
+
+    document.getElementById("quiz-container").innerHTML = `
+    <p>Hittade ${activities.length} aktiviteter</p>
+    <p>Hittade ${attractions.length} sevärdheter</p>
+    `
 }
 
 renderQuestion();
