@@ -255,4 +255,40 @@ async function showResults() {
     `
 }
 
+function scoreItem(item, filters) {
+    let score = 0;
+
+    if (item.rating) {
+        score += Number(item.rating);
+    }
+
+    if (filters.preferences?.highRating && Number(item.rating) >= 4) {
+        score += 3;
+    }
+
+    if (filters.preferences?.localGem) {
+        score += 2;
+    }
+
+    if (filters.preferences?.nearWater) {
+        const text = `${item.name} ${item.description} ${item.search_tags}`.toLowerCase();
+
+        if (
+            text.includes("vatten") ||
+            text.includes("bad") ||
+            text.includes("sjö") ||
+            text.includes("strand") ||
+            text.includes("hav")
+        ) {
+            score += 3;
+        }
+    }
+
+    if (filters.preferences?.budget && item.price_range) {
+        score += 1;
+    }
+
+    return score;
+}
+
 renderQuestion();
