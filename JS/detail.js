@@ -61,6 +61,8 @@ async function loadDetailPage() {
     place.rating,
   ).toFixed(1);
 
+  const websiteLink = document.querySelector("#detail-website");
+
   if (place.website) {
     websiteLink.href = place.website;
     websiteLink.textContent = place.website;
