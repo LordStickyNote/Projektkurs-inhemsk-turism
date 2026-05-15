@@ -22,6 +22,8 @@ const quizState = {
 let quizResults = [];
 let quizView = "list";
 
+let allEstablishments = [];
+
 const quizQuestions = [
   {
     id: "interest",
@@ -331,10 +333,14 @@ async function showResults() {
       </div>`;
     }
 
+    document.getElementById("quizBtnDiv").hidden = false;
+
     const activities = await getQuizActivities(filters);
     const attractions = await getQuizAttractions(filters);
 
-    const allResults = [...activities, ...attractions];
+    let allResults = [...activities, ...attractions];
+
+    allResults = await useEstablishmentForQuizCards(allResults);
 
     const topResults = getTopResults(allResults, filters, 12)
 
@@ -541,6 +547,27 @@ function scoreItem(item, filters) {
     }
 
     return score;
+}
+
+async function getAllEstablishments() {
+    if (allEstablishments.length === 0) {
+        allEstablishments = await getData("establishment");
+    }
+
+    return allEstablishments;
+}
+
+async function useEstablishmentForQuizCards(items) {
+    const establishments = await getAllEstablishments();
+
+    return items.map(item => {
+        const establishment = establishments.find(place => String(place.id) === String(item.id));
+
+        return {
+            ...item,
+            ...establishment
+        }
+    });
 }
 
 function getTopResults(items, filters, limit = 12) {
