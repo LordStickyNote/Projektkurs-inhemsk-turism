@@ -30,6 +30,9 @@ export function renderSeeAndDo(sections, container) {
         </span>
       </div>
             `;
+      article.addEventListener("click", () => {
+        window.location.href = `detail.html?id=${item.id}`;
+      });
 
       sectionElement.append(article);
     }
