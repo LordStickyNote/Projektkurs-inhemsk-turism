@@ -191,7 +191,7 @@ function mapQuizToFilters() {
 
     const requests = [];
 
-    for (const theme of filters.activity.acitvityThemes) {
+    for (const theme of filters.activity.activityThemes) {
         const descriptions = activityTypeMap[theme];
 
         for (const description of descriptions) {
@@ -235,30 +235,116 @@ function mapQuizToFilters() {
  }
 
 async function showResults() {
+    document.getElementById("quiz-wrapper").style.display = "none";
+    document.getElementById("results").hidden = false;
+
     const filters = mapQuizToFilters();
 
-    console.log("Quiz klart:", quizState)
-    console.log("Filter:", filters)
-
-    document.querySelector("h1").textContent = "Dina rekommendationer";
-    document.getElementById("quiz-container").innerHTML = `<p>Laddar...</p>`;
+    document.getElementById("results").innerHTML = `
+  <section class="grid gap-6">
+  <div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div><div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div><div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div><div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div>
+      <div class="card card-listing">
+        <div class="sl-img"></div>
+        <span class="card-listing-content width-full">
+          <div class="sl-text sl-text-lg"></div>
+          <div class="sl-text sl-text-md"></div>
+          
+          <span class="gap-2">
+            <span class="badge sl-badge"></span>
+          </span>
+        </span>
+      </div>
+      </section>`;
 
     const activities = await getQuizActivities(filters);
     const attractions = await getQuizAttractions(filters);
 
-    console.log("Aktiviteter:", activities)
-    console.log("Sevärdheter:", attractions)
+    const allResults = [...activities, ...attractions];
 
-    
+    const topResults = getTopResults(allResults, filters, 12)
 
-    document.getElementById("quiz-container").innerHTML = `
-    <p>Hittade ${activities.length} aktiviteter</p>
-    <p>Hittade ${attractions.length} sevärdheter</p>
+    document.getElementById("results").innerHTML = `
+    <h1 class="display">Dina rekommendationer</h1>
+    <section class="grid width-full gap-6">
+    ${topResults.map(item => `
+            <div class="card card-listing">
+        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <span class="card-listing-content width-full">
+          <h3>${item.name}</h3>
+          <h4 class="text-faded">${item.city}</h4>
+          <span class="row row-between">
+              <span class="gap-2">
+                <span class="badge badge-red">${item.description}</span>
+              </span>
+              <span class="row">
+              <h4>${Math.trunc(item.rating)}</h4><svg class="star" viewBox="0 0 16 16">
+              <path
+                d="M7.71954 0.445459C7.86922 -0.0151958 8.52092 -0.0151964 8.6706 0.445459L9.76667 3.81881C9.8336 4.02483 10.0256 4.16431 10.2422 4.16431H13.7892C14.2735 4.16431 14.4749 4.78411 14.083 5.06881L11.2135 7.15366C11.0383 7.28098 10.9649 7.50667 11.0319 7.71268L12.1279 11.086C12.2776 11.5467 11.7504 11.9298 11.3585 11.6451L8.48896 9.5602C8.31372 9.43288 8.07642 9.43288 7.90118 9.5602L5.03163 11.6451C4.63977 11.9298 4.11253 11.5467 4.26221 11.086L5.35828 7.71268C5.42521 7.50667 5.35188 7.28098 5.17664 7.15366L2.30709 5.06881C1.91524 4.78411 2.11662 4.16431 2.60099 4.16431H6.14794C6.36455 4.16431 6.55653 4.02483 6.62347 3.81881L7.71954 0.445459Z"
+              ></path></svg
+            >
+              </span>
+          </span>
+        </span>
+      </div>`).join("")}
+        </section>
     `
 }
 
 function scoreItem(item, filters) {
     let score = 0;
+
+    
 
     if (item.rating) {
         score += Number(item.rating);

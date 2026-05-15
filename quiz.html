@@ -16,7 +16,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <body class="height-screen" style="padding: var(--space-10)">
-    <div class="justify-center height-full stack gap-10">
+    <div id="quiz-wrapper" class="justify-center height-full stack gap-10">
       <div class="btn-back">
         <a><h6 class="btn">Tillbaka</h6></a>
       </div>
@@ -30,12 +30,12 @@
         </div>
       </div>
       <div class="stack gap-6" id="quiz-container">
-       
       </div>
       <div class="row gap-4">
         <button id="prevBtn" class="width-full btn btn-secondary">Föregående</button>
         <button id="nextBtn" class="width-full btn btn-primary">Nästa</button>
       </div>
     </div>
+    <section id="results" hidden></section>
   </body>
 </html>
