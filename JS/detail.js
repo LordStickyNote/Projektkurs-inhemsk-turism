@@ -60,6 +60,14 @@ async function loadDetailPage() {
   document.querySelector("#detail-rating").textContent = Number(
     place.rating,
   ).toFixed(1);
+
+  if (place.website) {
+    websiteLink.href = place.website;
+    websiteLink.textContent = place.website;
+  } else {
+    websiteLink.textContent = "Webbplats saknas";
+    websiteLink.removeAttribute("href");
+  }
 }
 
 loadDetailPage();
