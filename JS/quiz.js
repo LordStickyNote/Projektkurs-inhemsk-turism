@@ -11,6 +11,9 @@ const prevBtn = document.getElementById("prevBtn");
 
 let currentQuestionIndex = 0;
 
+let quizResults = [];
+let quizView = "list";
+
 const quizState = {
   interest: [],
   effort: "",
@@ -40,15 +43,16 @@ const quizQuestions = [
       { label: "Lugnt", value: "LOW" },
       { label: "Medel", value: "MEDIUM" },
       { label: "Aktivt", value: "HIGH" },
+      { label: "Ingen preferens", value: "" }
     ],
   },
   {
     id: "childFriendly",
-    title: "Reser du med barn?",
+    title: "Är barnvänliga aktiviteter viktiga för dig?",
     multiple: false,
     options: [
       { label: "Ja", value: true },
-      { label: "Nej", value: false },
+      { label: "Spelar ingen roll", value: null }
     ],
   },
   {
@@ -128,7 +132,18 @@ function saveAnswer(question, value) {
 }
 
 nextBtn.addEventListener("click", () => {
-  if (currentQuestionIndex < quizQuestions.length - 1) {
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+
+    if (currentQuestion.id === "interest" && quizState.interest.length === 0) {
+        alert("Välj minst ett intresse");
+        return;
+    }
+
+    if (currentQuestionIndex === 2) {
+        nextBtn.innerHTML = "Visa resultat"
+    }
+  
+    if (currentQuestionIndex < quizQuestions.length - 1) {
     currentQuestionIndex++;
     renderQuestion();
   } else {
@@ -184,7 +199,7 @@ function mapQuizToFilters() {
 }
 
  async function getQuizActivities(filters) {
-    const apiFilters = buildActivityApiFilters(filters.activity);
+    const apiFilters = buildActivityApiFilters({...filters.activity, effort: "", childFriendly: null});
 
     if (filters.activity.activityThemes.length === 0) {
         return await getData("activity", apiFilters);
@@ -210,7 +225,7 @@ function mapQuizToFilters() {
  }
 
  async function getQuizAttractions(filters) {
-    const apiFilters = buildAttractionApiFilters(filters.attraction);
+    const apiFilters = buildAttractionApiFilters({...filters.attraction, childFriendly: null});
 
     if (filters.attraction.types.length === 0) {
         return await getData("attraction", apiFilters);
@@ -355,7 +370,7 @@ function scoreItem(item, filters) {
             text.includes("galleri") ||
             text.includes("kultur")
         ) {
-            score += 8;
+            score += 12;
         }
     }
 
@@ -367,7 +382,7 @@ function scoreItem(item, filters) {
             text.includes("kyrka") ||
             text.includes("museum")
         ) {
-            score += 8;
+            score += 12;
         }
     }
 
@@ -379,7 +394,7 @@ function scoreItem(item, filters) {
             text.includes("vandring") ||
             text.includes("skog")
         ) {
-            score += 8;
+            score += 12;
         }
     }
 
@@ -392,7 +407,7 @@ function scoreItem(item, filters) {
             text.includes("paintball") ||
             text.includes("gokart")
         ) {
-            score += 8;
+            score += 12;
         }
     }
 
@@ -406,7 +421,7 @@ function scoreItem(item, filters) {
             text.includes("simhall") ||
             text.includes("hav")
         ) {
-            score += 8;
+            score += 12;
         }
     }
 
@@ -419,8 +434,12 @@ function scoreItem(item, filters) {
             text.includes("djurpark") ||
             text.includes("gård")
         ) {
-            score += 8;
+            score += 12;
         }
+    }
+
+    if (quizState.effort && item.physical_efforts === quizState.effort) {
+        score += 4;
     }
 
     if (item.rating) {
@@ -457,7 +476,7 @@ function scoreItem(item, filters) {
             text.includes("familj") ||
             text.includes("lek")
         ) {
-            score += 5;
+            score += 2;
         }
     } 
 
