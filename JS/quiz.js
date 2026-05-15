@@ -177,7 +177,8 @@ function mapQuizToFilters() {
         highRating: quizState.preferences.includes("highRating"),
         budget: quizState.preferences.includes("budget"),
         localGem: quizState.preferences.includes("localGem"),
-        nearWater: quizState.preferences.includes("nearWater")
+        nearWater: quizState.preferences.includes("nearWater"),
+        familyFriendly: quizState.preferences.includes("familyFriendly")
     }
   };
 }
@@ -344,7 +345,83 @@ async function showResults() {
 function scoreItem(item, filters) {
     let score = 0;
 
-    
+    const text = `${item.name} ${item.description} ${item.search_tags}`.toLowerCase();
+
+    if (quizState.interest.includes("art")) {
+
+        if (
+            text.includes("museum") ||
+            text.includes("konst") ||
+            text.includes("galleri") ||
+            text.includes("kultur")
+        ) {
+            score += 8;
+        }
+    }
+
+    if (quizState.interest.includes("history")) {
+
+        if (
+            text.includes("historia") ||
+            text.includes("slott") ||
+            text.includes("kyrka") ||
+            text.includes("museum")
+        ) {
+            score += 8;
+        }
+    }
+
+    if (quizState.interest.includes("nature")) {
+
+        if (
+            text.includes("natur") ||
+            text.includes("park") ||
+            text.includes("vandring") ||
+            text.includes("skog")
+        ) {
+            score += 8;
+        }
+    }
+
+    if (quizState.interest.includes("adventure")) {
+
+        if (
+            text.includes("äventyr") ||
+            text.includes("zipline") ||
+            text.includes("klättring") ||
+            text.includes("paintball") ||
+            text.includes("gokart")
+        ) {
+            score += 8;
+        }
+    }
+
+    if (quizState.interest.includes("water")) {
+
+        if (
+            text.includes("bad") ||
+            text.includes("vatten") ||
+            text.includes("sjö") ||
+            text.includes("strand") ||
+            text.includes("simhall") ||
+            text.includes("hav")
+        ) {
+            score += 8;
+        }
+    }
+
+    if (quizState.interest.includes("animals")) {
+
+        if (
+            text.includes("djur") ||
+            text.includes("älg") ||
+            text.includes("zoo") ||
+            text.includes("djurpark") ||
+            text.includes("gård")
+        ) {
+            score += 8;
+        }
+    }
 
     if (item.rating) {
         score += Number(item.rating);
@@ -359,7 +436,6 @@ function scoreItem(item, filters) {
     }
 
     if (filters.preferences?.nearWater) {
-        const text = `${item.name} ${item.description} ${item.search_tags}`.toLowerCase();
 
         if (
             text.includes("vatten") ||
@@ -371,6 +447,19 @@ function scoreItem(item, filters) {
             score += 3;
         }
     }
+
+    if (filters.preferences?.familyFriendly || quizState.childFriendly) {
+
+        if (
+            item.child_friendly === "Y" ||
+            item.child_support === "Y" ||
+            text.includes("barn") ||
+            text.includes("familj") ||
+            text.includes("lek")
+        ) {
+            score += 5;
+        }
+    } 
 
     if (filters.preferences?.budget && item.price_range) {
         score += 1;
