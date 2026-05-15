@@ -22,14 +22,44 @@ async function loadDetailPage() {
   }
 
   document.querySelector("#detail-name").textContent = place.name;
+
   document.querySelector("#detail-location-type").textContent =
     `${place.city} | ${place.description}`;
+
   document.querySelector("#detail-price").textContent =
     `${place.price_range} Kr`;
+
   document.querySelector("#detail-description").textContent =
     place.text || place.abstract || place.description || "Beskrivning saknas.";
+
   document.querySelector("#detail-phone").textContent =
     place.phone_number || "Telefon saknas";
+
+  document.querySelector("#detail-info-price").textContent =
+    `${place.price_range} Kr`;
+
+  document.querySelector("#detail-outdoors").textContent = yesOrNo(
+    place.outdoors,
+  );
+
+  document.querySelector("#detail-child-discount").textContent = yesOrNo(
+    place.child_discount,
+  );
+
+  document.querySelector("#detail-student-discount").textContent = yesOrNo(
+    place.student_discount,
+  );
+
+  document.querySelector("#detail-senior-discount").textContent = yesOrNo(
+    place.senior_discount,
+  );
+
+  document.querySelector("#detail-review-count").textContent =
+    `${place.num_reviews}st`;
+
+  document.querySelector("#detail-rating").textContent = Number(
+    place.rating,
+  ).toFixed(1);
 }
 
 loadDetailPage();
