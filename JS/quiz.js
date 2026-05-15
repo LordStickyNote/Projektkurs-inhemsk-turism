@@ -1,3 +1,4 @@
+import { renderMap } from "./map.js";
 import { getData } from "./api.js";
 import { 
     buildActivityApiFilters,
@@ -11,15 +12,15 @@ const prevBtn = document.getElementById("prevBtn");
 
 let currentQuestionIndex = 0;
 
-let quizResults = [];
-let quizView = "list";
-
 const quizState = {
   interest: [],
   effort: "",
   childFriendly: false,
   preferences: [],
 };
+
+let quizResults = [];
+let quizView = "list";
 
 const quizQuestions = [
   {
@@ -256,6 +257,7 @@ async function showResults() {
 
     const filters = mapQuizToFilters();
 
+    if (quizView === "list") {
     document.getElementById("results").innerHTML = `
   <section class="grid gap-6">
   <div class="card card-listing">
@@ -322,6 +324,12 @@ async function showResults() {
         </span>
       </div>
       </section>`;
+    } else {
+        document.getElementById("results").innerHTML = `
+        <div class="card card-listing map-skeleton-loader">
+        <div class="sl-img"></div>
+      </div>`;
+    }
 
     const activities = await getQuizActivities(filters);
     const attractions = await getQuizAttractions(filters);
@@ -330,10 +338,58 @@ async function showResults() {
 
     const topResults = getTopResults(allResults, filters, 12)
 
-    document.getElementById("results").innerHTML = `
+    quizResults = topResults;
+    renderQuizResults();
+}
+
+function renderQuizResults() {
+    const results = document.getElementById("results");
+
+    results.innerHTML = `
     <h1 class="display">Dina rekommendationer</h1>
-    <section class="grid width-full gap-6">
-    ${topResults.map(item => `
+    <span class="row gap-2 btn-square-container">
+        <button id="quizListBtn" class="btn btn-square"></button>
+        <button id="quizMapBtn" class="btn btn-square">
+          <?xml version="1.0" encoding="UTF-8"?>
+          <svg
+            id="Gps"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1114.67 962.67"
+          >
+            <path
+              class="cls-1"
+              d="m512.52,130.06c-134.59,0-243.69,102.17-243.69,228.21s234.73,474.34,234.73,474.34c0,0,252.66-348.31,252.66-474.34s-109.1-228.21-243.69-228.21Zm0,312.74c-48.14,0-87.17-39.03-87.17-87.17s39.03-87.17,87.17-87.17,87.17,39.03,87.17,87.17-39.03,87.17-87.17,87.17Z"
+            />
+          </svg>
+        </button>
+      </span>
+
+      <section id="quiz-results-content"></section>
+    `
+
+    document.getElementById("quizListBtn").addEventListener("click", () => {
+        quizView = "list";
+        renderQuizResults();
+    })
+
+    document.getElementById("quizMapBtn").addEventListener("click", () => {
+        quizView = "map";
+        renderQuizResults();
+    })
+
+    const content = document.getElementById("quiz-results-content")
+
+    if (quizView === "map") {
+        renderMap([{ items: quizResults }], content);
+    } else {
+        renderQuizList(content);
+    }
+}
+
+function renderQuizList(container) {
+    container.innerHTML = `
+        <section class="grid width-full gap-6">
+    ${quizResults.map(item => `
             <div class="card card-listing">
         <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
         <span class="card-listing-content width-full">
@@ -421,7 +477,7 @@ function scoreItem(item, filters) {
             text.includes("simhall") ||
             text.includes("hav")
         ) {
-            score += 12;
+            score += 14;
         }
     }
 
