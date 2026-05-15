@@ -249,6 +249,8 @@ async function showResults() {
     console.log("Aktiviteter:", activities)
     console.log("Sevärdheter:", attractions)
 
+    
+
     document.getElementById("quiz-container").innerHTML = `
     <p>Hittade ${activities.length} aktiviteter</p>
     <p>Hittade ${attractions.length} sevärdheter</p>
@@ -289,6 +291,26 @@ function scoreItem(item, filters) {
     }
 
     return score;
+}
+
+function getTopResults(items, filters, limit = 12) {
+    const scoredItems = [];
+
+    for (const item of items) {
+        
+        const score = scoreItem(item, filters);
+
+        scoredItems.push({
+            ...item,
+            quizScore: score
+        });
+    }
+
+    scoredItems.sort((a, b) => {
+        return b.quizScore - a.quizScore;
+    });
+
+    return scoredItems.slice(0, limit);
 }
 
 renderQuestion();
