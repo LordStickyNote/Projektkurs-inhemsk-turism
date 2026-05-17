@@ -1,11 +1,11 @@
 import { renderMap } from "./map.js";
 import { getData } from "./api.js";
-import { 
-    buildActivityApiFilters,
-    buildAttractionApiFilters,
-    activityTypeMap,
-    attractionTypeMap,
- } from "./filters.js"
+import {
+  buildActivityApiFilters,
+  buildAttractionApiFilters,
+  activityTypeMap,
+  attractionTypeMap,
+} from "./filters.js";
 
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
@@ -46,7 +46,7 @@ const quizQuestions = [
       { label: "Lugnt", value: "LOW" },
       { label: "Medel", value: "MEDIUM" },
       { label: "Aktivt", value: "HIGH" },
-      { label: "Ingen preferens", value: "" }
+      { label: "Ingen preferens", value: "" },
     ],
   },
   {
@@ -55,7 +55,7 @@ const quizQuestions = [
     multiple: false,
     options: [
       { label: "Ja", value: true },
-      { label: "Spelar ingen roll", value: null }
+      { label: "Spelar ingen roll", value: null },
     ],
   },
   {
@@ -69,7 +69,7 @@ const quizQuestions = [
       { label: "Nära vatten", value: "nearWater" },
       { label: "Familjevänligt", value: "familyFriendly" },
     ],
-  }
+  },
 ];
 
 function renderQuestion() {
@@ -135,18 +135,18 @@ function saveAnswer(question, value) {
 }
 
 nextBtn.addEventListener("click", () => {
-    const currentQuestion = quizQuestions[currentQuestionIndex];
+  const currentQuestion = quizQuestions[currentQuestionIndex];
 
-    if (currentQuestion.id === "interest" && quizState.interest.length === 0) {
-        alert("Välj minst ett intresse");
-        return;
-    }
+  if (currentQuestion.id === "interest" && quizState.interest.length === 0) {
+    alert("Välj minst ett intresse");
+    return;
+  }
 
-    if (currentQuestionIndex === 2) {
-        nextBtn.innerHTML = "Visa resultat"
-    }
-  
-    if (currentQuestionIndex < quizQuestions.length - 1) {
+  if (currentQuestionIndex === 2) {
+    nextBtn.innerHTML = "Visa resultat";
+  }
+
+  if (currentQuestionIndex < quizQuestions.length - 1) {
     currentQuestionIndex++;
     renderQuestion();
   } else {
@@ -162,104 +162,119 @@ prevBtn.addEventListener("click", () => {
 });
 
 function mapQuizToFilters() {
-    const activityThemes = [];
+  const activityThemes = [];
 
-    if (quizState.interest.includes("animals")) {
-        activityThemes.push("animals");
-    }
+  if (quizState.interest.includes("animals")) {
+    activityThemes.push("animals");
+  }
 
-    if (quizState.interest.includes("adventure")) {
-        activityThemes.push("adventure");
-    }
+  if (quizState.interest.includes("adventure")) {
+    activityThemes.push("adventure");
+  }
 
-    if (quizState.interest.includes("water")) {
-        activityThemes.push("swim")
-    }
+  if (quizState.interest.includes("water")) {
+    activityThemes.push("swim");
+  }
 
   return {
     activity: {
-        effort: quizState.effort,
-        childFriendly: quizState.childFriendly || quizState.preferences.includes("familyFriendly"),
-        involvesAnimals: quizState.interest.includes("animals"),
-        involvesWater: quizState.interest.includes("water") || quizState.preferences.includes("nearWater"),
-        activityThemes
+      effort: quizState.effort,
+      childFriendly:
+        quizState.childFriendly ||
+        quizState.preferences.includes("familyFriendly"),
+      involvesAnimals: quizState.interest.includes("animals"),
+      involvesWater:
+        quizState.interest.includes("water") ||
+        quizState.preferences.includes("nearWater"),
+      activityThemes,
     },
 
     attraction: {
-        childFriendly: quizState.childFriendly || quizState.preferences.includes("familyFriendly"),
-        localSignificance: quizState.preferences.includes("localGem"),
-        types: quizState.interest.filter(value => ["nature", "history", "art"].includes(value))
+      childFriendly:
+        quizState.childFriendly ||
+        quizState.preferences.includes("familyFriendly"),
+      localSignificance: quizState.preferences.includes("localGem"),
+      types: quizState.interest.filter((value) =>
+        ["nature", "history", "art"].includes(value),
+      ),
     },
 
     preferences: {
-        highRating: quizState.preferences.includes("highRating"),
-        budget: quizState.preferences.includes("budget"),
-        localGem: quizState.preferences.includes("localGem"),
-        nearWater: quizState.preferences.includes("nearWater"),
-        familyFriendly: quizState.preferences.includes("familyFriendly")
-    }
+      highRating: quizState.preferences.includes("highRating"),
+      budget: quizState.preferences.includes("budget"),
+      localGem: quizState.preferences.includes("localGem"),
+      nearWater: quizState.preferences.includes("nearWater"),
+      familyFriendly: quizState.preferences.includes("familyFriendly"),
+    },
   };
 }
 
- async function getQuizActivities(filters) {
-    const apiFilters = buildActivityApiFilters({...filters.activity, effort: "", childFriendly: null});
+async function getQuizActivities(filters) {
+  const apiFilters = buildActivityApiFilters({
+    ...filters.activity,
+    effort: "",
+    childFriendly: null,
+  });
 
-    if (filters.activity.activityThemes.length === 0) {
-        return await getData("activity", apiFilters);
+  if (filters.activity.activityThemes.length === 0) {
+    return await getData("activity", apiFilters);
+  }
+
+  const requests = [];
+
+  for (const theme of filters.activity.activityThemes) {
+    const descriptions = activityTypeMap[theme];
+
+    for (const description of descriptions) {
+      requests.push(
+        getData("activity", {
+          ...apiFilters,
+          descriptions: description,
+        }),
+      );
     }
+  }
 
-    const requests = [];
+  const results = await Promise.all(requests);
+  return results.flat();
+}
 
-    for (const theme of filters.activity.activityThemes) {
-        const descriptions = activityTypeMap[theme];
+async function getQuizAttractions(filters) {
+  const apiFilters = buildAttractionApiFilters({
+    ...filters.attraction,
+    childFriendly: null,
+  });
 
-        for (const description of descriptions) {
-            requests.push(
-                getData("activity", {
-                    ...apiFilters,
-                    descriptions: description
-                })
-            );
-        }
+  if (filters.attraction.types.length === 0) {
+    return await getData("attraction", apiFilters);
+  }
+
+  const requests = [];
+
+  for (const type of filters.attraction.types) {
+    const categories = attractionTypeMap[type];
+
+    for (const category of categories) {
+      requests.push(
+        getData("attraction", {
+          ...apiFilters,
+          categories: category,
+        }),
+      );
     }
+  }
 
-    const results = await Promise.all(requests);
-    return results.flat();
- }
-
- async function getQuizAttractions(filters) {
-    const apiFilters = buildAttractionApiFilters({...filters.attraction, childFriendly: null});
-
-    if (filters.attraction.types.length === 0) {
-        return await getData("attraction", apiFilters);
-    }
-
-    const requests = [];
-
-    for (const type of filters.attraction.types) {
-        const categories = attractionTypeMap[type];
-
-        for (const category of categories) {
-            requests.push(
-                getData("attraction", {
-                    ...apiFilters,
-                    categories: category
-                })
-            );
-        }
-    }
-
-    const results = await Promise.all(requests);
-    return results.flat();
- }
+  const results = await Promise.all(requests);
+  return results.flat();
+}
 
 async function showResults() {
-    document.getElementById("quiz-wrapper").style.display = "none";
-    document.getElementById("results").hidden = false;
+  document.getElementById("quiz-wrapper").style.display = "none";
+  document.getElementById("results").hidden = false;
 
-    const filters = mapQuizToFilters();
+  const filters = mapQuizToFilters();
 
-    if (quizView === "list") {
+  if (quizView === "list") {
     document.getElementById("results").innerHTML = `
   <section class="grid gap-6">
   <div class="card card-listing">
@@ -326,32 +341,32 @@ async function showResults() {
         </span>
       </div>
       </section>`;
-    } else {
-        document.getElementById("results").innerHTML = `
+  } else {
+    document.getElementById("results").innerHTML = `
         <div class="card card-listing map-skeleton-loader">
         <div class="sl-img"></div>
       </div>`;
-    }
+  }
 
-    document.getElementById("quizBtnDiv").hidden = false;
+  document.getElementById("quizBtnDiv").hidden = false;
 
-    const activities = await getQuizActivities(filters);
-    const attractions = await getQuizAttractions(filters);
+  const activities = await getQuizActivities(filters);
+  const attractions = await getQuizAttractions(filters);
 
-    let allResults = [...activities, ...attractions];
+  let allResults = [...activities, ...attractions];
 
-    allResults = await useEstablishmentForQuizCards(allResults);
+  allResults = await useEstablishmentForQuizCards(allResults);
 
-    const topResults = getTopResults(allResults, filters, 12)
+  const topResults = getTopResults(allResults, filters, 12);
 
-    quizResults = topResults;
-    renderQuizResults();
+  quizResults = topResults;
+  renderQuizResults();
 }
 
 function renderQuizResults() {
-    const results = document.getElementById("results");
+  const results = document.getElementById("results");
 
-    results.innerHTML = `
+  results.innerHTML = `
     <h1 class="display">Dina rekommendationer</h1>
     <span class="row gap-2 btn-square-container">
         <button id="quizListBtn" class="btn btn-square"></button>
@@ -371,31 +386,37 @@ function renderQuizResults() {
       </span>
 
       <section id="quiz-results-content"></section>
-    `
+    `;
 
-    document.getElementById("quizListBtn").addEventListener("click", () => {
-        quizView = "list";
-        renderQuizResults();
-    })
+  document.getElementById("quizListBtn").addEventListener("click", () => {
+    quizView = "list";
+    renderQuizResults();
+  });
 
-    document.getElementById("quizMapBtn").addEventListener("click", () => {
-        quizView = "map";
-        renderQuizResults();
-    })
+  document.getElementById("quizMapBtn").addEventListener("click", () => {
+    quizView = "map";
+    renderQuizResults();
+  });
 
-    const content = document.getElementById("quiz-results-content")
+  document.getElementById("restartQuizBtn").addEventListener("click", () => {
+    restartQuiz();
+  });
 
-    if (quizView === "map") {
-        renderMap([{ items: quizResults }], content);
-    } else {
-        renderQuizList(content);
-    }
+  const content = document.getElementById("quiz-results-content");
+
+  if (quizView === "map") {
+    renderMap([{ items: quizResults }], content);
+  } else {
+    renderQuizList(content);
+  }
 }
 
 function renderQuizList(container) {
-    container.innerHTML = `
+  container.innerHTML = `
         <section class="grid width-full gap-6">
-    ${quizResults.map(item => `
+    ${quizResults
+      .map(
+        (item) => `
             <div class="card card-listing">
         <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
         <span class="card-listing-content width-full">
@@ -414,180 +435,196 @@ function renderQuizList(container) {
               </span>
           </span>
         </span>
-      </div>`).join("")}
+      </div>`,
+      )
+      .join("")}
         </section>
-    `
+    `;
 }
 
 function scoreItem(item, filters) {
-    let score = 0;
+  let score = 0;
 
-    const text = `${item.name} ${item.description} ${item.search_tags}`.toLowerCase();
+  const text =
+    `${item.name} ${item.description} ${item.search_tags}`.toLowerCase();
 
-    if (quizState.interest.includes("art")) {
-
-        if (
-            text.includes("museum") ||
-            text.includes("konst") ||
-            text.includes("galleri") ||
-            text.includes("kultur")
-        ) {
-            score += 12;
-        }
+  if (quizState.interest.includes("art")) {
+    if (
+      text.includes("museum") ||
+      text.includes("konst") ||
+      text.includes("galleri") ||
+      text.includes("kultur")
+    ) {
+      score += 12;
     }
+  }
 
-    if (quizState.interest.includes("history")) {
-
-        if (
-            text.includes("historia") ||
-            text.includes("slott") ||
-            text.includes("kyrka") ||
-            text.includes("museum")
-        ) {
-            score += 12;
-        }
+  if (quizState.interest.includes("history")) {
+    if (
+      text.includes("historia") ||
+      text.includes("slott") ||
+      text.includes("kyrka") ||
+      text.includes("museum")
+    ) {
+      score += 12;
     }
+  }
 
-    if (quizState.interest.includes("nature")) {
-
-        if (
-            text.includes("natur") ||
-            text.includes("park") ||
-            text.includes("vandring") ||
-            text.includes("skog")
-        ) {
-            score += 12;
-        }
+  if (quizState.interest.includes("nature")) {
+    if (
+      text.includes("natur") ||
+      text.includes("park") ||
+      text.includes("vandring") ||
+      text.includes("skog")
+    ) {
+      score += 12;
     }
+  }
 
-    if (quizState.interest.includes("adventure")) {
-
-        if (
-            text.includes("äventyr") ||
-            text.includes("zipline") ||
-            text.includes("klättring") ||
-            text.includes("paintball") ||
-            text.includes("gokart")
-        ) {
-            score += 12;
-        }
+  if (quizState.interest.includes("adventure")) {
+    if (
+      text.includes("äventyr") ||
+      text.includes("zipline") ||
+      text.includes("klättring") ||
+      text.includes("paintball") ||
+      text.includes("gokart")
+    ) {
+      score += 12;
     }
+  }
 
-    if (quizState.interest.includes("water")) {
-
-        if (
-            text.includes("bad") ||
-            text.includes("vatten") ||
-            text.includes("sjö") ||
-            text.includes("strand") ||
-            text.includes("simhall") ||
-            text.includes("hav")
-        ) {
-            score += 14;
-        }
+  if (quizState.interest.includes("water")) {
+    if (
+      text.includes("bad") ||
+      text.includes("vatten") ||
+      text.includes("sjö") ||
+      text.includes("strand") ||
+      text.includes("simhall") ||
+      text.includes("hav")
+    ) {
+      score += 14;
     }
+  }
 
-    if (quizState.interest.includes("animals")) {
-
-        if (
-            text.includes("djur") ||
-            text.includes("älg") ||
-            text.includes("zoo") ||
-            text.includes("djurpark") ||
-            text.includes("gård")
-        ) {
-            score += 12;
-        }
+  if (quizState.interest.includes("animals")) {
+    if (
+      text.includes("djur") ||
+      text.includes("älg") ||
+      text.includes("zoo") ||
+      text.includes("djurpark") ||
+      text.includes("gård")
+    ) {
+      score += 12;
     }
+  }
 
-    if (quizState.effort && item.physical_efforts === quizState.effort) {
-        score += 4;
+  if (quizState.effort && item.physical_efforts === quizState.effort) {
+    score += 4;
+  }
+
+  if (item.rating) {
+    score += Number(item.rating);
+  }
+
+  if (filters.preferences?.highRating && Number(item.rating) >= 4) {
+    score += 3;
+  }
+
+  if (filters.preferences?.localGem) {
+    score += 2;
+  }
+
+  if (filters.preferences?.nearWater) {
+    if (
+      text.includes("vatten") ||
+      text.includes("bad") ||
+      text.includes("sjö") ||
+      text.includes("strand") ||
+      text.includes("hav")
+    ) {
+      score += 3;
     }
+  }
 
-    if (item.rating) {
-        score += Number(item.rating);
+  if (filters.preferences?.familyFriendly || quizState.childFriendly) {
+    if (
+      item.child_friendly === "Y" ||
+      item.child_support === "Y" ||
+      text.includes("barn") ||
+      text.includes("familj") ||
+      text.includes("lek")
+    ) {
+      score += 2;
     }
+  }
 
-    if (filters.preferences?.highRating && Number(item.rating) >= 4) {
-        score += 3;
-    }
+  if (filters.preferences?.budget && item.price_range) {
+    score += 1;
+  }
 
-    if (filters.preferences?.localGem) {
-        score += 2;
-    }
-
-    if (filters.preferences?.nearWater) {
-
-        if (
-            text.includes("vatten") ||
-            text.includes("bad") ||
-            text.includes("sjö") ||
-            text.includes("strand") ||
-            text.includes("hav")
-        ) {
-            score += 3;
-        }
-    }
-
-    if (filters.preferences?.familyFriendly || quizState.childFriendly) {
-
-        if (
-            item.child_friendly === "Y" ||
-            item.child_support === "Y" ||
-            text.includes("barn") ||
-            text.includes("familj") ||
-            text.includes("lek")
-        ) {
-            score += 2;
-        }
-    } 
-
-    if (filters.preferences?.budget && item.price_range) {
-        score += 1;
-    }
-
-    return score;
+  return score;
 }
 
 async function getAllEstablishments() {
-    if (allEstablishments.length === 0) {
-        allEstablishments = await getData("establishment");
-    }
+  if (allEstablishments.length === 0) {
+    allEstablishments = await getData("establishment");
+  }
 
-    return allEstablishments;
+  return allEstablishments;
 }
 
 async function useEstablishmentForQuizCards(items) {
-    const establishments = await getAllEstablishments();
+  const establishments = await getAllEstablishments();
 
-    return items.map(item => {
-        const establishment = establishments.find(place => String(place.id) === String(item.id));
+  return items.map((item) => {
+    const establishment = establishments.find(
+      (place) => String(place.id) === String(item.id),
+    );
 
-        return {
-            ...item,
-            ...establishment
-        }
-    });
+    return {
+      ...item,
+      ...establishment,
+    };
+  });
 }
 
 function getTopResults(items, filters, limit = 12) {
-    const scoredItems = [];
+  const scoredItems = [];
 
-    for (const item of items) {
-        
-        const score = scoreItem(item, filters);
+  for (const item of items) {
+    const score = scoreItem(item, filters);
 
-        scoredItems.push({
-            ...item,
-            quizScore: score
-        });
-    }
-
-    scoredItems.sort((a, b) => {
-        return b.quizScore - a.quizScore;
+    scoredItems.push({
+      ...item,
+      quizScore: score,
     });
+  }
 
-    return scoredItems.slice(0, limit);
+  scoredItems.sort((a, b) => {
+    return b.quizScore - a.quizScore;
+  });
+
+  return scoredItems.slice(0, limit);
+}
+
+function restartQuiz() {
+  currentQuestionIndex = 0;
+
+  quizView = "list";
+
+  quizResults = [];
+
+  quizState.interest = [];
+  quizState.effort = "";
+  quizState.childFriendly = null;
+  quizState.preferences = [];
+
+  document.getElementById("results").hidden = true;
+  document.getElementById("quiz-wrapper").style.display = "flex";
+
+  nextBtn.innerHTML = "Nästa";
+
+  renderQuestion();
 }
 
 renderQuestion();
