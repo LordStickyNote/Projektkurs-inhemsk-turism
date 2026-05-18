@@ -130,12 +130,9 @@ function saveAnswer(question, value) {
   } else {
     quizState[question.id] = value;
   }
-
 }
 
-
 function nextBtnTextChange() {
-  
   if (currentQuestionIndex === 3) {
     nextBtn.innerHTML = "Visa resultat";
   } else {
@@ -169,7 +166,6 @@ prevBtn.addEventListener("click", () => {
     renderQuestion();
   }
 });
-
 
 nextBtn.addEventListener("click", nextBtnTextChange);
 prevBtn.addEventListener("click", nextBtnTextChange);
@@ -639,5 +635,9 @@ function restartQuiz() {
 
   renderQuestion();
 }
+
+document
+  .getElementById("backBtn")
+  .addEventListener("click", () => history.back());
 
 renderQuestion();
