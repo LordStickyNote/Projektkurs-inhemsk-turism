@@ -46,7 +46,7 @@ const quizQuestions = [
       { label: "Lugnt", value: "LOW" },
       { label: "Medel", value: "MEDIUM" },
       { label: "Aktivt", value: "HIGH" },
-      { label: "Ingen preferens", value: "" },
+      { label: "Ingen preferens", value: null },
     ],
   },
   {
@@ -131,7 +131,16 @@ function saveAnswer(question, value) {
     quizState[question.id] = value;
   }
 
-  console.log(quizState);
+}
+
+
+function nextBtnTextChange() {
+  
+  if (currentQuestionIndex === 3) {
+    nextBtn.innerHTML = "Visa resultat";
+  } else {
+    nextBtn.innerHTML = "Nästa";
+  }
 }
 
 nextBtn.addEventListener("click", () => {
@@ -142,15 +151,15 @@ nextBtn.addEventListener("click", () => {
     return;
   }
 
-  if (currentQuestionIndex === 2) {
-    nextBtn.innerHTML = "Visa resultat";
-  }
-
   if (currentQuestionIndex < quizQuestions.length - 1) {
     currentQuestionIndex++;
     renderQuestion();
   } else {
     showResults();
+  }
+
+  if (quizQuestions.length == 0) {
+    nextBtn.disabled = true;
   }
 });
 
@@ -160,6 +169,10 @@ prevBtn.addEventListener("click", () => {
     renderQuestion();
   }
 });
+
+
+nextBtn.addEventListener("click", nextBtnTextChange);
+prevBtn.addEventListener("click", nextBtnTextChange);
 
 function mapQuizToFilters() {
   const activityThemes = [];
