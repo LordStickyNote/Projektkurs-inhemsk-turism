@@ -1,4 +1,6 @@
-export function renderSeeAndDo(sections, container) {
+import { getPixabayImage } from "./imageApi.js";
+
+export async function renderSeeAndDo(sections, container) {
   container.innerHTML = "";
 
   for (const section of sections) {
@@ -9,9 +11,11 @@ export function renderSeeAndDo(sections, container) {
     for (const item of section.items) {
       const article = document.createElement("article");
 
+      const imageUrl = (await getPixabayImage(item.description, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
+
       article.innerHTML = `
             <div class="card card-listing">
-        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <img src="${imageUrl}" alt="Image of ${item.description}" />
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
