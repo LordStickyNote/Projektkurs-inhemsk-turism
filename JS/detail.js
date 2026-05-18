@@ -1,6 +1,25 @@
 const API =
   "https://smapi.lnu.se/api/?debug=true&api_key=v2c0MPUr&controller=establishment&method=getall";
 
+
+const detailName = document.querySelector("#detail-name");
+const infoSection = detailName.closest(".gap-2.stack");
+const backButton = document.createElement("a");
+const backIcon = document.createElement("img");
+
+
+backButton.href = "index.html";
+backButton.classList.add("back-button", "icon-only");
+backButton.setAttribute("aria-label", "Tillbaka");
+
+backIcon.src = "img/tillbakaKnapp.svg";
+backIcon.alt = "";
+backIcon.classList.add("back-icon");
+
+backButton.appendChild(backIcon);
+infoSection.before(backButton);
+
+
 function yesOrNo(value) {
   if (value === "y") {
     return "Ja";
@@ -73,3 +92,6 @@ async function loadDetailPage() {
 }
 
 loadDetailPage();
+
+
+

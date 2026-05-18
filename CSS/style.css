@@ -213,6 +213,16 @@ a {
   width: 100%;
 }
 
+.card-listing {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-listing:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
 /*==== buttons ====*/
 
 .btn {
@@ -285,6 +295,31 @@ a {
   box-shadow:
     0px 10px 13px -7px #000000,
     5px 5px 10px 11px rgba(0, 0, 0, 0.07);
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-bottom: 12px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.back-button:hover {
+  transform: translateX(-3px);
+}
+
+.back-button.icon-only {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.back-icon {
+  width: 60px;
+  height: 60px;
 }
 
 /* secondary */
