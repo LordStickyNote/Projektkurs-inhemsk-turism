@@ -277,13 +277,14 @@ function mapSkeletonLoader() {
 
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
+
+  activeCategory = "seeAndDo";
+  currentPage = 1;
+  
   updateViewButtons();
   resetFilters();
   resetButtonActive();
   setActiveCategoryButton("doBtn");
-
-  activeCategory = "seeAndDo";
-  currentPage = 1;
 
   if (currentView === "map") {
     mapSkeletonLoader();
@@ -678,13 +679,14 @@ async function applyFoodFilters(resetPage = true) {
 
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
+
+  activeCategory = "food";
+  currentPage = 1;
+
   updateViewButtons();
   resetFilters();
   resetButtonActive();
   setActiveCategoryButton("foodBtn");
-
-  activeCategory = "food";
-  currentPage = 1;
 
   if (currentView === "map") {
     mapSkeletonLoader();
@@ -774,13 +776,13 @@ async function applyAccommodationFilters(resetPage = true) {
 
 // Laddar startsida för boenden.
 async function loadAccommodation() {
+  activeCategory = "accommodation";
+  currentPage = 1;
+
   updateViewButtons();
   resetFilters();
   resetButtonActive();
   setActiveCategoryButton("accommodationBtn");
-
-  activeCategory = "accommodation";
-  currentPage = 1;
 
   if (currentView === "map") {
     mapSkeletonLoader();
@@ -834,13 +836,13 @@ mapViewBtn.addEventListener("click", () => {
 let currentRenderFunction = renderSeeAndDo;
 
 // Renderar antingen karta eller lista bereonde på currentView
-function renderCurrentView() {
+async function renderCurrentView() {
   if (currentView === "map") {
     renderMap(currentSections, container);
   } else if (currentRenderFunction === renderSeeAndDo) {
-    renderSeeAndDo(currentSections, container);
+    await renderSeeAndDo(currentSections, container);
   } else {
-    currentRenderFunction(currentSections[0].items, container);
+    await currentRenderFunction(currentSections[0].items, container);
   }
 
   updatePaginationControls();

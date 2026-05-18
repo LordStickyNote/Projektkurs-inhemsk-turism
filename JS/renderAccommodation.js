@@ -1,4 +1,6 @@
-export function renderAccommodation(items, container) {
+import { getPixabayImage } from "./imageApi.js";
+
+export async function renderAccommodation(items, container) {
   container.innerHTML = "";
 
   const sectionElement = document.createElement("section");
@@ -7,9 +9,13 @@ export function renderAccommodation(items, container) {
   for (const item of items) {
     const article = document.createElement("article");
 
+    const imageSearchTerm = item.description === "B&B" ? "bed and breakfast" : item.description;
+
+    const imageUrl = (await getPixabayImage(imageSearchTerm, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
+
     article.innerHTML = `
             <div class="card card-listing">
-        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <img src="${imageUrl}" alt="Image of ${item.descriptions}" />
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>

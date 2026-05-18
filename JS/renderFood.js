@@ -1,4 +1,6 @@
-export function renderFood(items, container) {
+import { getPixabayImage } from "./imageApi.js";
+
+export async function renderFood(items, container) {
   container.innerHTML = "";
 
   const sectionElement = document.createElement("section");
@@ -7,9 +9,11 @@ export function renderFood(items, container) {
   for (const item of items) {
     const article = document.createElement("article");
 
+    const imageUrl = (await getPixabayImage(item.search_tags, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
+
     article.innerHTML = `
             <div class="card card-listing">
-        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
+        <img src="${imageUrl}" alt="Image of ${item.description}" />
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
