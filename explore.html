@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Titelsida</title>
+    <script type="module" src="JS/main.js"></script>
+    <script type="module" src="JS/temp.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="/CSS/style.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </head>
+  <body class="gap-4">
+    <span class="tab-container">
+      <button class="tab" id="doBtn">Se och göra</button>
+      <button class="tab" id="foodBtn">Mat</button>
+      <button class="tab" id="accommodationBtn">Boenden</button>
+    </span>
+    <div id="toggleAndSortingDiv" hidden>
+      <div class="width-full row row-between card">
+        <select class="btn btn-outline btn-sm" name="sortList" id="sortList">
+          <option value="rating">Betyg</option>
+          <option value="name">Namn A-Ö</option>
+        </select>
+        <span class="row gap-2 btn-square-container">
+          <button id="listViewBtn" class="btn btn-square">
+            <svg
+              id="Lager_1"
+              data-name="Lager 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 94.77 94.77"
+            >
+              <defs>
+                <style>
+                  .cls-1 {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <rect
+                class="cls-1"
+                x="53.93"
+                y="55.46"
+                width="40.84"
+                height="39.31"
+                rx="4.59"
+                ry="4.59"
+              />
+              <rect
+                class="cls-1"
+                y="55.46"
+                width="40.84"
+                height="39.31"
+                rx="4.59"
+                ry="4.59"
+              />
+              <rect
+                class="cls-1"
+                width="40.84"
+                height="39.31"
+                rx="4.59"
+                ry="4.59"
+              />
+              <rect
+                class="cls-1"
+                x="53.93"
+                width="40.84"
+                height="39.31"
+                rx="4.59"
+                ry="4.59"
+              />
+            </svg>
+          </button>
+          <button id="mapViewBtn" class="btn btn-square">
+            <svg
+              id="Lager_1"
+              data-name="Lager 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 71.56 100"
+            >
+              <defs>
+                <style>
+                  .cls-1 {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <path
+                class="cls-1"
+                d="M35.78,0C16.02,0,0,15.76,0,35.19s16.02,35.19,35.78,35.19,35.78-15.76,35.78-35.19S55.54,0,35.78,0ZM35.78,48.74c-7.48,0-13.55-6.07-13.55-13.55s6.07-13.55,13.55-13.55,13.55,6.07,13.55,13.55-6.07,13.55-13.55,13.55Z"
+              />
+              <polyline
+                class="cls-1"
+                points="66.19 53.76 35.78 100 5.39 53.76"
+              />
+            </svg>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="filter-menu-container" id="filter-menu-containerSeeAndDo">
+      <div class="card filter-menu">
+        <div class="filter-category width-full">
+          <div class="collapsible-header">
+            <h3>Plats</h3>
+            <hr />
+          </div>
+          <span>
+            <label for="municipalityFilter">Kommun</label>
+            <select id="municipalityFilter">
+              <option value="">Alla kommuner</option>
+            </select>
+          </span>
+        </div>
+        <div id="SeeAndDoFilters" class="width-full" hidden>
+          <div class="filter-category width-full">
+            <div class="collapsible-header">
+              <h3>Generella filter</h3>
+              <hr />
+            </div>
+
+            <span>
+              <label for="childFriendly">Barnvänligt</label>
+              <input type="checkbox" id="childFriendly" />
+            </span>
+
+            <span>
+              <label for="priceRange">Pris</label>
+              <select id="priceRange">
+                <option value="">Alla priser</option>
+                <option value="100">Upp till 100 kr</option>
+                <option value="200">Upp till 200 kr</option>
+                <option value="500">Upp till 500 kr</option>
+                <option value="1000">Upp till 1000 kr</option>
+              </select>
+            </span>
+          </div>
+
+          <div id="activityFilters" class="width-full filter-category">
+            <div class="collapsible-header">
+              <h3>Filtrera aktiviteter</h3>
+              <hr />
+            </div>
+
+            <span>
+              <label for="activityType">Typ av aktivitet</label>
+              <select id="activityType">
+                <option value="">Alla typer</option>
+                <option value="fun">Nöje</option>
+                <option value="sport">Sport</option>
+                <option value="swim">Bad</option>
+                <option value="animals">Djur</option>
+                <option value="adventure">Äventyr</option>
+                <option value="nightlife">Nattliv</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="effort">Aktivitetsnivå</label>
+              <select id="effort">
+                <option value="">Alla nivåer</option>
+                <option value="LOW">Lugnt</option>
+                <option value="MEDIUM">Medel</option>
+                <option value="HIGH">Aktivt</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="involvesAnimals">Djur</label>
+              <input type="checkbox" id="involvesAnimals" />
+            </span>
+
+            <span>
+              <label for="involvesWater">Vatten</label>
+              <input type="checkbox" id="involvesWater" />
+            </span>
+          </div>
+
+          <div id="attractionFilters" class="filter-category width-full">
+            <div class="collapsible-header">
+              <h3>Filtrera sevärdheter</h3>
+              <hr />
+            </div>
+
+            <span>
+              <label for="attractionType">Typ av sevärdhet</label>
+              <select id="attractionType">
+                <option value="">Alla</option>
+                <option value="history">Historia</option>
+                <option value="art">Konst & kultur</option>
+                <option value="nature">Natur</option>
+                <option value="landmark">Landmark</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="experienceType">Typ av upplevelse</label>
+              <select id="experienceType">
+                <option value="">Alla</option>
+                <option value="interactive">Interaktiv</option>
+                <option value="static">Klassisk (se & läsa)</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="localSignificance">Lokala pärlor</label>
+              <input type="checkbox" id="localSignificance" />
+            </span>
+          </div>
+        </div>
+
+        <div id="foodFilters" class="width-full" hidden>
+          <div class="filter-category width-full">
+            <div class="collapsible-header">
+              <h3>Filtrera mat</h3>
+              <hr />
+            </div>
+
+            <span>
+              <label for="foodType">Typ av mat</label>
+              <select id="foodType">
+                <option value="">Alla typer</option>
+                <option value="asian">Asiatiskt</option>
+                <option value="pizza">Pizza</option>
+                <option value="kebab">Kebab</option>
+                <option value="hamburgare">Hamburgare</option>
+                <option value="sallad">Sallad</option>
+                <option value="husman">Husman</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="foodPrice">Pris per person</label>
+              <select id="foodPrice">
+                <option value="">Alla priser</option>
+                <option value="100">Upp till 100 kr</option>
+                <option value="200">Upp till 200 kr</option>
+                <option value="500">Upp till 500 kr</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="foodRating">Betyg</label>
+              <select id="foodRating">
+                <option value="">Alla betyg</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+              </select>
+            </span>
+          </div>
+        </div>
+
+        <div id="accommodationFilters" class="width-full" hidden>
+          <div class="filter-category width-full">
+            <div class="collapsible-header">
+              <h3>Filtrera boenden</h3>
+              <hr />
+            </div>
+
+            <span>
+              <label for="accommodationType">Boendetyp</label>
+              <select id="accommodationType">
+                <option value="">Alla typer</option>
+                <option value="B&B">B&B</option>
+                <option value="Hotell">Hotell</option>
+                <option value="Camping">Camping</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="accommodationRating">Betyg</label>
+              <select id="accommodationRating">
+                <option value="">Alla betyg</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+                <option value="4.5">4.5+</option>
+              </select>
+            </span>
+
+            <span>
+              <label for="hasWifi">Wifi</label>
+              <input type="checkbox" id="hasWifi" />
+            </span>
+
+            <span>
+              <label for="freeParking">Gratis parkering</label>
+              <input type="checkbox" id="freeParking" />
+            </span>
+
+            <span>
+              <label for="petFriendly">Tillåter husdjur</label>
+              <input type="checkbox" id="petFriendly" />
+            </span>
+          </div>
+        </div>
+
+        <div class="row gap-4 width-full">
+          <button class="btn btn-outline" id="resetFilterBtn">
+            Rensa filter
+          </button>
+          <button id="filterBtn" class="btn btn-primary width-full">
+            Filtrera
+          </button>
+        </div>
+      </div>
+    </div>
+    <button id="btn-float-SeeAndDo" class="btn-float btn btn-primary">
+      Filter
+    </button>
+    <hr />
+    <section id="results"></section>
+    <div id="pagination">
+      <button id="prevPageBtn">Föregående</button>
+      <span id="pageNumber">1</span>
+      <button id="nextPageBtn">Nästa</button>
+    </div>
+    <hr />
+  </body>
+</html>
