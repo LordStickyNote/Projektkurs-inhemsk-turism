@@ -227,6 +227,10 @@ a {
   transition: backdrop-filter 0.2s ease-out;
 }
 
+.card-listing-content:has(.sl-text) {
+  background: unset;
+}
+
 .card-listing-content:hover {
   backdrop-filter: blur(2px);
   transition: backdrop-filter 0.2s ease-out;
