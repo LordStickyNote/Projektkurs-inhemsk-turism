@@ -679,14 +679,9 @@ input[type="checkbox"]:checked {
 }
 
 /*---- filter menu ----*/
-.filter-menu-container {
-  position: fixed;
-  height: 100vh;
+
+.filter-menu-container{
   width: 100vw;
-  z-index: 3000;
-  backdrop-filter: brightness(80%) blur(2px);
-  margin: calc(2 * calc(var(--space-3) * (-1)));
-  display: none;
 }
 
 .filter-menu {
@@ -696,15 +691,13 @@ input[type="checkbox"]:checked {
   height: 100%;
   display: flex;
   flex-flow: column;
-  align-items: start;
   gap: var(--space-8);
   margin: 0;
-  border-radius: unset;
   background-color: var(--color-bg);
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  padding: 30px;
+  box-sizing: border-box;
 }
 
 .filter-menu span {
@@ -713,6 +706,7 @@ input[type="checkbox"]:checked {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .filter-category {
