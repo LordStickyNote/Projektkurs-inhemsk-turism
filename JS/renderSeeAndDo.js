@@ -31,7 +31,7 @@ export function renderSeeAndDo(sections, container) {
       </div>
             `;
       article.addEventListener("click", () => {
-        window.location.href = `detail.html?id=${item.id}`;
+        openPlaceModal(item);
       });
 
       sectionElement.append(article);
@@ -40,3 +40,52 @@ export function renderSeeAndDo(sections, container) {
     container.append(sectionElement);
   }
 }
+
+function openPlaceModal(item) {
+  const modal = document.querySelector("#placeModal");
+
+  document.querySelector("#modalName").textContent = item.name || "Namn saknas";
+
+  document.querySelector("#modalCity").textContent = item.city || "Ort saknas";
+
+  document.querySelector("#modalDescription").textContent =
+    item.text || item.abstract || item.description || "Beskrivning saknas.";
+
+  document.querySelector("#modalPrice").textContent =
+    item.price_range || "Pris saknas";
+
+  document.querySelector("#modalRating").textContent = item.rating
+    ? Number(item.rating).toFixed(1)
+    : "Betyg saknas";
+
+  document.querySelector("#modalPhone").textContent =
+    item.phone_number || "Telefon saknas";
+
+  const website = document.querySelector("#modalWebsite");
+
+  if (item.website) {
+    website.href = item.website;
+    website.textContent = item.website;
+  } else {
+    website.removeAttribute("href");
+    website.textContent = "Webbplats saknas";
+  }
+
+  modal.classList.remove("modal-overlay-hidden");
+  modal.classList.add("modal-overlay-visible");
+}
+
+const closeModalButton = document.querySelector("#closeModal");
+const placeModal = document.querySelector("#placeModal");
+
+closeModalButton.addEventListener("click", () => {
+  placeModal.classList.remove("modal-overlay-visible");
+  placeModal.classList.add("modal-overlay-hidden");
+});
+
+placeModal.addEventListener("click", (event) => {
+  if (event.target === placeModal) {
+    placeModal.classList.remove("modal-overlay-visible");
+    placeModal.classList.add("modal-overlay-hidden");
+  }
+});
