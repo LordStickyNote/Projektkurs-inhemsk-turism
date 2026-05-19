@@ -128,14 +128,6 @@ function saveAnswer(question, value) {
   }
 }
 
-function nextBtnTextChange() {
-  if (currentQuestionIndex === 3) {
-    nextBtn.innerHTML = "Visa resultat";
-  } else {
-    nextBtn.innerHTML = "Nästa";
-  }
-}
-
 nextBtn.addEventListener("click", () => {
   const currentQuestion = quizQuestions[currentQuestionIndex];
 
@@ -147,12 +139,23 @@ nextBtn.addEventListener("click", () => {
   if (currentQuestionIndex < quizQuestions.length - 1) {
     currentQuestionIndex++;
     renderQuestion();
-  } else {
-    showResults();
-  }
 
-  if (quizQuestions.length == 0) {
+    if (currentQuestionIndex === 3) {
+      nextBtn.innerHTML = "Visa resultat";
+    } else {
+      nextBtn.innerHTML = "Nästa";
+    }
+  } else {
     nextBtn.disabled = true;
+
+    nextBtn.innerHTML = `
+    <span class="row gap-2">
+      Hämtar rekommendationer
+      <span class="spinner"></span>
+    </span>
+    `;
+
+    showResults();
   }
 });
 
@@ -162,9 +165,6 @@ prevBtn.addEventListener("click", () => {
     renderQuestion();
   }
 });
-
-nextBtn.addEventListener("click", nextBtnTextChange);
-prevBtn.addEventListener("click", nextBtnTextChange);
 
 function mapQuizToFilters() {
   const activityThemes = [];
@@ -274,7 +274,6 @@ async function getQuizAttractions(filters) {
 }
 
 async function showResults() {
-
   const filters = mapQuizToFilters();
 
   const activities = await getQuizActivities(filters);
@@ -290,7 +289,7 @@ async function showResults() {
 
   sessionStorage.setItem("quizState", JSON.stringify(quizState));
 
-  window.location.href = "/explore.html"
+  window.location.href = "/explore.html";
 }
 
 function scoreItem(item, filters) {
