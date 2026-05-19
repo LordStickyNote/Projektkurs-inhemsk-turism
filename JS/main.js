@@ -16,6 +16,10 @@ import {
   buildFoodApiFilters,
 } from "./filters.js";
 
+const quizResults = JSON.parse(
+  sessionStorage.getItem("quizResults")
+);
+
 // Kopplar de tre huvudkategorierna med klick-event.
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
@@ -1006,10 +1010,6 @@ function getSortApiFilters() {
 
   return {};
 }
-
-const quizResults = JSON.parse(
-  sessionStorage.getItem("quizResults")
-);
 
 if (quizResults) {
   currentSections = [

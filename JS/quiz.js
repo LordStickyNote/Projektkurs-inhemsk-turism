@@ -1,4 +1,3 @@
-import { renderMap } from "./map.js";
 import { getData } from "./api.js";
 import {
   buildActivityApiFilters,
@@ -18,9 +17,6 @@ const quizState = {
   childFriendly: false,
   preferences: [],
 };
-
-let quizResults = [];
-let quizView = "list";
 
 let allEstablishments = [];
 
@@ -278,86 +274,8 @@ async function getQuizAttractions(filters) {
 }
 
 async function showResults() {
-  document.getElementById("quiz-wrapper").style.display = "none";
-  document.getElementById("results").hidden = false;
 
   const filters = mapQuizToFilters();
-
-  if (quizView === "list") {
-    document.getElementById("results").innerHTML = `
-  <section class="grid gap-6">
-  <div class="card card-listing">
-        <div class="sl-img"></div>
-        <span class="card-listing-content width-full">
-          <div class="sl-text sl-text-lg"></div>
-          <div class="sl-text sl-text-md"></div>
-          
-          <span class="gap-2">
-            <span class="badge sl-badge"></span>
-          </span>
-        </span>
-      </div><div class="card card-listing">
-        <div class="sl-img"></div>
-        <span class="card-listing-content width-full">
-          <div class="sl-text sl-text-lg"></div>
-          <div class="sl-text sl-text-md"></div>
-          
-          <span class="gap-2">
-            <span class="badge sl-badge"></span>
-          </span>
-        </span>
-      </div><div class="card card-listing">
-        <div class="sl-img"></div>
-        <span class="card-listing-content width-full">
-          <div class="sl-text sl-text-lg"></div>
-          <div class="sl-text sl-text-md"></div>
-          
-          <span class="gap-2">
-            <span class="badge sl-badge"></span>
-          </span>
-        </span>
-      </div><div class="card card-listing">
-        <div class="sl-img"></div>
-        <span class="card-listing-content width-full">
-          <div class="sl-text sl-text-lg"></div>
-          <div class="sl-text sl-text-md"></div>
-          
-          <span class="gap-2">
-            <span class="badge sl-badge"></span>
-          </span>
-        </span>
-      </div>
-      <div class="card card-listing">
-        <div class="sl-img"></div>
-        <span class="card-listing-content width-full">
-          <div class="sl-text sl-text-lg"></div>
-          <div class="sl-text sl-text-md"></div>
-          
-          <span class="gap-2">
-            <span class="badge sl-badge"></span>
-          </span>
-        </span>
-      </div>
-      <div class="card card-listing">
-        <div class="sl-img"></div>
-        <span class="card-listing-content width-full">
-          <div class="sl-text sl-text-lg"></div>
-          <div class="sl-text sl-text-md"></div>
-          
-          <span class="gap-2">
-            <span class="badge sl-badge"></span>
-          </span>
-        </span>
-      </div>
-      </section>`;
-  } else {
-    document.getElementById("results").innerHTML = `
-        <div class="card card-listing map-skeleton-loader">
-        <div class="sl-img"></div>
-      </div>`;
-  }
-
-  document.getElementById("quizBtnDiv").hidden = false;
 
   const activities = await getQuizActivities(filters);
   const attractions = await getQuizAttractions(filters);
@@ -368,87 +286,6 @@ async function showResults() {
 
   const topResults = getTopResults(allResults, filters, 12);
 
-  quizResults = topResults;
-  renderQuizResults();
-}
-
-function renderQuizResults() {
-  const results = document.getElementById("results");
-
-  results.innerHTML = `
-    <h1 class="display">Dina rekommendationer</h1>
-    <span class="row gap-2 btn-square-container">
-        <button id="quizListBtn" class="btn btn-square"></button>
-        <button id="quizMapBtn" class="btn btn-square">
-          <?xml version="1.0" encoding="UTF-8"?>
-          <svg
-            id="Gps"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1114.67 962.67"
-          >
-            <path
-              class="cls-1"
-              d="m512.52,130.06c-134.59,0-243.69,102.17-243.69,228.21s234.73,474.34,234.73,474.34c0,0,252.66-348.31,252.66-474.34s-109.1-228.21-243.69-228.21Zm0,312.74c-48.14,0-87.17-39.03-87.17-87.17s39.03-87.17,87.17-87.17,87.17,39.03,87.17,87.17-39.03,87.17-87.17,87.17Z"
-            />
-          </svg>
-        </button>
-      </span>
-
-      <section id="quiz-results-content"></section>
-    `;
-
-  document.getElementById("quizListBtn").addEventListener("click", () => {
-    quizView = "list";
-    renderQuizResults();
-  });
-
-  document.getElementById("quizMapBtn").addEventListener("click", () => {
-    quizView = "map";
-    renderQuizResults();
-  });
-
-  document.getElementById("restartQuizBtn").addEventListener("click", () => {
-    restartQuiz();
-  });
-
-  const content = document.getElementById("quiz-results-content");
-
-  if (quizView === "map") {
-    renderMap([{ items: quizResults }], content);
-  } else {
-    renderQuizList(content);
-  }
-}
-
-function renderQuizList(container) {
-  container.innerHTML = `
-        <section class="grid width-full gap-6">
-    ${quizResults
-      .map(
-        (item) => `
-            <div class="card card-listing">
-        <img src="/img/High_Chaparral_Theme_Park.jpg" alt="" />
-        <span class="card-listing-content width-full">
-          <h3>${item.name}</h3>
-          <h4 class="text-faded">${item.city}</h4>
-          <span class="row row-between">
-              <span class="gap-2">
-                <span class="badge badge-red">${item.description}</span>
-              </span>
-              <span class="row">
-              <h4>${Math.trunc(item.rating)}</h4><svg class="star" viewBox="0 0 16 16">
-              <path
-                d="M7.71954 0.445459C7.86922 -0.0151958 8.52092 -0.0151964 8.6706 0.445459L9.76667 3.81881C9.8336 4.02483 10.0256 4.16431 10.2422 4.16431H13.7892C14.2735 4.16431 14.4749 4.78411 14.083 5.06881L11.2135 7.15366C11.0383 7.28098 10.9649 7.50667 11.0319 7.71268L12.1279 11.086C12.2776 11.5467 11.7504 11.9298 11.3585 11.6451L8.48896 9.5602C8.31372 9.43288 8.07642 9.43288 7.90118 9.5602L5.03163 11.6451C4.63977 11.9298 4.11253 11.5467 4.26221 11.086L5.35828 7.71268C5.42521 7.50667 5.35188 7.28098 5.17664 7.15366L2.30709 5.06881C1.91524 4.78411 2.11662 4.16431 2.60099 4.16431H6.14794C6.36455 4.16431 6.55653 4.02483 6.62347 3.81881L7.71954 0.445459Z"
-              ></path></svg
-            >
-              </span>
-          </span>
-        </span>
-      </div>`,
-      )
-      .join("")}
-        </section>
-    `;
 }
 
 function scoreItem(item, filters) {
@@ -646,3 +483,5 @@ sessionStorage.setItem(
   "quizResults",
   JSON.stringify(topResults)
 );
+
+window.location.href = "/index.html"
