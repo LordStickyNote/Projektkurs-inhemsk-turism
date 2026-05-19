@@ -14,8 +14,7 @@ export async function renderSeeAndDo(sections, container) {
       const imageUrl = (await getPixabayImage(item.description, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
 
       article.innerHTML = `
-            <div class="card card-listing">
-        <img src="${imageUrl}" alt="Image of ${item.description}" />
+            <div class="card card-listing" style="background-image: url('${imageUrl}');">
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
