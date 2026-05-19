@@ -1012,9 +1012,22 @@ function getSortApiFilters() {
 }
 
 function quizNotice() {
+
   const div = document.createElement("div");
 
-  
+  const button = document.createElement("button");
+
+  div.innerHTML = `
+  <h6>Visar dina rekommendationer baserat på dina svar från "Hitta en resa"</h6>
+  `
+
+  button.textContent = "Visa allt"
+
+  button.addEventListener("click", loadSeeAndDo)
+
+  div.append(button)
+
+   container.prepend(div);
 }
 
 if (quizResults) {
@@ -1026,4 +1039,7 @@ if (quizResults) {
 
   currentRenderFunction = renderSeeAndDo;
   renderCurrentView();
+  setActiveCategoryButton("doBtn");
+
+  quizNotice();
 }
