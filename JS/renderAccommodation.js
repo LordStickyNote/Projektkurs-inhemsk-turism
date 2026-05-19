@@ -14,8 +14,7 @@ export async function renderAccommodation(items, container) {
     const imageUrl = (await getPixabayImage(imageSearchTerm, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
 
     article.innerHTML = `
-            <div class="card card-listing">
-        <img src="${imageUrl}" loading="lazy" alt="Image of ${item.descriptions}" />
+            <div class="card card-listing" style="background-image: url('${imageUrl}');">
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
