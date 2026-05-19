@@ -16,6 +16,10 @@ import {
   buildFoodApiFilters,
 } from "./filters.js";
 
+const quizResults = JSON.parse(
+  sessionStorage.getItem("quizResults")
+);
+
 // Kopplar de tre huvudkategorierna med klick-event.
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
@@ -1005,4 +1009,37 @@ function getSortApiFilters() {
   }
 
   return {};
+}
+
+function quizNotice() {
+
+  const div = document.createElement("div");
+
+  const button = document.createElement("button");
+
+  div.innerHTML = `
+  <h6>Visar dina rekommendationer baserat på dina svar från "Hitta en resa"</h6>
+  `
+
+  button.textContent = "Visa allt"
+
+  button.addEventListener("click", loadSeeAndDo)
+
+  div.append(button)
+
+   container.prepend(div);
+}
+
+if (quizResults) {
+  currentSections = [
+    {
+      items: quizResults
+    }
+  ];
+
+  currentRenderFunction = renderSeeAndDo;
+  renderCurrentView();
+  setActiveCategoryButton("doBtn");
+
+  quizNotice();
 }
