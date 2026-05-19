@@ -46,7 +46,8 @@ function openPlaceModal(item) {
 
   document.querySelector("#modalName").textContent = item.name || "Namn saknas";
 
-  document.querySelector("#modalCity").textContent = item.city || "Ort saknas";
+  document.querySelector("#modalCity").textContent =
+    item.city || item.municipality || "Ort saknas";
 
   document.querySelector("#modalDescription").textContent =
     item.text || item.abstract || item.description || "Beskrivning saknas.";
@@ -74,18 +75,3 @@ function openPlaceModal(item) {
   modal.classList.remove("modal-overlay-hidden");
   modal.classList.add("modal-overlay-visible");
 }
-
-const closeModalButton = document.querySelector("#closeModal");
-const placeModal = document.querySelector("#placeModal");
-
-closeModalButton.addEventListener("click", () => {
-  placeModal.classList.remove("modal-overlay-visible");
-  placeModal.classList.add("modal-overlay-hidden");
-});
-
-placeModal.addEventListener("click", (event) => {
-  if (event.target === placeModal) {
-    placeModal.classList.remove("modal-overlay-visible");
-    placeModal.classList.add("modal-overlay-hidden");
-  }
-});

@@ -268,20 +268,24 @@
     </div>
     <hr />
 
-    <h3 id="modalName">Namn</h3>
-    <p id="modalCity" class="text-faded"></p>
-    <p id="modalDescription" class="text-faded"></p>
-
     <div id="placeModal" class="modal-overlay-hidden">
       <div class="modal-content">
         <button id="closeModal" class="modal-close" type="button">X</button>
 
-        <h3 id="modalName">Namn</h3>
-        <p id="modalCity" class="text-faded"></p>
-        <p id="modalDescription" class="text-faded"></p>
+        <div class="modal-header">
+          <h2 id="modalName"></h2>
+          <h4 id="modalCity" class="text-faded"></h4>
+          <p id="modalDescription" class="text-faded"></p>
+        </div>
 
-        <div class="card stack gap-2">
+        <div class="modal-info">
           <h3>Information</h3>
+
+          <div class="modal-nearby">
+            <h3>Platser i närheten</h3>
+            <div id="modalNearbyPlaces" class="modal-nearby-list"></div>
+          </div>
+
           <p><strong>Pris:</strong> <span id="modalPrice"></span></p>
           <p><strong>Betyg:</strong> <span id="modalRating"></span></p>
           <p><strong>Telefon:</strong> <span id="modalPhone"></span></p>
