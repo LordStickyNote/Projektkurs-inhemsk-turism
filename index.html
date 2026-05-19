@@ -275,17 +275,18 @@
         <div class="modal-header">
           <h2 id="modalName"></h2>
           <h4 id="modalCity" class="text-faded"></h4>
-          <p id="modalDescription" class="text-faded"></p>
         </div>
 
+        <img
+          id="modalImage"
+          class="modal-image"
+          src="/img/High_Chaparral_Theme_Park.jpg"
+          alt=""
+        />
+
+        <p id="modalDescription" class="modal-description text-faded"></p>
+
         <div class="modal-info">
-          <h3>Information</h3>
-
-          <div class="modal-nearby">
-            <h3>Platser i närheten</h3>
-            <div id="modalNearbyPlaces" class="modal-nearby-list"></div>
-          </div>
-
           <p><strong>Pris:</strong> <span id="modalPrice"></span></p>
           <p><strong>Betyg:</strong> <span id="modalRating"></span></p>
           <p><strong>Telefon:</strong> <span id="modalPhone"></span></p>
@@ -293,6 +294,11 @@
             <strong>Webbplats:</strong>
             <a id="modalWebsite" href="#" target="_blank"></a>
           </p>
+        </div>
+
+        <div class="modal-nearby">
+          <h3>Platser i närheten</h3>
+          <div id="modalNearbyPlaces" class="modal-nearby-list"></div>
         </div>
       </div>
     </div>
