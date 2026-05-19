@@ -1006,3 +1006,18 @@ function getSortApiFilters() {
 
   return {};
 }
+
+const quizResults = JSON.parse(
+  sessionStorage.getItem("quizResults")
+);
+
+if (quizResults) {
+  currentSections = [
+    {
+      items: quizResults
+    }
+  ];
+
+  currentRenderFunction = renderSeeAndDo;
+  renderCurrentView();
+}

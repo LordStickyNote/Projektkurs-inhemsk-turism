@@ -641,3 +641,8 @@ document
   .addEventListener("click", () => history.back());
 
 renderQuestion();
+
+sessionStorage.setItem(
+  "quizResults",
+  JSON.stringify(topResults)
+);
