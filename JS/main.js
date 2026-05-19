@@ -1042,4 +1042,6 @@ if (quizResults) {
   setActiveCategoryButton("doBtn");
 
   quizNotice();
+} else {
+  loadSeeAndDo();
 }
