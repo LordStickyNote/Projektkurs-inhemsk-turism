@@ -223,6 +223,23 @@ a {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
+
+#results a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#results .card {
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+#results .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
 /*==== buttons ====*/
 
 .btn {
