@@ -327,6 +327,19 @@ async function loadSeeAndDo() {
 
 //-------------------------------------------------------------------------
 
+function getSelectedActivityTypes() {
+
+  const checkedInputs = document.querySelectorAll(`input[name="activityType]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+  }
+
+  return selectedTypes;
+}
+
 // Nödvändiga värden för att kunna filtrera beroende på användarens val, används senare i getFilteredActivities för att rendera resultatet.
 function getActivityFilterValues() {
   return {
@@ -348,7 +361,7 @@ async function getFilteredActivities() {
   const usePagination = shouldUsePagination();
 
   // Om inget "typ av aktivitet"-filter är valt hämtas "activity"-objekt direkt från SMAPI
-  if (!selectedType) {
+  if (selectedTypes.length === 0) {
     return await getData(
       "activity",
       apiFilters,
@@ -443,7 +456,7 @@ async function getFilteredAttractions() {
 // Kollar om något activity-filter är aktivt
 function hasActiveActivityFilters() {
   return (
-    activityType.value ||
+    getSelectedActivityTypes().length > 0 ||
     effort.value ||
     involvesAnimals.checked ||
     involvesWater.checked
