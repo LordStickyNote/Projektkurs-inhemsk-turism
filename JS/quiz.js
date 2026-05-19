@@ -286,6 +286,11 @@ async function showResults() {
 
   const topResults = getTopResults(allResults, filters, 12);
 
+  sessionStorage.setItem("quizResults", JSON.stringify(topResults));
+
+  sessionStorage.setItem("quizState", JSON.stringify(quizState));
+
+  window.location.href = "/explore.html"
 }
 
 function scoreItem(item, filters) {
@@ -456,10 +461,6 @@ function getTopResults(items, filters, limit = 12) {
 function restartQuiz() {
   currentQuestionIndex = 0;
 
-  quizView = "list";
-
-  quizResults = [];
-
   quizState.interest = [];
   quizState.effort = "";
   quizState.childFriendly = null;
@@ -478,10 +479,3 @@ document
   .addEventListener("click", () => history.back());
 
 renderQuestion();
-
-sessionStorage.setItem(
-  "quizResults",
-  JSON.stringify(topResults)
-);
-
-window.location.href = "/index.html"

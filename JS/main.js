@@ -1011,6 +1011,12 @@ function getSortApiFilters() {
   return {};
 }
 
+function quizNotice() {
+  const div = document.createElement("div");
+
+  
+}
+
 if (quizResults) {
   currentSections = [
     {
