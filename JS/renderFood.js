@@ -1,4 +1,4 @@
-import { getPixabayImage } from "./imageApi.js";
+import { getPixabayImage, getFoodSearchQuery } from "./imageApi.js";
 
 export async function renderFood(items, container) {
   container.innerHTML = "";
@@ -9,7 +9,9 @@ export async function renderFood(items, container) {
   for (const item of items) {
     const article = document.createElement("article");
 
-    const imageUrl = (await getPixabayImage(item.search_tags, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
+    const query = getFoodSearchQuery(item);
+
+    const imageUrl = (await getPixabayImage(query, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
 
     article.innerHTML = `
                         <div class="card card-listing" style="background-image: url('${imageUrl}');">

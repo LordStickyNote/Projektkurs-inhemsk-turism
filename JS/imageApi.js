@@ -2,7 +2,33 @@ import { PIXAYBAY_API_KEY } from "./config.js";
 
 const imageCache = {};
 
-export const imageQueries = {
+export function getFoodSearchQuery(item) {
+    const tags = item.search_tags?.toLowerCase() || "";
+
+    if (tags.includes("grekiskt")) {
+        return "greek restaurant food"
+    }
+
+    if (tags.includes("korv")) {
+        return "sausage hot dog"
+    }
+
+    if (tags.includes("vietnamesiskt")) {
+        return "vietnamese food"
+    }
+
+    if (tags.includes("thai")) {
+        return "thai food"
+    }
+
+    if (tags.includes("husman")) {
+        return "swedish food"
+    }
+
+    return item.search_tags || item.description;
+}
+
+const imageQueries = {
   // Activities
   Nöjespark: "amusement park rides",
   Temapark: "theme park family",
@@ -43,13 +69,9 @@ export const imageQueries = {
   "bed and breakfast": "small guesthouse sweden",
   Stuga: "swedish cabin cottage nature",
 
-  // Food
-  hamburgare: "burger fries fast food",
-  kebab: "kebab street food",
-  korv: "hot dog sausage",
 };
 
-export const blockedWords = [
+const blockedWords = [
   "bikini",
   "swimsuit",
   "fire",
