@@ -172,7 +172,7 @@ function shouldUsePagination() {
 
   const hasFoodType = activeCategory === "food" && foodType.value;
 
-  const hasActivityType = activeCategory === "seeAndDo" && activityType.value;
+  const hasActivityType = activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
   const hasAttractionType = activeCategory === "seeAndDo" && attractionType.value;
 
   const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
@@ -329,7 +329,7 @@ async function loadSeeAndDo() {
 
 function getSelectedActivityTypes() {
 
-  const checkedInputs = document.querySelectorAll(`input[name="activityType]:checked`);
+  const checkedInputs = document.querySelectorAll(`input[name="activityType"]:checked`);
 
   const selectedTypes = [];
 
@@ -357,7 +357,7 @@ async function getFilteredActivities() {
     ...getSortApiFilters(),
   }; // Hämtar API-filter
 
-  const selectedType = activityType.value;
+  const selectedTypes = getSelectedActivityTypes();
   const usePagination = shouldUsePagination();
 
   // Om inget "typ av aktivitet"-filter är valt hämtas "activity"-objekt direkt från SMAPI
@@ -370,12 +370,17 @@ async function getFilteredActivities() {
     );
   }
 
-  // Hämtar alla "descriptions" som hör till vald typ av aktivitet
-  const descriptions = activityTypeMap[selectedType];
+  const requests = [];
 
   // Skapar flera API-anrop, ett per description
-  const requests = descriptions.map((description) => {
-    return getData(
+  for (const type of selectedTypes) {
+
+    const descriptions = activityTypeMap[type];
+
+    for (const description of descriptions) {
+
+      requests.push(
+        getData(
       "activity",
       {
         ...apiFilters,
@@ -383,8 +388,9 @@ async function getFilteredActivities() {
       },
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
-    );
-  });
+    ));
+    }
+  }
 
   // Väntar på att alla API-anrop ska bli klara
   const results = await Promise.all(requests);
@@ -429,7 +435,7 @@ async function getFilteredAttractions() {
   }
 
   // Hämtar de SMAPI-kategorierna som hör till vald typ från filter.js.
-  const attractionCategories = attractionTypeMap[selectedType];
+  const attractionCategories = attractionTypeMap[selectedTypes];
 
   // Skapar ett anrop till SMAPI per kategori
   const requests = attractionCategories.map((category) => {
@@ -934,7 +940,7 @@ function resetFilters() {
   priceRange.value = "";
 
   // "Se och göra"
-  activityType.value = "";
+  for (const input of document.querySelectorAll(`input[name="activityType"]`)) { input.checked = false; }
   effort.value = "";
   involvesAnimals.checked = false;
   involvesWater.checked = false;
@@ -963,7 +969,7 @@ function resetFilters() {
 function resetButtonActive() {
   const hasActiveFilters =
     municipalityFilter.value ||
-    activityType.value ||
+    getSelectedActivityTypes().length > 0 ||
     effort.value ||
     priceRange.value ||
     involvesAnimals.checked ||
