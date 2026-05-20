@@ -18,7 +18,9 @@ export const blockedWords = [
     "burning",
     "smoke",
     "weapon",
-    "war"
+    "war",
+    "disaster",
+    "forest fire"
 ]
 
 export async function getPixabayImage(searchTerm, cacheKey) {
@@ -26,10 +28,11 @@ export async function getPixabayImage(searchTerm, cacheKey) {
         return imageCache[cacheKey];
     }
 
+    const query = imageQueries[searchTerm] || searchTerm;
+
     const url = `https://pixabay.com/api/?key=${PIXAYBAY_API_KEY}` +
-    `&q=${encodeURIComponent(searchTerm)}` +
+    `&q=${encodeURIComponent(query)}` +
     `&image_type=photo` +
-    `&lang=sv` +
     `&safesearch=true` +
     `&per_page=6`;
 
@@ -39,10 +42,23 @@ export async function getPixabayImage(searchTerm, cacheKey) {
 
     let image = null;
 
-    if (data.hits.length > 0) {
-    const randomIndex = Math.floor(Math.random() * data.hits.length);
+    const safeImages = data.hits.filter((item) => {
 
-    image = data.hits[randomIndex].webformatURL;
+        const tags = item.tags.toLowerCase();
+
+        for (const word of blockedWords) {
+            if (tags.includes(word)) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+
+  if (safeImages.length > 0) {
+    const randomIndex = Math.floor(Math.random() * safeImages.length);
+
+    image = safeImages[randomIndex].webformatURL;
   }
 
     imageCache[cacheKey] = image;
