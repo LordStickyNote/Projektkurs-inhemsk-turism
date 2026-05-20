@@ -19,6 +19,7 @@ import {
 const quizResults = JSON.parse(sessionStorage.getItem("quizResults"));
 
 let showingQuizResults = false;
+let quizSections = [];
 
 // Kopplar de tre huvudkategorierna med klick-event.
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -90,6 +91,18 @@ pagination.hidden = true;
 // DOM-element: sortering
 const sortList = document.getElementById("sortList");
 sortList.addEventListener("change", () => {
+  if (showingQuizResults) {
+
+    currentSections = [
+      {
+        items: sortItems(quizResults)
+      }
+    ];
+
+    renderCurrentView();
+    return;
+  }
+  
   reloadCurrentCategory();
 });
 const toggleAndSortingDiv = document.getElementById("toggleAndSortingDiv");
@@ -1136,13 +1149,27 @@ function quizNotice() {
   container.prepend(div);
 }
 
+function sortItems(items) {
+  const sorted = [...items];
+
+  if (sortList.value === "rating") {
+    sorted.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
+  }
+
+  if (sortList.value === "name") {
+    sorted.sort((a, b) => a.name.localeCompare(b.name, "sv"));
+  }
+
+  return sorted;
+}
+
 if (quizResults) {
   showingQuizResults = true;
   activeCategory = "seeAndDo";
 
   currentSections = [
     {
-      items: quizResults,
+      items: sortItems(quizResults)
     },
   ];
 
