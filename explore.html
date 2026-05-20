@@ -116,12 +116,12 @@
             <h3>Plats</h3>
             <hr />
           </div>
-          <span class="card">
-            <label for="municipalityFilter">Kommun</label>
+          <label class="card card-filter-option" for="municipalityFilter"
+            ><h3>Kommun</h3>
             <select id="municipalityFilter">
               <option value="">Alla kommuner</option>
             </select>
-          </span>
+          </label>
         </div>
         <div id="SeeAndDoFilters" class="width-full" hidden>
           <div class="filter-category width-full">
@@ -130,13 +130,13 @@
               <hr />
             </div>
 
-            <span class="card card-filter-option">
-              <label for="childFriendly">Barnvänligt</label>
-              <input type="checkbox" id="childFriendly" />
-            </span>
+            <label class="card card-filter-option" for="childFriendly"
+              ><h3>Barnvänligt</h3>
+              <input type="checkbox" id="childFriendly"
+            /></label>
 
-            <span class="card card-filter-option">
-              <label for="priceRange">Pris</label>
+            <label class="card card-filter-option" for="priceRange"
+              ><h3>Pris</h3>
               <select id="priceRange">
                 <option value="">Alla priser</option>
                 <option value="100">Upp till 100 kr</option>
@@ -144,7 +144,7 @@
                 <option value="500">Upp till 500 kr</option>
                 <option value="1000">Upp till 1000 kr</option>
               </select>
-            </span>
+            </label>
           </div>
 
           <div id="activityFilters" class="width-full filter-category">
@@ -153,32 +153,31 @@
               <hr />
             </div>
 
-            <span class="stack">
-              <legend>Typ av aktivitet</legend>
-              <label class="card card-filter-option row-between row">
-                <input type="checkbox" name="activityType" value="fun" />
-                Nöje
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="sport" />
-                Sport
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="swim" />
-                Bad
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="animals" />
-                Djur
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="adventure" />
-                Äventyr
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="nightlife" />
-              </label>
-            </span>
+            <legend>Typ av aktivitet</legend>
+            <label class="card card-filter-option">
+              <h3>Nöje</h3>
+              <input type="checkbox" name="activityType" value="fun" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Sport</h3>
+              <input type="checkbox" name="activityType" value="sport" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Bad</h3>
+              <input type="checkbox" name="activityType" value="swim" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Djur</h3>
+              <input type="checkbox" name="activityType" value="animals" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Äventyr</h3>
+              <input type="checkbox" name="activityType" value="adventure" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Nattliv</h3>
+              <input type="checkbox" name="activityType" value="nightlife" />
+            </label>
 
             <span>
               <label for="effort">Aktivitetsnivå</label>
@@ -357,14 +356,14 @@
           </div>
         </div>
         <hr />
-        <div class="row gap-4 width-full">
-          <button class="btn btn-outline" id="resetFilterBtn">
-            Rensa filter
-          </button>
-          <button id="filterBtn" class="btn btn-primary width-full">
-            Filtrera
-          </button>
-        </div>
+      </div>
+      <div class="row gap-4 width-full height-full">
+        <button class="btn btn-outline" id="resetFilterBtn">
+          Rensa filter
+        </button>
+        <button id="filterBtn" class="btn btn-primary width-full">
+          Filtrera
+        </button>
       </div>
     </div>
     <button id="btn-float-SeeAndDo" class="btn-float btn btn-primary">
