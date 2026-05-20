@@ -170,7 +170,7 @@ function shouldUsePagination() {
     return false;
   }
 
-  const hasFoodType = activeCategory === "food" && foodType.value;
+  const hasFoodType = activeCategory === "food" && getSelectedFoodTypes().length > 0;
 
   const hasActivityType = activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
   const hasAttractionType = activeCategory === "seeAndDo" && getSelectedAttractionTypes().length > 0;
@@ -343,6 +343,18 @@ function getSelectedActivityTypes() {
 function getSelectedAttractionTypes() {
 
   const checkedInputs = document.querySelectorAll(`input[name="attractionType"]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+  }
+
+  return selectedTypes;
+}
+
+function getSelectedFoodTypes() {
+  const checkedInputs = document.querySelectorAll(`input[name="foodType"]:checked`);
 
   const selectedTypes = [];
 
@@ -660,7 +672,7 @@ async function loadMunicipalities() {
 function getFoodFilterValues() {
   // Samlar formulärdata i ett objekt
   return {
-    type: foodType.value,
+    types: getSelectedFoodTypes(),
     maxPrice: foodPrice.value,
     minRating: foodRating.value,
   };
@@ -689,7 +701,7 @@ async function applyFoodFilters(resetPage = true) {
 
   // Hämtar alla matobjekt från food-controllern.
   let items = await getData(
-    food.controller,
+    "food",
     apiFilters,
     usePagination ? currentPage : null,
     usePagination ? perPage : null,
@@ -741,7 +753,7 @@ async function loadFood() {
 
   const food = categories.food;
   let items = await getData(
-    food.controller,
+    "food",
     getSortApiFilters(),
     usePagination ? currentPage : null,
     usePagination ? perPage : null,
@@ -968,7 +980,7 @@ function resetFilters() {
   childFriendly.checked = false;
 
   // "Mat"
-  foodType.value = "";
+  for (const input of document.querySelectorAll(`input[name="foodType"]`)) { input.checked = false; }
   foodPrice.value = "";
   foodRating.value = "";
 
@@ -996,7 +1008,7 @@ function resetButtonActive() {
     experienceType.value ||
     localSignificance.checked ||
     childFriendly.checked ||
-    foodType.value ||
+    getSelectedFoodTypes().length > 0 ||
     foodPrice.value ||
     foodRating.value ||
     accommodationType.value ||
