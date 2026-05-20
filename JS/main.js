@@ -173,7 +173,7 @@ function shouldUsePagination() {
   const hasFoodType = activeCategory === "food" && foodType.value;
 
   const hasActivityType = activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
-  const hasAttractionType = activeCategory === "seeAndDo" && attractionType.value;
+  const hasAttractionType = activeCategory === "seeAndDo" && getSelectedAttractionTypes().length > 0;
 
   const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
 
@@ -348,9 +348,9 @@ function getSelectedAttractionTypes() {
 
   for (const input of checkedInputs) {
     selectedTypes.push(input.value);
-
-    return selectedTypes;
   }
+
+  return selectedTypes;
 }
 
 // Nödvändiga värden för att kunna filtrera beroende på användarens val, används senare i getFilteredActivities för att rendera resultatet.
@@ -433,12 +433,12 @@ async function getFilteredAttractions() {
   };
 
   // Hämtar vald typ av sevärdhet i filtret. T.ex. Historia, natur etc.
-  const selectedType = attractionType.value;
+  const selectedTypes = getSelectedAttractionTypes();
 
   const usePagination = shouldUsePagination();
 
   // Om ingen typ är vald hämtas sevärdheter med övriga filter
-  if (!selectedType) {
+  if (selectedTypes.length === 0) {
     return await getData(
       "attraction",
       apiFilters,
@@ -447,12 +447,16 @@ async function getFilteredAttractions() {
     );
   }
 
-  // Hämtar de SMAPI-kategorierna som hör till vald typ från filter.js.
-  const attractionCategories = attractionTypeMap[selectedTypes];
+  const requests = [];
 
-  // Skapar ett anrop till SMAPI per kategori
-  const requests = attractionCategories.map((category) => {
-    return getData(
+  for (const type of selectedTypes) {
+
+    const categories = attractionTypeMap[type];
+
+    for (const category of categories) {
+
+       requests.push(
+        getData(
       "attraction",
       {
         ...apiFilters,
@@ -460,8 +464,9 @@ async function getFilteredAttractions() {
       },
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
-    );
-  });
+    ));
+    }
+  }
 
   // Väntar tills alla anrop till SMAPI är klara
   const results = await Promise.all(requests);
@@ -485,7 +490,7 @@ function hasActiveActivityFilters() {
 // Kollar om något attraction-filter är aktivt
 function hasActiveAttractionFilters() {
   return (
-    attractionType.value || experienceType.value || localSignificance.checked
+    getSelectedAttractionTypes().length > 0 || experienceType.value || localSignificance.checked
   );
 }
 
@@ -957,7 +962,7 @@ function resetFilters() {
   effort.value = "";
   involvesAnimals.checked = false;
   involvesWater.checked = false;
-  attractionType.value = "";
+  for (const input of document.querySelectorAll(`input[name="attractionType"]`)) { input.checked = false; };
   experienceType.value = "";
   localSignificance.checked = false;
   childFriendly.checked = false;
@@ -987,7 +992,7 @@ function resetButtonActive() {
     priceRange.value ||
     involvesAnimals.checked ||
     involvesWater.checked ||
-    attractionType.value ||
+    getSelectedAttractionTypes().length > 0 ||
     experienceType.value ||
     localSignificance.checked ||
     childFriendly.checked ||
