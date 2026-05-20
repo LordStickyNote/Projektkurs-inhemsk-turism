@@ -340,6 +340,19 @@ function getSelectedActivityTypes() {
   return selectedTypes;
 }
 
+function getSelectedAttractionTypes() {
+
+  const checkedInputs = document.querySelectorAll(`input[name="attractionType"]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+
+    return selectedTypes;
+  }
+}
+
 // Nödvändiga värden för att kunna filtrera beroende på användarens val, används senare i getFilteredActivities för att rendera resultatet.
 function getActivityFilterValues() {
   return {
