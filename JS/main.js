@@ -47,6 +47,7 @@ let allEstablishments = [];
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
+const filterBtn = document.getElementById("btn-float-SeeAndDo")
 
 // DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
@@ -983,15 +984,18 @@ function scrollToTop() {
 function updatePaginationControls() {
   if (showingQuizResults || currentView === "map") {
     pagination.style.display = "none";
+    filterBtn.style.display = "none";
     return;
   }
 
   pagination.style.display = "";
+  filterBtn.style.display = "";
 
   const usePagination = shouldUsePagination();
 
   if (!activeCategory) {
     pagination.style.display = "none";
+    filterBtn.style.display = "none";
     return;
   }
 
