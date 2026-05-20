@@ -15,7 +15,7 @@ export async function renderAccommodation(items, container) {
 
     article.innerHTML = `
             <div class="card card-listing">
-        <img src="${imageUrl}" alt="Image of ${item.descriptions}" />
+        <img src="${imageUrl}" loading="lazy" alt="Image of ${item.descriptions}" />
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
