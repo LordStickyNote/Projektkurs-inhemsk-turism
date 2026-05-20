@@ -147,8 +147,8 @@ export function buildFoodApiFilters(values) {
 export function buildAccommodationApiFilters(values) {
   const filters = {};
 
-  if (values.type) {
-    filters.descriptions = values.type;
+  if (values.types && values.types.length > 0) {
+    filters.descriptions = values.types.join(",");
   }
 
   if (values.minRating) {

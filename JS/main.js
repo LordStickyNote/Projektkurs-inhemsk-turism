@@ -175,9 +175,11 @@ function shouldUsePagination() {
   const hasActivityType = activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
   const hasAttractionType = activeCategory === "seeAndDo" && getSelectedAttractionTypes().length > 0;
 
+  const hasAccommodationType = activeCategory === "accommodation" && getselectedAccommodationTypes().length > 0;
+
   const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
 
-  return !hasFoodType && !hasEstablishmentFilters && !hasActivityType && !hasAttractionType;
+  return !hasFoodType && !hasEstablishmentFilters && !hasActivityType && !hasAttractionType && !hasAccommodationType;
 }
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
@@ -355,6 +357,18 @@ function getSelectedAttractionTypes() {
 
 function getSelectedFoodTypes() {
   const checkedInputs = document.querySelectorAll(`input[name="foodType"]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+  }
+
+  return selectedTypes;
+}
+
+function getselectedAccommodationTypes() {
+  const checkedInputs = document.querySelectorAll(`input[name="accommodationType"]:checked`);
 
   const selectedTypes = [];
 
@@ -773,7 +787,7 @@ async function loadFood() {
 // Samlar alla filtervärden för boenden.
 function getAccommodationFilterValues() {
   return {
-    type: accommodationType.value,
+    types: getselectedAccommodationTypes(),
     minRating: accommodationRating.value,
     hasWifi: hasWifi.checked,
     freeParking: freeParking.checked,
@@ -985,7 +999,7 @@ function resetFilters() {
   foodRating.value = "";
 
   // "Boenden"
-  accommodationType.value = "";
+  for (const input of document.querySelectorAll(`input[name="accommodationType"]`)) { input.checked = false; }
   accommodationRating.value = "";
   hasWifi.checked = false;
   freeParking.checked = false;
@@ -1011,7 +1025,7 @@ function resetButtonActive() {
     getSelectedFoodTypes().length > 0 ||
     foodPrice.value ||
     foodRating.value ||
-    accommodationType.value ||
+    getselectedAccommodationTypes().length > 0 ||
     accommodationRating.value ||
     hasWifi.checked ||
     freeParking.checked ||
