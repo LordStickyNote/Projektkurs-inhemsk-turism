@@ -16,9 +16,10 @@ import {
   buildFoodApiFilters,
 } from "./filters.js";
 
-const quizResults = JSON.parse(
-  sessionStorage.getItem("quizResults")
-);
+const quizResults = JSON.parse(sessionStorage.getItem("quizResults"));
+
+let showingQuizResults = false;
+let quizSections = [];
 
 // Kopplar de tre huvudkategorierna med klick-event.
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -46,6 +47,7 @@ let allEstablishments = [];
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
+const filterBtn = document.getElementById("btn-float-SeeAndDo")
 
 // DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
@@ -90,8 +92,20 @@ pagination.hidden = true;
 // DOM-element: sortering
 const sortList = document.getElementById("sortList");
 sortList.addEventListener("change", () => {
+  if (showingQuizResults) {
+
+    currentSections = [
+      {
+        items: sortItems(quizResults)
+      }
+    ];
+
+    renderCurrentView();
+    return;
+  }
+
   reloadCurrentCategory();
-})
+});
 const toggleAndSortingDiv = document.getElementById("toggleAndSortingDiv");
 
 const resetFilterBtn = document.getElementById("resetFilterBtn");
@@ -170,16 +184,27 @@ function shouldUsePagination() {
     return false;
   }
 
-  const hasFoodType = activeCategory === "food" && getSelectedFoodTypes().length > 0;
+  const hasFoodType =
+    activeCategory === "food" && getSelectedFoodTypes().length > 0;
 
-  const hasActivityType = activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
-  const hasAttractionType = activeCategory === "seeAndDo" && getSelectedAttractionTypes().length > 0;
+  const hasActivityType =
+    activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
+  const hasAttractionType =
+    activeCategory === "seeAndDo" && getSelectedAttractionTypes().length > 0;
 
-  const hasAccommodationType = activeCategory === "accommodation" && getselectedAccommodationTypes().length > 0;
+  const hasAccommodationType =
+    activeCategory === "accommodation" &&
+    getselectedAccommodationTypes().length > 0;
 
   const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
 
-  return !hasFoodType && !hasEstablishmentFilters && !hasActivityType && !hasAttractionType && !hasAccommodationType;
+  return (
+    !hasFoodType &&
+    !hasEstablishmentFilters &&
+    !hasActivityType &&
+    !hasAttractionType &&
+    !hasAccommodationType
+  );
 }
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
@@ -283,10 +308,13 @@ function mapSkeletonLoader() {
 
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
+  showingQuizResults = false;
+  pagination.style.display = "";
+  pagination.hidden = false;
 
   activeCategory = "seeAndDo";
   currentPage = 1;
-  
+
   updateViewButtons();
   resetFilters();
   resetButtonActive();
@@ -297,7 +325,7 @@ async function loadSeeAndDo() {
   } else {
     skeletonLoaders();
   }
-  
+
   const usePagination = shouldUsePagination();
 
   showFiltersForCategory();
@@ -330,8 +358,9 @@ async function loadSeeAndDo() {
 //-------------------------------------------------------------------------
 
 function getSelectedActivityTypes() {
-
-  const checkedInputs = document.querySelectorAll(`input[name="activityType"]:checked`);
+  const checkedInputs = document.querySelectorAll(
+    `input[name="activityType"]:checked`,
+  );
 
   const selectedTypes = [];
 
@@ -343,8 +372,9 @@ function getSelectedActivityTypes() {
 }
 
 function getSelectedAttractionTypes() {
-
-  const checkedInputs = document.querySelectorAll(`input[name="attractionType"]:checked`);
+  const checkedInputs = document.querySelectorAll(
+    `input[name="attractionType"]:checked`,
+  );
 
   const selectedTypes = [];
 
@@ -356,7 +386,9 @@ function getSelectedAttractionTypes() {
 }
 
 function getSelectedFoodTypes() {
-  const checkedInputs = document.querySelectorAll(`input[name="foodType"]:checked`);
+  const checkedInputs = document.querySelectorAll(
+    `input[name="foodType"]:checked`,
+  );
 
   const selectedTypes = [];
 
@@ -368,7 +400,9 @@ function getSelectedFoodTypes() {
 }
 
 function getselectedAccommodationTypes() {
-  const checkedInputs = document.querySelectorAll(`input[name="accommodationType"]:checked`);
+  const checkedInputs = document.querySelectorAll(
+    `input[name="accommodationType"]:checked`,
+  );
 
   const selectedTypes = [];
 
@@ -413,21 +447,20 @@ async function getFilteredActivities() {
 
   // Skapar flera API-anrop, ett per description
   for (const type of selectedTypes) {
-
     const descriptions = activityTypeMap[type];
 
     for (const description of descriptions) {
-
       requests.push(
         getData(
-      "activity",
-      {
-        ...apiFilters,
-        descriptions: description,
-      },
-      usePagination ? currentPage : null,
-      usePagination ? perPage : null,
-    ));
+          "activity",
+          {
+            ...apiFilters,
+            descriptions: description,
+          },
+          usePagination ? currentPage : null,
+          usePagination ? perPage : null,
+        ),
+      );
     }
   }
 
@@ -455,7 +488,6 @@ async function getFilteredAttractions() {
   const apiFilters = {
     ...buildAttractionApiFilters(getAttractionFilterValues()),
     ...getSortApiFilters(),
-
   };
 
   // Hämtar vald typ av sevärdhet i filtret. T.ex. Historia, natur etc.
@@ -476,21 +508,20 @@ async function getFilteredAttractions() {
   const requests = [];
 
   for (const type of selectedTypes) {
-
     const categories = attractionTypeMap[type];
 
     for (const category of categories) {
-
-       requests.push(
+      requests.push(
         getData(
-      "attraction",
-      {
-        ...apiFilters,
-        categories: category,
-      },
-      usePagination ? currentPage : null,
-      usePagination ? perPage : null,
-    ));
+          "attraction",
+          {
+            ...apiFilters,
+            categories: category,
+          },
+          usePagination ? currentPage : null,
+          usePagination ? perPage : null,
+        ),
+      );
     }
   }
 
@@ -516,7 +547,9 @@ function hasActiveActivityFilters() {
 // Kollar om något attraction-filter är aktivt
 function hasActiveAttractionFilters() {
   return (
-    getSelectedAttractionTypes().length > 0 || experienceType.value || localSignificance.checked
+    getSelectedAttractionTypes().length > 0 ||
+    experienceType.value ||
+    localSignificance.checked
   );
 }
 
@@ -709,7 +742,7 @@ async function applyFoodFilters(resetPage = true) {
   const apiFilters = {
     ...buildFoodApiFilters(values),
     ...getSortApiFilters(),
-  }
+  };
 
   const usePagination = shouldUsePagination();
 
@@ -746,6 +779,9 @@ async function applyFoodFilters(resetPage = true) {
 
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
+  showingQuizResults = false;
+  pagination.style.display = "";
+  pagination.hidden = false;
 
   activeCategory = "food";
   currentPage = 1;
@@ -843,6 +879,10 @@ async function applyAccommodationFilters(resetPage = true) {
 
 // Laddar startsida för boenden.
 async function loadAccommodation() {
+  showingQuizResults = false;
+  pagination.style.display = "";
+  pagination.hidden = false;
+
   activeCategory = "accommodation";
   currentPage = 1;
 
@@ -856,9 +896,9 @@ async function loadAccommodation() {
   } else {
     skeletonLoaders();
   }
-  
+
   const accommodation = categories.accommodation;
-  
+
   const usePagination = shouldUsePagination();
 
   showFiltersForCategory();
@@ -887,16 +927,28 @@ async function loadAccommodation() {
 // Funktion som körs när knappen för listvy klickas.
 listViewBtn.addEventListener("click", () => {
   currentView = "list";
-  mapSkeletonLoader();
-  applyCurrentFilters();
+
+  if (showingQuizResults) {
+    renderCurrentView();
+  } else {
+    applyCurrentFilters();
+  }
+  
   updateViewButtons();
 });
 
 // Funktion som körs när knappen för kartvy klickas.
 mapViewBtn.addEventListener("click", () => {
   currentView = "map";
-  pagination.hidden = true;
-  applyCurrentFilters();
+  pagination.style.display = "none";
+
+  if (showingQuizResults) {
+    renderCurrentView();
+  } else {
+      applyCurrentFilters();
+
+  }
+
   updateViewButtons();
 });
 
@@ -930,15 +982,20 @@ function scrollToTop() {
 
 // Uppdaterar paginerings-UI:t: döljer/visar det beroende på kart- eller listvy samt aktiverar/inaktiverar knapparna beroende på aktuell sida och data.
 function updatePaginationControls() {
-  if (currentView === "map") {
-    pagination.hidden = true;
+  if (showingQuizResults || currentView === "map") {
+    pagination.style.display = "none";
+    filterBtn.style.display = "none";
     return;
   }
+
+  pagination.style.display = "";
+  filterBtn.style.display = "";
 
   const usePagination = shouldUsePagination();
 
   if (!activeCategory) {
-    pagination.hidden = true;
+    pagination.style.display = "none";
+    filterBtn.style.display = "none";
     return;
   }
 
@@ -984,22 +1041,34 @@ function resetFilters() {
   priceRange.value = "";
 
   // "Se och göra"
-  for (const input of document.querySelectorAll(`input[name="activityType"]`)) { input.checked = false; }
+  for (const input of document.querySelectorAll(`input[name="activityType"]`)) {
+    input.checked = false;
+  }
   effort.value = "";
   involvesAnimals.checked = false;
   involvesWater.checked = false;
-  for (const input of document.querySelectorAll(`input[name="attractionType"]`)) { input.checked = false; };
+  for (const input of document.querySelectorAll(
+    `input[name="attractionType"]`,
+  )) {
+    input.checked = false;
+  }
   experienceType.value = "";
   localSignificance.checked = false;
   childFriendly.checked = false;
 
   // "Mat"
-  for (const input of document.querySelectorAll(`input[name="foodType"]`)) { input.checked = false; }
+  for (const input of document.querySelectorAll(`input[name="foodType"]`)) {
+    input.checked = false;
+  }
   foodPrice.value = "";
   foodRating.value = "";
 
   // "Boenden"
-  for (const input of document.querySelectorAll(`input[name="accommodationType"]`)) { input.checked = false; }
+  for (const input of document.querySelectorAll(
+    `input[name="accommodationType"]`,
+  )) {
+    input.checked = false;
+  }
   accommodationRating.value = "";
   hasWifi.checked = false;
   freeParking.checked = false;
@@ -1061,48 +1130,70 @@ function getSortApiFilters() {
     return {
       order_by: "rating",
       sort_in: "DESC",
-    }
+    };
   }
 
   if (sortList.value === "name") {
     return {
       order_by: "name",
       sort_in: "ASC",
-    }
+    };
   }
 
   return {};
 }
 
 function quizNotice() {
-
   const div = document.createElement("div");
 
   const button = document.createElement("button");
 
   div.innerHTML = `
   <h6>Visar dina rekommendationer baserat på dina svar från "Hitta en resa"</h6>
-  `
+  `;
 
-  button.textContent = "Visa allt"
+  button.textContent = "Visa allt";
 
-  button.addEventListener("click", loadSeeAndDo)
+  button.addEventListener("click", () => {
+    showingQuizResults = false;
+    sessionStorage.removeItem("quizResults");
+    loadSeeAndDo();
+  });
 
-  div.append(button)
+  div.append(button);
 
-   container.prepend(div);
+  container.prepend(div);
+}
+
+function sortItems(items) {
+  const sorted = [...items];
+
+  if (sortList.value === "rating") {
+    sorted.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
+  }
+
+  if (sortList.value === "name") {
+    sorted.sort((a, b) => a.name.localeCompare(b.name, "sv"));
+  }
+
+  return sorted;
 }
 
 if (quizResults) {
+  showingQuizResults = true;
+  activeCategory = "seeAndDo";
+
   currentSections = [
     {
-      items: quizResults
-    }
+      items: sortItems(quizResults)
+    },
   ];
 
   currentRenderFunction = renderSeeAndDo;
   renderCurrentView();
   setActiveCategoryButton("doBtn");
+
+  toggleAndSortingDiv.hidden = false;
 
   quizNotice();
 } else {
