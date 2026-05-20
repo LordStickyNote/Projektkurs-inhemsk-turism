@@ -150,7 +150,6 @@ nextBtn.addEventListener("click", () => {
 
     nextBtn.innerHTML = `
     <span class="row gap-2">
-      Hämtar rekommendationer
       <span class="spinner"></span>
     </span>
     `;
