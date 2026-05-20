@@ -110,12 +110,13 @@
     </div>
     <div class="filter-menu-container" id="filter-menu-containerSeeAndDo">
       <div class="filter-menu">
+        <h1 class="display">Filtrera resultat</h1>
         <div class="filter-category width-full">
           <div class="collapsible-header">
             <h3>Plats</h3>
             <hr />
           </div>
-          <span>
+          <span class="card">
             <label for="municipalityFilter">Kommun</label>
             <select id="municipalityFilter">
               <option value="">Alla kommuner</option>
@@ -129,12 +130,12 @@
               <hr />
             </div>
 
-            <span>
+            <span class="card card-filter-option">
               <label for="childFriendly">Barnvänligt</label>
               <input type="checkbox" id="childFriendly" />
             </span>
 
-            <span>
+            <span class="card card-filter-option">
               <label for="priceRange">Pris</label>
               <select id="priceRange">
                 <option value="">Alla priser</option>
@@ -152,30 +153,30 @@
               <hr />
             </div>
 
-            <span>
+            <span class="stack">
               <legend>Typ av aktivitet</legend>
-              <label>
-                <input type="checkbox" name="activityType" value="fun">
+              <label class="card card-filter-option row-between row">
+                <input type="checkbox" name="activityType" value="fun" />
                 Nöje
               </label>
               <label>
-                <input type="checkbox" name="activityType" value="sport">
+                <input type="checkbox" name="activityType" value="sport" />
                 Sport
               </label>
               <label>
-                <input type="checkbox" name="activityType" value="swim">
+                <input type="checkbox" name="activityType" value="swim" />
                 Bad
               </label>
               <label>
-                <input type="checkbox" name="activityType" value="animals">
+                <input type="checkbox" name="activityType" value="animals" />
                 Djur
               </label>
               <label>
-                <input type="checkbox" name="activityType" value="adventure">
+                <input type="checkbox" name="activityType" value="adventure" />
                 Äventyr
               </label>
               <label>
-                <input type="checkbox" name="activityType" value="nightlife">
+                <input type="checkbox" name="activityType" value="nightlife" />
               </label>
             </span>
 
@@ -209,19 +210,19 @@
             <span>
               <legend>Typ av sevärdhet</legend>
               <label>
-                <input type="checkbox" name="attractionType" value="history">
+                <input type="checkbox" name="attractionType" value="history" />
                 Historia
               </label>
               <label>
-                <input type="checkbox" name="attractionType" value="art">
+                <input type="checkbox" name="attractionType" value="art" />
                 Konst & kultur
               </label>
               <label>
-                <input type="checkbox" name="attractionType" value="nature">
+                <input type="checkbox" name="attractionType" value="nature" />
                 Natur
               </label>
               <label>
-                <input type="checkbox" name="attractionType" value="landmark">
+                <input type="checkbox" name="attractionType" value="landmark" />
                 Landmärke
               </label>
             </span>
@@ -252,27 +253,27 @@
             <span>
               <legend>Typ av mat</legend>
               <label>
-              <input type="checkbox" name="foodType" value="asian">
-              Asiatiskt
+                <input type="checkbox" name="foodType" value="asian" />
+                Asiatiskt
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="pizza">
+                <input type="checkbox" name="foodType" value="pizza" />
                 Pizza
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="kebab">
+                <input type="checkbox" name="foodType" value="kebab" />
                 Kebab
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="hamburgare">
+                <input type="checkbox" name="foodType" value="hamburgare" />
                 Hamburgare
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="sallad">
+                <input type="checkbox" name="foodType" value="sallad" />
                 Sallad
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="husman">
+                <input type="checkbox" name="foodType" value="husman" />
                 Husman
               </label>
             </span>
@@ -308,15 +309,23 @@
             <span>
               <legend>Boendetyp</legend>
               <label>
-                <input type="checkbox" name="accommodationType" value="Hotell">
+                <input
+                  type="checkbox"
+                  name="accommodationType"
+                  value="Hotell"
+                />
                 Hotell
               </label>
               <label>
-                <input type="checkbox" name="accommodationType" value="Camping">
+                <input
+                  type="checkbox"
+                  name="accommodationType"
+                  value="Camping"
+                />
                 Camping
               </label>
               <label>
-                <input type="checkbox" name="accommodationType" value="B&B">
+                <input type="checkbox" name="accommodationType" value="B&B" />
                 B&B
               </label>
             </span>
@@ -347,7 +356,7 @@
             </span>
           </div>
         </div>
-
+        <hr />
         <div class="row gap-4 width-full">
           <button class="btn btn-outline" id="resetFilterBtn">
             Rensa filter

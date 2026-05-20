@@ -159,6 +159,20 @@ a {
 
 /*---- card structures ----*/
 
+/* filter-option */
+.card-filter-option {
+  transition: var(--transition-select);
+}
+.card-filter-option:hover {
+  transform: scale(1.02);
+}
+
+.card-filter-option:has(> input[type="radio"]:checked),
+.card-filter-option:has(> input[type="checkbox"]:checked) {
+  background-color: var(--color-bg-elevated);
+  transform: scale(1.02);
+}
+
 /* answer */
 .card-answer {
   transition: var(--transition-select);
@@ -723,6 +737,7 @@ input[type="checkbox"]:checked {
 
 .filter-menu-container{
   width: 100vw;
+  display: none;
 }
 
 .filter-menu {
