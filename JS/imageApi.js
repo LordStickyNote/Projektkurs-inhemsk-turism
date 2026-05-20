@@ -2,6 +2,25 @@ import { PIXAYBAY_API_KEY } from "./config.js";
 
 const imageCache = {};
 
+export const imageQueries = {
+    nature: "forest lake sweden hiking",
+    history: "castle museum sweden",
+    art: "art gallery museum",
+    swim: "indoor swimming pool",
+    adventure: "zipline climbing adventure",
+    animals: "zoo family animals"
+}
+
+export const blockedWords = [
+    "bikini",
+    "swimsuit",
+    "fire",
+    "burning",
+    "smoke",
+    "weapon",
+    "war"
+]
+
 export async function getPixabayImage(searchTerm, cacheKey) {
     if (imageCache[cacheKey]) {
         return imageCache[cacheKey];
