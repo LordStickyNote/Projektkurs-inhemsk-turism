@@ -16,6 +16,10 @@ import {
   buildFoodApiFilters,
 } from "./filters.js";
 
+const quizResults = JSON.parse(
+  sessionStorage.getItem("quizResults")
+);
+
 // Kopplar de tre huvudkategorierna med klick-event.
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
 document.querySelector("#foodBtn").addEventListener("click", loadFood);
@@ -166,14 +170,16 @@ function shouldUsePagination() {
     return false;
   }
 
-  const hasFoodType = activeCategory === "food" && foodType.value;
+  const hasFoodType = activeCategory === "food" && getSelectedFoodTypes().length > 0;
 
-  const hasActivityType = activeCategory === "seeAndDo" && activityType.value;
-  const hasAttractionType = activeCategory === "seeAndDo" && attractionType.value;
+  const hasActivityType = activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
+  const hasAttractionType = activeCategory === "seeAndDo" && getSelectedAttractionTypes().length > 0;
+
+  const hasAccommodationType = activeCategory === "accommodation" && getselectedAccommodationTypes().length > 0;
 
   const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
 
-  return !hasFoodType && !hasEstablishmentFilters && !hasActivityType && !hasAttractionType;
+  return !hasFoodType && !hasEstablishmentFilters && !hasActivityType && !hasAttractionType && !hasAccommodationType;
 }
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
@@ -323,6 +329,56 @@ async function loadSeeAndDo() {
 
 //-------------------------------------------------------------------------
 
+function getSelectedActivityTypes() {
+
+  const checkedInputs = document.querySelectorAll(`input[name="activityType"]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+  }
+
+  return selectedTypes;
+}
+
+function getSelectedAttractionTypes() {
+
+  const checkedInputs = document.querySelectorAll(`input[name="attractionType"]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+  }
+
+  return selectedTypes;
+}
+
+function getSelectedFoodTypes() {
+  const checkedInputs = document.querySelectorAll(`input[name="foodType"]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+  }
+
+  return selectedTypes;
+}
+
+function getselectedAccommodationTypes() {
+  const checkedInputs = document.querySelectorAll(`input[name="accommodationType"]:checked`);
+
+  const selectedTypes = [];
+
+  for (const input of checkedInputs) {
+    selectedTypes.push(input.value);
+  }
+
+  return selectedTypes;
+}
+
 // Nödvändiga värden för att kunna filtrera beroende på användarens val, används senare i getFilteredActivities för att rendera resultatet.
 function getActivityFilterValues() {
   return {
@@ -340,11 +396,11 @@ async function getFilteredActivities() {
     ...getSortApiFilters(),
   }; // Hämtar API-filter
 
-  const selectedType = activityType.value;
+  const selectedTypes = getSelectedActivityTypes();
   const usePagination = shouldUsePagination();
 
   // Om inget "typ av aktivitet"-filter är valt hämtas "activity"-objekt direkt från SMAPI
-  if (!selectedType) {
+  if (selectedTypes.length === 0) {
     return await getData(
       "activity",
       apiFilters,
@@ -353,12 +409,17 @@ async function getFilteredActivities() {
     );
   }
 
-  // Hämtar alla "descriptions" som hör till vald typ av aktivitet
-  const descriptions = activityTypeMap[selectedType];
+  const requests = [];
 
   // Skapar flera API-anrop, ett per description
-  const requests = descriptions.map((description) => {
-    return getData(
+  for (const type of selectedTypes) {
+
+    const descriptions = activityTypeMap[type];
+
+    for (const description of descriptions) {
+
+      requests.push(
+        getData(
       "activity",
       {
         ...apiFilters,
@@ -366,8 +427,9 @@ async function getFilteredActivities() {
       },
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
-    );
-  });
+    ));
+    }
+  }
 
   // Väntar på att alla API-anrop ska bli klara
   const results = await Promise.all(requests);
@@ -397,12 +459,12 @@ async function getFilteredAttractions() {
   };
 
   // Hämtar vald typ av sevärdhet i filtret. T.ex. Historia, natur etc.
-  const selectedType = attractionType.value;
+  const selectedTypes = getSelectedAttractionTypes();
 
   const usePagination = shouldUsePagination();
 
   // Om ingen typ är vald hämtas sevärdheter med övriga filter
-  if (!selectedType) {
+  if (selectedTypes.length === 0) {
     return await getData(
       "attraction",
       apiFilters,
@@ -411,12 +473,16 @@ async function getFilteredAttractions() {
     );
   }
 
-  // Hämtar de SMAPI-kategorierna som hör till vald typ från filter.js.
-  const attractionCategories = attractionTypeMap[selectedType];
+  const requests = [];
 
-  // Skapar ett anrop till SMAPI per kategori
-  const requests = attractionCategories.map((category) => {
-    return getData(
+  for (const type of selectedTypes) {
+
+    const categories = attractionTypeMap[type];
+
+    for (const category of categories) {
+
+       requests.push(
+        getData(
       "attraction",
       {
         ...apiFilters,
@@ -424,8 +490,9 @@ async function getFilteredAttractions() {
       },
       usePagination ? currentPage : null,
       usePagination ? perPage : null,
-    );
-  });
+    ));
+    }
+  }
 
   // Väntar tills alla anrop till SMAPI är klara
   const results = await Promise.all(requests);
@@ -439,7 +506,7 @@ async function getFilteredAttractions() {
 // Kollar om något activity-filter är aktivt
 function hasActiveActivityFilters() {
   return (
-    activityType.value ||
+    getSelectedActivityTypes().length > 0 ||
     effort.value ||
     involvesAnimals.checked ||
     involvesWater.checked
@@ -449,7 +516,7 @@ function hasActiveActivityFilters() {
 // Kollar om något attraction-filter är aktivt
 function hasActiveAttractionFilters() {
   return (
-    attractionType.value || experienceType.value || localSignificance.checked
+    getSelectedAttractionTypes().length > 0 || experienceType.value || localSignificance.checked
   );
 }
 
@@ -619,7 +686,7 @@ async function loadMunicipalities() {
 function getFoodFilterValues() {
   // Samlar formulärdata i ett objekt
   return {
-    type: foodType.value,
+    types: getSelectedFoodTypes(),
     maxPrice: foodPrice.value,
     minRating: foodRating.value,
   };
@@ -648,7 +715,7 @@ async function applyFoodFilters(resetPage = true) {
 
   // Hämtar alla matobjekt från food-controllern.
   let items = await getData(
-    food.controller,
+    "food",
     apiFilters,
     usePagination ? currentPage : null,
     usePagination ? perPage : null,
@@ -700,7 +767,7 @@ async function loadFood() {
 
   const food = categories.food;
   let items = await getData(
-    food.controller,
+    "food",
     getSortApiFilters(),
     usePagination ? currentPage : null,
     usePagination ? perPage : null,
@@ -720,7 +787,7 @@ async function loadFood() {
 // Samlar alla filtervärden för boenden.
 function getAccommodationFilterValues() {
   return {
-    type: accommodationType.value,
+    types: getselectedAccommodationTypes(),
     minRating: accommodationRating.value,
     hasWifi: hasWifi.checked,
     freeParking: freeParking.checked,
@@ -917,22 +984,22 @@ function resetFilters() {
   priceRange.value = "";
 
   // "Se och göra"
-  activityType.value = "";
+  for (const input of document.querySelectorAll(`input[name="activityType"]`)) { input.checked = false; }
   effort.value = "";
   involvesAnimals.checked = false;
   involvesWater.checked = false;
-  attractionType.value = "";
+  for (const input of document.querySelectorAll(`input[name="attractionType"]`)) { input.checked = false; };
   experienceType.value = "";
   localSignificance.checked = false;
   childFriendly.checked = false;
 
   // "Mat"
-  foodType.value = "";
+  for (const input of document.querySelectorAll(`input[name="foodType"]`)) { input.checked = false; }
   foodPrice.value = "";
   foodRating.value = "";
 
   // "Boenden"
-  accommodationType.value = "";
+  for (const input of document.querySelectorAll(`input[name="accommodationType"]`)) { input.checked = false; }
   accommodationRating.value = "";
   hasWifi.checked = false;
   freeParking.checked = false;
@@ -946,19 +1013,19 @@ function resetFilters() {
 function resetButtonActive() {
   const hasActiveFilters =
     municipalityFilter.value ||
-    activityType.value ||
+    getSelectedActivityTypes().length > 0 ||
     effort.value ||
     priceRange.value ||
     involvesAnimals.checked ||
     involvesWater.checked ||
-    attractionType.value ||
+    getSelectedAttractionTypes().length > 0 ||
     experienceType.value ||
     localSignificance.checked ||
     childFriendly.checked ||
-    foodType.value ||
+    getSelectedFoodTypes().length > 0 ||
     foodPrice.value ||
     foodRating.value ||
-    accommodationType.value ||
+    getselectedAccommodationTypes().length > 0 ||
     accommodationRating.value ||
     hasWifi.checked ||
     freeParking.checked ||
@@ -1005,4 +1072,39 @@ function getSortApiFilters() {
   }
 
   return {};
+}
+
+function quizNotice() {
+
+  const div = document.createElement("div");
+
+  const button = document.createElement("button");
+
+  div.innerHTML = `
+  <h6>Visar dina rekommendationer baserat på dina svar från "Hitta en resa"</h6>
+  `
+
+  button.textContent = "Visa allt"
+
+  button.addEventListener("click", loadSeeAndDo)
+
+  div.append(button)
+
+   container.prepend(div);
+}
+
+if (quizResults) {
+  currentSections = [
+    {
+      items: quizResults
+    }
+  ];
+
+  currentRenderFunction = renderSeeAndDo;
+  renderCurrentView();
+  setActiveCategoryButton("doBtn");
+
+  quizNotice();
+} else {
+  loadSeeAndDo();
 }

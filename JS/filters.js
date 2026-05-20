@@ -104,20 +104,26 @@ export function getMaxPrice(priceRangeString) {
 export function filterFood(items, filters) {
   let filtered = items;
 
-  if (filters.type) {
-    const type = filters.type.toLowerCase();
-  
+  if (filters.types && filters.types.length > 0) {
 
   filtered = filtered.filter((item) => {
     const description = item.description?.toLowerCase() || "";
     const subType = item.sub_type?.toLowerCase() || "";
     const searchTags = item.search_tags?.toLowerCase() || "";
 
-    return (
-      description.includes(type) ||
-      subType.includes(type) ||
-      searchTags.includes(type)
-    );
+    for (const type of filters.types) {
+      const lowerType = type.toLowerCase();
+
+      if (
+      description.includes(lowerType) ||
+      subType.includes(lowerType) ||
+      searchTags.includes(lowerType)
+      ) {
+        return true;
+      }
+    }
+
+    return false;
   });
 }
 
@@ -141,8 +147,8 @@ export function buildFoodApiFilters(values) {
 export function buildAccommodationApiFilters(values) {
   const filters = {};
 
-  if (values.type) {
-    filters.descriptions = values.type;
+  if (values.types && values.types.length > 0) {
+    filters.descriptions = values.types.join(",");
   }
 
   if (values.minRating) {
