@@ -102,7 +102,7 @@ sortList.addEventListener("change", () => {
     renderCurrentView();
     return;
   }
-  
+
   reloadCurrentCategory();
 });
 const toggleAndSortingDiv = document.getElementById("toggleAndSortingDiv");
@@ -926,16 +926,28 @@ async function loadAccommodation() {
 // Funktion som körs när knappen för listvy klickas.
 listViewBtn.addEventListener("click", () => {
   currentView = "list";
-  mapSkeletonLoader();
-  applyCurrentFilters();
+
+  if (showingQuizResults) {
+    renderCurrentView();
+  } else {
+    applyCurrentFilters();
+  }
+  
   updateViewButtons();
 });
 
 // Funktion som körs när knappen för kartvy klickas.
 mapViewBtn.addEventListener("click", () => {
   currentView = "map";
-  pagination.hidden = true;
-  applyCurrentFilters();
+  pagination.style.display = "none";
+
+  if (showingQuizResults) {
+    renderCurrentView();
+  } else {
+      applyCurrentFilters();
+
+  }
+
   updateViewButtons();
 });
 
