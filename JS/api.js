@@ -45,8 +45,6 @@ export async function getData(
 
     apiCache[cacheKey] = data.payload;
 
-    console.log(data);
-
     return data.payload;
   } catch (error) {
     console.error("Fel vid hämtning av SMAPI:", error);
