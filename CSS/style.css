@@ -217,11 +217,27 @@ a {
   background-size: cover;
   transition: var(--transition-exit);
   cursor: pointer;
+  animation: cardFadeIn 0.45s ease;
 }
 
 .card-listing:hover {
   transform: scale(1.02);
   transition: var(--transition-hover);
+}
+
+@keyframes cardFadeIn {
+
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
 }
 
 .card-map {
@@ -648,12 +664,17 @@ article {
 }
 
 @keyframes loading-animation {
-  from {
-    opacity: 30%;
+  
+  0% {
+    opacity: 0.55;
   }
 
-  to {
-    opacity: 100%;
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.55;
   }
 }
 
