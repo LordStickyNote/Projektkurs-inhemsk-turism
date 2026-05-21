@@ -1,20 +1,31 @@
 import { getPixabayImage, getFoodSearchQuery } from "./imageApi.js";
 
 export async function renderFood(items, container) {
-  container.innerHTML = "";
+
+  const renderedSections = [];
 
   const sectionElement = document.createElement("section");
   sectionElement.classList.add("grid", "width-full", "gap-6");
 
-  for (const item of items) {
+  const itemsWithImages = await Promise.all(
+
+    items.map(async (item) => {
+      const query = getFoodSearchQuery(item);
+
+      const imageUrl = (await getPixabayImage(query, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
+
+      return {
+        ...item,
+        imageUrl,
+      };
+    })
+  );
+
+  for (const item of itemsWithImages) {
     const article = document.createElement("article");
 
-    const query = getFoodSearchQuery(item);
-
-    const imageUrl = (await getPixabayImage(query, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
-
     article.innerHTML = `
-                        <div class="card card-listing" style="background-image: url('${imageUrl}');">
+                        <div class="card card-listing" style="background-image: url('${item.imageUrl}');">
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
@@ -36,5 +47,10 @@ export async function renderFood(items, container) {
 
     sectionElement.append(article);
   }
-  container.append(sectionElement);
+
+  renderedSections.push(sectionElement);
+
+  container.innerHTML = "";
+
+  container.append(...renderedSections);
 }
