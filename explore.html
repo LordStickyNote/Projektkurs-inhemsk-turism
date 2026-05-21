@@ -109,33 +109,39 @@
       </div>
     </div>
     <div class="filter-menu-container" id="filter-menu-containerSeeAndDo">
-      <div class="card filter-menu">
+      <h1
+        class="display"
+        style="padding: var(--space-8); box-sizing: border-box"
+      >
+        Filtrera resultat
+      </h1>
+      <div class="filter-menu">
         <div class="filter-category width-full">
           <div class="collapsible-header">
             <h3>Plats</h3>
             <hr />
           </div>
-          <span>
-            <label for="municipalityFilter">Kommun</label>
+          <label class="card card-filter-option" for="municipalityFilter"
+            ><h3>Kommun</h3>
             <select id="municipalityFilter">
               <option value="">Alla kommuner</option>
             </select>
-          </span>
+          </label>
         </div>
-        <div id="SeeAndDoFilters" class="width-full" hidden>
+        <div id="SeeAndDoFilters" class="gap-8 stack width-full" hidden>
           <div class="filter-category width-full">
             <div class="collapsible-header">
               <h3>Generella filter</h3>
               <hr />
             </div>
 
-            <span>
-              <label for="childFriendly">Barnvänligt</label>
-              <input type="checkbox" id="childFriendly" />
-            </span>
+            <label class="card card-filter-option" for="childFriendly"
+              ><h3>Barnvänligt</h3>
+              <input type="checkbox" id="childFriendly"
+            /></label>
 
-            <span>
-              <label for="priceRange">Pris</label>
+            <label class="card card-filter-option" for="priceRange"
+              ><h3>Pris</h3>
               <select id="priceRange">
                 <option value="">Alla priser</option>
                 <option value="100">Upp till 100 kr</option>
@@ -143,7 +149,7 @@
                 <option value="500">Upp till 500 kr</option>
                 <option value="1000">Upp till 1000 kr</option>
               </select>
-            </span>
+            </label>
           </div>
 
           <div id="activityFilters" class="width-full filter-category">
@@ -152,52 +158,51 @@
               <hr />
             </div>
 
-            <span>
-              <legend>Typ av aktivitet</legend>
-              <label>
-                <input type="checkbox" name="activityType" value="fun">
-                Nöje
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="sport">
-                Sport
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="swim">
-                Bad
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="animals">
-                Djur
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="adventure">
-                Äventyr
-              </label>
-              <label>
-                <input type="checkbox" name="activityType" value="nightlife">
-              </label>
-            </span>
+            <h4>Typ av aktivitet</h4>
+            <label class="card card-filter-option">
+              <h3>Nöje</h3>
+              <input type="checkbox" name="activityType" value="fun" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Sport</h3>
+              <input type="checkbox" name="activityType" value="sport" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Bad</h3>
+              <input type="checkbox" name="activityType" value="swim" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Djur</h3>
+              <input type="checkbox" name="activityType" value="animals" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Äventyr</h3>
+              <input type="checkbox" name="activityType" value="adventure" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Nattliv</h3>
+              <input type="checkbox" name="activityType" value="nightlife" />
+            </label>
 
-            <span>
-              <label for="effort">Aktivitetsnivå</label>
+            <label class="card card-filter-option" for="effort">
+              <h3>Aktivitetsnivå</h3>
               <select id="effort">
                 <option value="">Alla nivåer</option>
                 <option value="LOW">Lugnt</option>
                 <option value="MEDIUM">Medel</option>
                 <option value="HIGH">Aktivt</option>
               </select>
-            </span>
+            </label>
 
-            <span>
-              <label for="involvesAnimals">Djur</label>
+            <label class="card card-filter-option" for="involvesAnimals">
+              <h3>Djur</h3>
               <input type="checkbox" id="involvesAnimals" />
-            </span>
+            </label>
 
-            <span>
-              <label for="involvesWater">Vatten</label>
+            <label class="card card-filter-option" for="involvesWater">
+              <h3>Vatten</h3>
               <input type="checkbox" id="involvesWater" />
-            </span>
+            </label>
           </div>
 
           <div id="attractionFilters" class="filter-category width-full">
@@ -205,40 +210,38 @@
               <h3>Filtrera sevärdheter</h3>
               <hr />
             </div>
+            <h4>Typ av sevärdhet</h4>
+            <label class="card card-filter-option">
+              <h3>Historia</h3>
+              <input type="checkbox" name="attractionType" value="history" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Konst & kultur</h3>
+              <input type="checkbox" name="attractionType" value="art" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Natur</h3>
+              <input type="checkbox" name="attractionType" value="nature" />
+            </label>
+            <label class="card card-filter-option">
+              <h3>Landmärke</h3>
+              <input type="checkbox" name="attractionType" value="landmark" />
+            </label>
+            <hr>
 
-            <span>
-              <legend>Typ av sevärdhet</legend>
-              <label>
-                <input type="checkbox" name="attractionType" value="history">
-                Historia
-              </label>
-              <label>
-                <input type="checkbox" name="attractionType" value="art">
-                Konst & kultur
-              </label>
-              <label>
-                <input type="checkbox" name="attractionType" value="nature">
-                Natur
-              </label>
-              <label>
-                <input type="checkbox" name="attractionType" value="landmark">
-                Landmärke
-              </label>
-            </span>
-
-            <span>
-              <label for="experienceType">Typ av upplevelse</label>
+            <label class="card card-filter-option" for="experienceType">
+              <h3>Typ av upplevelse</h3>
               <select id="experienceType">
                 <option value="">Alla</option>
                 <option value="interactive">Interaktiv</option>
                 <option value="static">Klassisk (se & läsa)</option>
               </select>
-            </span>
+            </label>
 
-            <span>
-              <label for="localSignificance">Lokala pärlor</label>
+            <label class="card card-filter-option" for="localSignificance">
+              <h3>Lokala pärlor</h3>
               <input type="checkbox" id="localSignificance" />
-            </span>
+            </label>
           </div>
         </div>
 
@@ -250,51 +253,51 @@
             </div>
 
             <span>
-              <legend>Typ av mat</legend>
+              <h4>Typ av mat</h4>
               <label>
-              <input type="checkbox" name="foodType" value="asian">
-              Asiatiskt
+                <input type="checkbox" name="foodType" value="asian" />
+                Asiatiskt
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="pizza">
+                <input type="checkbox" name="foodType" value="pizza" />
                 Pizza
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="kebab">
+                <input type="checkbox" name="foodType" value="kebab" />
                 Kebab
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="hamburgare">
+                <input type="checkbox" name="foodType" value="hamburgare" />
                 Hamburgare
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="sallad">
+                <input type="checkbox" name="foodType" value="sallad" />
                 Sallad
               </label>
               <label>
-                <input type="checkbox" name="foodType" value="husman">
+                <input type="checkbox" name="foodType" value="husman" />
                 Husman
               </label>
             </span>
 
-            <span>
-              <label for="foodPrice">Pris per person</label>
+            <label class="card card-filter-option" for="foodPrice">
+              <h3>Pris per person</h3>
               <select id="foodPrice">
                 <option value="">Alla priser</option>
                 <option value="100">Upp till 100 kr</option>
                 <option value="200">Upp till 200 kr</option>
                 <option value="500">Upp till 500 kr</option>
               </select>
-            </span>
+            </label>
 
-            <span>
-              <label for="foodRating">Betyg</label>
+            <label class="card card-filter-option" for="foodRating">
+              <h3>Betyg</h3>
               <select id="foodRating">
                 <option value="">Alla betyg</option>
                 <option value="3">3+</option>
                 <option value="4">4+</option>
               </select>
-            </span>
+            </label>
           </div>
         </div>
 
@@ -306,56 +309,66 @@
             </div>
 
             <span>
-              <legend>Boendetyp</legend>
+              <h4>Boendetyp</h4>
               <label>
-                <input type="checkbox" name="accommodationType" value="Hotell">
+                <input
+                  type="checkbox"
+                  name="accommodationType"
+                  value="Hotell"
+                />
                 Hotell
               </label>
               <label>
-                <input type="checkbox" name="accommodationType" value="Camping">
+                <input
+                  type="checkbox"
+                  name="accommodationType"
+                  value="Camping"
+                />
                 Camping
               </label>
               <label>
-                <input type="checkbox" name="accommodationType" value="B&B">
+                <input type="checkbox" name="accommodationType" value="B&B" />
                 B&B
               </label>
             </span>
 
-            <span>
-              <label for="accommodationRating">Betyg</label>
+            <label class="card card-filter-option" for="accommodationRating">
+              <h3>Betyg</h3>
               <select id="accommodationRating">
                 <option value="">Alla betyg</option>
                 <option value="3">3+</option>
                 <option value="4">4+</option>
                 <option value="4.5">4.5+</option>
               </select>
-            </span>
+            </label>
 
-            <span>
-              <label for="hasWifi">Wifi</label>
+            <label class="card card-filter-option" for="hasWifi">
+              <h3>Wifi</h3>
               <input type="checkbox" id="hasWifi" />
-            </span>
+            </label>
 
-            <span>
-              <label for="freeParking">Gratis parkering</label>
+            <label class="card card-filter-option" for="freeParking">
+              <h3>Gratis parkering</h3>
               <input type="checkbox" id="freeParking" />
-            </span>
+            </label>
 
-            <span>
-              <label for="petFriendly">Tillåter husdjur</label>
+            <label class="card card-filter-option" for="petFriendly">
+              <h3>Tillåter husdjur</h3>
               <input type="checkbox" id="petFriendly" />
-            </span>
+            </label>
           </div>
         </div>
-
-        <div class="row gap-4 width-full">
-          <button class="btn btn-outline" id="resetFilterBtn">
-            Rensa filter
-          </button>
-          <button id="filterBtn" class="btn btn-primary width-full">
-            Filtrera
-          </button>
-        </div>
+      </div>
+      <div
+        style="padding: var(--space-8); box-sizing: border-box"
+        class="row gap-4 width-full"
+      >
+        <button class="btn btn-outline" id="resetFilterBtn">
+          Rensa filter
+        </button>
+        <button id="filterBtn" class="btn btn-primary width-full">
+          Visa resultat
+        </button>
       </div>
     </div>
     <button id="btn-float-SeeAndDo" class="btn-float btn btn-primary">
