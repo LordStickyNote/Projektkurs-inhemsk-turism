@@ -175,6 +175,17 @@ a {
   background-color: var(--color-bg-elevated);
   transform: scale(1.02);
 }
+.card-filter-option:has(> input[type="radio"]:disabled),
+.card-filter-option:has(> input[type="checkbox"]:disabled),
+.card-filter-option:has(> select:disabled) {
+  opacity: 0.6;
+}
+
+.card-filter-option:has(> input[type="radio"]:disabled):hover,
+.card-filter-option:has(> input[type="checkbox"]:disabled):hover,
+.card-filter-option:has(> select:disabled):hover {
+  transform: none;
+}
 
 /* answer */
 .card-answer {
@@ -746,6 +757,12 @@ input[type="checkbox"]:checked {
   display: none;
   height: 100vh;
   z-index: 30;
+  top: 0;
+  left: 0;
+  position: fixed;
+  flex-flow: column;
+  background-color: var(--color-bg);
+  box-sizing: border-box;
 }
 
 .filter-menu {
@@ -756,12 +773,12 @@ input[type="checkbox"]:checked {
   flex-flow: column;
   gap: var(--space-8);
   margin: 0;
-  background-color: var(--color-bg);
   top: 0;
   left: 0;
-  padding: 30px;
   box-sizing: border-box;
   overflow-y: scroll;
+  position: relative;
+  padding: var(--space-8);
 }
 
 .filter-menu span {
