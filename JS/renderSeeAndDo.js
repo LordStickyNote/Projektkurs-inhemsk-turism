@@ -5,10 +5,16 @@ export async function renderSeeAndDo(sections, container) {
 
   for (const section of sections) {
     const sectionElement = document.createElement("section");
-
     sectionElement.classList.add("grid", "width-full", "gap-6");
 
-    for (const item of section.items) {
+    const itemsWithImages = await Promise.all(
+      section.items.map(async (item) => ({
+        ...item,
+        imageUrl: (await getPixabayImage(item.description, item.id)) || "./img/High_Chaparral_Theme_Park.jpg",
+      }))
+    )
+
+    for (const item of itemsWithImages) {
       const article = document.createElement("article");
 
       const imageUrl = (await getPixabayImage(item.description, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
