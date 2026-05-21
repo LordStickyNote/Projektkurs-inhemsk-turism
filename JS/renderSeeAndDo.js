@@ -1,6 +1,7 @@
 import { getPixabayImage } from "./imageApi.js";
 
 export async function renderSeeAndDo(sections, container) {
+  const renderedSections = [];
 
   for (const section of sections) {
     const sectionElement = document.createElement("section");
@@ -44,8 +45,10 @@ export async function renderSeeAndDo(sections, container) {
       sectionElement.append(article);
     }
 
-    container.innerHTML = "";
-
-    container.append(sectionElement);
+    renderedSections.push(sectionElement);
   }
+
+  container.innerHTML = "";
+
+  container.append(...renderedSections);
 }
