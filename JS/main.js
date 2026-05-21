@@ -640,9 +640,20 @@ async function applySeeAndDoFilters(resetPage = true) {
 
 // Hämtar alla establishments från SMAPI eller returnerar data som redan finns cachad.
 async function getAllEstablishments() {
-  if (allEstablishments.length === 0) {
-    allEstablishments = await getData("establishment");
+
+  const cached = localStorage.getItem("establishments");
+
+  if (cached) {
+    allEstablishments = JSON.parse(cached);
+    return allEstablishments;
   }
+
+  allEstablishments = await getData("establishment");
+
+  localStorage.setItem(
+    "establishments",
+    JSON.stringify(allEstablishments)
+  );
 
   return allEstablishments;
 }
