@@ -10,7 +10,7 @@ export async function renderAccommodation(items, container) {
     const itemsWithImages = await Promise.all(
   
       items.map(async (item) => {
-        const imageSearchTerm = item.description === "B&B" ? "bed and breakfast" : item.description;
+        const imageSearchTerm = item.description === "B&B" ? "small guesthouse sweden" : item.description;
   
         const imageUrl = (await getPixabayImage(imageSearchTerm, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
   

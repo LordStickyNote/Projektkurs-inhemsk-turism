@@ -1,10 +1,11 @@
 import { getPixabayImage } from "./imageApi.js";
-import { getReviews } from "./api.js";
+import { getReviews, getNearbyPlaces } from "./api.js";
 
 export async function renderDetailModal(item) {
   const reviews = await getReviews(item.id);
+  const nearbyPlaces = await getNearbyPlaces(item.lat, item.lng);
 
-  console.log(item);
+  const imageUrl = await getPixabayImage(item.description, item.id);
 
   function formatBoolean(value) {
     if (value === "Y") {
@@ -29,8 +30,6 @@ export async function renderDetailModal(item) {
   const content = document.getElementById("detailContent");
 
   modal.hidden = false;
-
-  const imageUrl = await getPixabayImage(item.description, item.id);
 
   content.innerHTML = `
     <main class="stack gap-8">
@@ -66,7 +65,7 @@ export async function renderDetailModal(item) {
             </p>
 
             <p class="text-faded">
-              ${item.price_range || "-"}
+             Pris: ${item.price_range || "-"} kr
             </p>
 
           </div>
@@ -249,30 +248,60 @@ export async function renderDetailModal(item) {
       <hr>
 
       <section>
-        <h2>Platser i närheten</h2>
+          <h2>Platser i närheten</h2>
 
-        <div class="grid gap-6" id="results">
+  <div class="grid gap-6">
+
+    ${
+      nearbyPlaces
+        .slice(0, 4)
+        .map((place) => `
 
           <article class="card card-listing">
-            <img
-              src="./img/High_Chaparral_Theme_Park.jpg"
-              alt="High Chaparral">
 
+          <div class="nearby-cards card card-listing">
             <div class="card-listing-content">
-              <h3>High Chaparral</h3>
-              <p class="text-faded">Kulltorp</p>
+
+              <h3>${place.name}</h3>
+
+              <p class="text-faded">
+                ${place.city}
+              </p>
 
               <div class="gap-2">
-                <span class="badge badge-red">Temapark</span>
+
+                <span class="badge badge-red">
+                  ${place.description}
+                </span>
+
               </div>
+
+              <p class="text-faded">
+                ${Math.round(place.distance_in_km)} km bort
+              </p>
+
             </div>
+
           </article>
 
-        </div>
+        `).join("")
+    }
+
+  </div>
       </section>
 
       </section>
 
     </main>
   `;
+
+  const nearbyCards = content.querySelectorAll(".nearby-cards");
+
+  nearbyCards.forEach(async (card, index) => {
+    const place = nearbyPlaces[index];
+
+    const imageUrl = await getPixabayImage(place.description, place.id);
+
+    card.style.backgroundImage = `url('${imageUrl}')`
+  })
 }
