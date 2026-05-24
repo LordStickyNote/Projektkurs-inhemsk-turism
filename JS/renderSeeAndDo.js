@@ -1,4 +1,5 @@
 import { getPixabayImage } from "./imageApi.js";
+import { renderDetailModal } from "./renderDetailModal.js";
 
 export async function renderSeeAndDo(sections, container) {
   const renderedSections = [];

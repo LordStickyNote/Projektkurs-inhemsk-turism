@@ -1,4 +1,5 @@
 import { getPixabayImage, getFoodSearchQuery } from "./imageApi.js";
+import { renderDetailModal } from "./renderDetailModal.js";
 
 export async function renderFood(items, container) {
 
