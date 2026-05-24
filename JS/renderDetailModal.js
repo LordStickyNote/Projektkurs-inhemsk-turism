@@ -1,35 +1,38 @@
 import { getPixabayImage } from "./imageApi.js";
+import { getReviews } from "./api.js";
 
 export async function renderDetailModal(item) {
+  const reviews = await getReviews(item.id);
 
-    function formatBoolean(value) {
-        if (value === "Y") {
-            return "Ja";
-        }
+  console.log(item);
 
-        if (value === "N") {
-            return "Nej";
-        }
-
-        return "-"
+  function formatBoolean(value) {
+    if (value === "Y") {
+      return "Ja";
     }
 
-    const modal = document.getElementById("detailModal");
+    if (value === "N") {
+      return "Nej";
+    }
 
-    modal.addEventListener("click", (event) => {
+    return "-";
+  }
 
-        if (event.target === modal) {
-            modal.hidden = true;
-        }
-    })
+  const modal = document.getElementById("detailModal");
 
-    const content = document.getElementById("detailContent");
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.hidden = true;
+    }
+  });
 
-    modal.hidden = false;
+  const content = document.getElementById("detailContent");
 
-    const imageUrl = (await getPixabayImage(item.description, item.id));
+  modal.hidden = false;
 
-      content.innerHTML = `
+  const imageUrl = await getPixabayImage(item.description, item.id);
+
+  content.innerHTML = `
     <main class="stack gap-8">
 
       <section class="stack gap-8">
@@ -160,6 +163,88 @@ export async function renderDetailModal(item) {
         </div>
 
         </section>
+
+      <section class="stack gap-4">
+
+        <div class="row row-between align-center">
+
+          <div class="row gap-2">
+
+            <h2>Recensioner</h2>
+
+            <p class="text-faded">
+              ${reviews.length} st
+            </p>
+
+          </div>
+
+          <div class="row gap-1 align-center">
+
+            <p>${Math.trunc(item.rating || 0)}</p>
+
+            <span aria-hidden="true">★</span>
+
+          </div>
+
+        </div>
+
+        ${
+          reviews.length > 0
+
+            ? reviews.map((review) => `
+
+              <article class="card">
+
+                <div class="width-full stack gap-3">
+
+                  <div class="stack gap-2">
+
+                    <h3>${review.name}</h3>
+
+                    <p class="text-faded">
+                      ${review.comment}
+                    </p>
+
+                  </div>
+
+                  <div class="row row-between">
+
+                    <span
+                      role="img"
+                      aria-label="${review.rating} av 5 stjärnor">
+
+                      ${"★".repeat(Math.trunc(review.rating))}
+
+                    </span>
+
+                    <time class="text-faded">
+
+                      ${review.relative_time || review.timestamp}
+
+                    </time>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            `).join("")
+
+            : `
+
+              <div class="card">
+
+                <p class="text-faded">
+                  Inga recensioner ännu.
+                </p>
+
+              </div>
+
+            `
+        }
+
+      </section>
 
       </section>
 

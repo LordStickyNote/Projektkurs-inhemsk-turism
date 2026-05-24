@@ -51,13 +51,13 @@ export async function getData(
   }
 }
 
-export async function getReviews(establishmentId) {
+export async function getReviews(id) {
 
     const params = new URLSearchParams({
     api_key: API_KEY,
     controller: "establishment",
     method: "getreviews",
-    establishment_id: establishmentId,
+    id,
   });
 
   const url = `${BASE_URL}?${params}`;
@@ -67,6 +67,8 @@ export async function getReviews(establishmentId) {
     const response = await fetch(url);
 
     const data = await response.json();
+
+    console.log(data)
 
     return data.payload;
   } catch (error) {
