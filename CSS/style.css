@@ -226,7 +226,6 @@ a {
 }
 
 @keyframes cardFadeIn {
-
   from {
     opacity: 0;
     transform: scale(1.02);
@@ -597,6 +596,26 @@ article {
   width: 100%;
 }
 
+/* Quiz + explore - logo */
+
+.quiz-logo {
+  width: min(400px, 45vw);
+  height: auto;
+  display: block;
+  align-self: center;
+}
+
+.explore-logo {
+  width: min(350px, 60vw);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.explore-logo {
+  margin: 0 auto calc(var(--space-4) * -1);
+}
+
 /*==== loading assets ====*/
 
 /* Spinner */
@@ -664,7 +683,6 @@ article {
 }
 
 @keyframes loading-animation {
-  
   0% {
     opacity: 0.55;
   }
@@ -804,7 +822,6 @@ input[type="checkbox"]:checked {
 }
 
 @keyframes filterFadeIn {
-
   from {
     opacity: 0;
     transform: translateY(12px);
@@ -866,4 +883,8 @@ input[type="checkbox"]:checked {
 
 [hidden] {
   display: none !important;
+}
+
+#toggleAndSortingDiv > .row {
+  margin-top: var(--space-4);
 }

@@ -21,14 +21,16 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <main>
-  <body class="gap-4">
-    <span class="tab-container">
-      <button class="tab" id="doBtn">Se och göra</button>
-      <button class="tab" id="foodBtn">Mat</button>
-      <button class="tab" id="accommodationBtn">Boenden</button>
-    </span>
+<body class="gap-4">
+  <img class="explore-logo" src="/img/logotyp.svg" alt="" />
+
+  <span class="tab-container">
+    <button class="tab" id="doBtn">Se och göra</button>
+    <button class="tab" id="foodBtn">Mat</button>
+    <button class="tab" id="accommodationBtn">Boenden</button>
+  </span>
     <div id="toggleAndSortingDiv" hidden>
-      <div class="width-full row row-between card">
+      <div class="width-full row row-between">
         <select class="btn btn-outline btn-sm" name="sortList" id="sortList">
           <option value="rating">Betyg</option>
           <option value="name">Namn A-Ö</option>

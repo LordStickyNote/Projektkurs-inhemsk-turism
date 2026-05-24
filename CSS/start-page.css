@@ -1,3 +1,9 @@
+.start-page-logo {
+  width: min(400px, 45vw);
+  height: auto;
+  display: block;
+}
+
 #start-page-bg {
   background-image: url(/img/bg-2.jpg);
   background-size: cover;
