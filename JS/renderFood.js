@@ -25,6 +25,10 @@ export async function renderFood(items, container) {
   for (const item of itemsWithImages) {
     const article = document.createElement("article");
 
+    article.addEventListener("click", () => {
+      renderDetailModal(item);
+    })
+
     article.innerHTML = `
                         <div class="card card-listing" style="background-image: url('${item.imageUrl}');">
         <span class="card-listing-content width-full">
