@@ -34,6 +34,15 @@ export async function renderDetailModal(item) {
   content.innerHTML = `
     <main class="stack gap-8">
 
+    <button
+  id="closeDetailBtn"
+  class="detail-close-btn"
+  aria-label="Stäng">
+
+  ✕
+
+</button>
+
       <section class="stack gap-8">
 
         <div class="width-full">
@@ -295,6 +304,10 @@ export async function renderDetailModal(item) {
     </main>
   `;
 
+  document.getElementById("closeDetailBtn").addEventListener("click", () => {
+    modal.hidden = true;
+  })
+
   const nearbyCards = content.querySelectorAll(".nearby-cards");
 
   nearbyCards.forEach(async (card, index) => {
@@ -303,5 +316,5 @@ export async function renderDetailModal(item) {
     const imageUrl = await getPixabayImage(place.description, place.id);
 
     card.style.backgroundImage = `url('${imageUrl}')`
-  })
+  });
 }
