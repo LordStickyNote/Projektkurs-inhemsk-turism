@@ -50,3 +50,29 @@ export async function getData(
     console.error("Fel vid hämtning av SMAPI:", error);
   }
 }
+
+export async function getReviews(establishmentId) {
+
+    const params = new URLSearchParams({
+    api_key: API_KEY,
+    controller: "establishment",
+    method: "getreviews",
+    establishment_id: establishmentId,
+  });
+
+  const url = `${BASE_URL}?${params}`;
+
+  try {
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    return data.payload;
+  } catch (error) {
+
+    console.error("Fel vid hämtning av recensioner", error);
+
+    return [];
+  }
+}
