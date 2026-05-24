@@ -1,7 +1,69 @@
 import { getPixabayImage } from "./imageApi.js";
 import { getReviews, getNearbyPlaces } from "./api.js";
+import { renderAccommodation } from "./renderAccommodation.js";
 
 export async function renderDetailModal(item) {
+   
+    function renderSpecificDetails(item) {
+
+        if (item.type === "food") {
+            return renderFoodDetails(item);
+        }
+
+        if (item.type === "accommodation") {
+            return renderAccommodationDetails(item);
+        }
+
+        return renderSeeAndDoDetails(item);
+    }
+
+    function renderAccommodationDetails(item) {
+
+  return `
+    <section class="card stack gap-4">
+
+      <h2>Boendeinformation</h2>
+
+      <div class="details">
+
+        <div>
+          <span class="text-faded">Wifi</span>
+
+          <span>
+            ${formatBoolean(item.wifi)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">
+            Husdjur tillåtna
+          </span>
+
+          <span>
+            ${formatBoolean(item.pets)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">
+            Gratis parkering
+          </span>
+
+          <span>
+            ${formatBoolean(item.free_parking)}
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+  `;
+}
+
   const reviews = await getReviews(item.id);
   const nearbyPlaces = await getNearbyPlaces(item.lat, item.lng);
 
@@ -315,6 +377,14 @@ export async function renderDetailModal(item) {
 
     const imageUrl = await getPixabayImage(place.description, place.id);
 
-    card.style.backgroundImage = `url('${imageUrl}')`
+    card.style.backgroundImage = `url('${imageUrl}')`;
+
+    card.addEventListener("click", () => {
+        renderDetailModal(place);
+        modal.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    })
   });
 }
