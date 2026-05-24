@@ -68,7 +68,7 @@ const imageQueries = {
   Hotell: "hotel room interior",
   Camping: "camping site camper sweden",
   Stuga: "swedish cabin cottage nature",
-
+  "B&B": "small guesthouse sweden",
 };
 
 const blockedWords = [

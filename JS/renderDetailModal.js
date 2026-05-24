@@ -1,26 +1,24 @@
 import { getPixabayImage } from "./imageApi.js";
 import { getReviews, getNearbyPlaces } from "./api.js";
-import { renderAccommodation } from "./renderAccommodation.js";
 
 export async function renderDetailModal(item) {
-   
-    function renderSpecificDetails(item) {
-
-        if (item.type === "food") {
-            return renderFoodDetails(item);
-        }
-
-        if (item.type === "accommodation") {
-            return renderAccommodationDetails(item);
-        }
-
-        return renderSeeAndDoDetails(item);
+  function renderSpecificDetails(item) {
+    if (item.type === "food") {
+      return renderFoodDetails(item);
     }
 
-    function renderAccommodationDetails(item) {
+    if (item.type === "accommodation") {
+      return renderAccommodationDetails(item);
+    }
 
-  return `
+    return renderSeeAndDoDetails(item);
+  }
+
+  function renderAccommodationDetails(item) {
+    return `
     <section class="card stack gap-4">
+
+    <div class="stack width-full gap-4">
 
       <h2>Boendeinformation</h2>
 
@@ -42,7 +40,7 @@ export async function renderDetailModal(item) {
           </span>
 
           <span>
-            ${formatBoolean(item.pets)}
+            ${formatBoolean(item.pet_friendly)}
           </span>
         </div>
 
@@ -60,14 +58,138 @@ export async function renderDetailModal(item) {
 
       </div>
 
+      </div>
+
     </section>
   `;
-}
+  }
+
+  function renderFoodDetails(item) {
+    return `
+    <section class="card stack gap-4">
+
+    <div class="stack width-full gap-4">
+
+      <h2>Restauranginformation</h2>
+
+      <div class="details">
+
+        <div>
+          <span class="text-faded">Vegetariskt</span>
+
+          <span>
+            ${formatBoolean(item.vegetarian_option)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">Uteservering</span>
+
+          <span>
+            ${formatBoolean(item.outdoor_seating)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">Takeaway</span>
+
+          <span>
+            ${formatBoolean(item.takeout)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">Barnmeny</span>
+
+          <span>
+            ${formatBoolean(item.child_menu)}
+          </span>
+        </div>
+
+      </div>
+
+      </div>
+
+    </section>
+  `;
+  }
+
+  function renderSeeAndDoDetails(item) {
+    return `
+    <section class="card width-full stack gap-4">
+
+    <div class="stack width-full gap-4">
+
+      <h2>Information</h2>
+
+      <div class="details">
+
+        <div>
+          <span class="text-faded">
+            Barnrabatt
+          </span>
+
+          <span>
+            ${formatBoolean(item.child_discount)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">
+            Studentrabatt
+          </span>
+
+          <span>
+            ${formatBoolean(item.student_discount)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">
+            Seniorrabatt
+          </span>
+
+          <span>
+            ${formatBoolean(item.senior_discount)}
+          </span>
+        </div>
+
+        <hr>
+
+        <div>
+          <span class="text-faded">
+            Utomhus
+          </span>
+
+          <span>
+            ${formatBoolean(item.outdoors)}
+          </span>
+        </div>
+
+      </div>
+
+      </div>
+
+    </section>
+  `;
+  }
 
   const reviews = await getReviews(item.id);
   const nearbyPlaces = await getNearbyPlaces(item.lat, item.lng);
 
-  const imageUrl = await getPixabayImage(item.description, item.id);
+  const imageUrl =
+    (await getPixabayImage(item.description, item.id)) ||
+    "./img/High_Chaparral_Theme_Park.jpg";
 
   function formatBoolean(value) {
     if (value === "Y") {
@@ -92,6 +214,8 @@ export async function renderDetailModal(item) {
   const content = document.getElementById("detailContent");
 
   modal.hidden = false;
+
+  modal.scrollTop = 0;
 
   content.innerHTML = `
     <main class="stack gap-8">
@@ -196,41 +320,11 @@ export async function renderDetailModal(item) {
 
           </div>
 
+          </section>
+
           <hr>
 
-        <div class="stack width-full gap-4">
-          <h2>Information</h2>
-
-          <div class="details">
-
-            <div>
-              <span class="text-faded">Kostnad</span>
-              <span>${item.price_range} kr</span>
-            </div>
-
-            <hr>
-
-            <div>
-              <span class="text-faded">Barnrabatt</span>
-              <span>${formatBoolean(item.child_discount)}</span>
-            </div>
-
-            <hr>
-
-            <div>
-              <span class="text-faded">Studentrabatt</span>
-              <span>${formatBoolean(item.student_discount)}</span>
-            </div>
-
-            <hr>
-
-            <div>
-              <span class="text-faded">Seniorrabatt</span>
-              <span>${formatBoolean(item.senior_discount)}</span>
-            </div>
-
-          </div>
-        </div>
+        ${renderSpecificDetails(item)}
 
         </section>
 
@@ -260,8 +354,9 @@ export async function renderDetailModal(item) {
 
         ${
           reviews.length > 0
-
-            ? reviews.map((review) => `
+            ? reviews
+                .map(
+                  (review) => `
 
               <article class="card">
 
@@ -299,8 +394,9 @@ export async function renderDetailModal(item) {
 
               </article>
 
-            `).join("")
-
+            `,
+                )
+                .join("")
             : `
 
               <div class="card">
@@ -323,10 +419,10 @@ export async function renderDetailModal(item) {
 
   <div class="grid gap-6">
 
-    ${
-      nearbyPlaces
-        .slice(0, 4)
-        .map((place) => `
+    ${nearbyPlaces
+      .slice(0, 4)
+      .map(
+        (place) => `
 
           <article class="card card-listing">
 
@@ -355,8 +451,9 @@ export async function renderDetailModal(item) {
 
           </article>
 
-        `).join("")
-    }
+        `,
+      )
+      .join("")}
 
   </div>
       </section>
@@ -368,7 +465,7 @@ export async function renderDetailModal(item) {
 
   document.getElementById("closeDetailBtn").addEventListener("click", () => {
     modal.hidden = true;
-  })
+  });
 
   const nearbyCards = content.querySelectorAll(".nearby-cards");
 
@@ -377,14 +474,17 @@ export async function renderDetailModal(item) {
 
     const imageUrl = await getPixabayImage(place.description, place.id);
 
-    card.style.backgroundImage = `url('${imageUrl}')`;
+    card.style.backgroundImage = `url('${
+      imageUrl || "./img/High_Chaparral_Theme_Park.jpg"
+    }')`;
 
     card.addEventListener("click", () => {
-        renderDetailModal(place);
-        modal.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    })
+      const placeWithType = {
+        ...place,
+        type: item.type,
+      };
+
+      renderDetailModal(placeWithType);
+    });
   });
 }
