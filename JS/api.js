@@ -75,6 +75,32 @@ export async function getReviews(id) {
 
     console.error("Fel vid hämtning av recensioner", error);
 
-    return [];
+  }
+}
+
+export async function getNearbyPlaces(lat, lng) {
+
+    const params = new URLSearchParams({
+    api_key: API_KEY,
+    controller: "establishment",
+    method: "getfromlatlng",
+    lat,
+    lng,
+    radius: 10,
+  });
+
+  const url = `${BASE_URL}?${params}`;
+
+  try {
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    return data.payload;
+  } catch (error) {
+
+    console.error("Fel vid hämtning av närliggande platser", error);
+
   }
 }

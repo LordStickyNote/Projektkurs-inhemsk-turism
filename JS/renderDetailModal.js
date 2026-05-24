@@ -246,6 +246,31 @@ export async function renderDetailModal(item) {
 
       </section>
 
+      <hr>
+
+      <section>
+        <h2>Platser i närheten</h2>
+
+        <div class="grid gap-6" id="results">
+
+          <article class="card card-listing">
+            <img
+              src="./img/High_Chaparral_Theme_Park.jpg"
+              alt="High Chaparral">
+
+            <div class="card-listing-content">
+              <h3>High Chaparral</h3>
+              <p class="text-faded">Kulltorp</p>
+
+              <div class="gap-2">
+                <span class="badge badge-red">Temapark</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
       </section>
 
     </main>
