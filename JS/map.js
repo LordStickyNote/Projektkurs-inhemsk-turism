@@ -50,3 +50,23 @@ const ownIcon = L.divIcon({
     }
   }
 }
+
+export function renderDetailMap(lat, lng) {
+  const existingMap = document.getElementById("detailMap");
+
+  if (existingMap?._leaflet_id) {
+    existingMap._leaflet_id = null;
+  }
+
+  const map = L.map("detailMap").setView([lat, lng], 14);
+
+  L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution:
+        "&copy; OpenStreetMap contributors",
+    }
+  ).addTo(map);
+
+  L.marker([lat,lng]).addTo(map);
+}
