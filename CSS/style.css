@@ -701,6 +701,7 @@ article {
 
 /*---- map ----*/
 #map {
+  width: 100%;
   height: 600px;
   border-radius: var(--radius-lg);
 }
@@ -708,6 +709,7 @@ article {
 #detailMap {
   height: 300px;
   border-radius: var(--radius-lg);
+  width: 100%;
 }
 
 .map-skeleton-loader {

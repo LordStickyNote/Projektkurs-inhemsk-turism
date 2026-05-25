@@ -1,5 +1,6 @@
 import { getPixabayImage } from "./imageApi.js";
 import { getReviews, getNearbyPlaces } from "./api.js";
+import { renderDetailMap } from "./map.js";
 
 export async function renderDetailModal(item) {
   function renderSpecificDetails(item) {
@@ -495,6 +496,11 @@ export async function renderDetailModal(item) {
 
     </main>
   `;
+
+  setTimeout(() => {
+    
+    renderDetailMap(item.lat, item.lng)
+  }, 0);
 
   document.getElementById("closeDetailBtn").addEventListener("click", () => {
     modal.hidden = true;

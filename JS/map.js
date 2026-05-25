@@ -1,4 +1,3 @@
-export function renderMap(sections, container) {
 const ownIcon = L.divIcon({
     className: "",
     html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -13,6 +12,8 @@ const ownIcon = L.divIcon({
     iconSize: [24, 32],
     iconAnchor: [14, 12]
 })
+
+export function renderMap(sections, container) {
 
   container.innerHTML = `<div id="map"></div>`;
 
@@ -52,13 +53,8 @@ const ownIcon = L.divIcon({
 }
 
 export function renderDetailMap(lat, lng) {
-  const existingMap = document.getElementById("detailMap");
 
-  if (existingMap?._leaflet_id) {
-    existingMap._leaflet_id = null;
-  }
-
-  const map = L.map("detailMap").setView([lat, lng], 14);
+  const detailMap = L.map("detailMap").setView([Number(lat), Number(lng)], 14);
 
   L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -66,7 +62,7 @@ export function renderDetailMap(lat, lng) {
       attribution:
         "&copy; OpenStreetMap contributors",
     }
-  ).addTo(map);
+  ).addTo(detailMap);
 
-  L.marker([lat,lng]).addTo(map);
+  L.marker([Number(lat), Number(lng)], { icon: ownIcon }).addTo(detailMap);
 }
