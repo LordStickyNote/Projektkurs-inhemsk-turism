@@ -1156,11 +1156,16 @@ function getSortApiFilters() {
 
 function quizNotice() {
   const div = document.createElement("div");
+  div.classList.add("quiz-notice")
 
   const button = document.createElement("button");
+  button.classList.add("btn", "btn-primary")
 
   div.innerHTML = `
-  <h6>Visar dina rekommendationer baserat på dina svar från "Hitta en resa"</h6>
+  <div class="quiz-notice-content">
+  <h6>Visar personliga rekommendationer</h6>
+  <p>Resultaten baseras på dina svar i quizet.
+  </div>
   `;
 
   button.textContent = "Visa allt";
@@ -1168,12 +1173,13 @@ function quizNotice() {
   button.addEventListener("click", () => {
     showingQuizResults = false;
     sessionStorage.removeItem("quizResults");
+    document.getElementById("quizNoticeContainer").innerHTML = "";
     loadSeeAndDo();
   });
 
   div.append(button);
 
-  container.prepend(div);
+  document.getElementById("quizNoticeContainer").append(div);
 }
 
 function sortItems(items) {

@@ -879,6 +879,22 @@ input[type="checkbox"]:checked {
   background: var(--color-background);
   padding: var(--space-8);
   box-sizing: border-box;
+  animation: detailFadeIn 0.2s ease;
+}
+
+@keyframes detailFadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 
@@ -905,6 +921,33 @@ input[type="checkbox"]:checked {
   backdrop-filter: blur(8px);
 }
 
+.quiz-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  background: var(--color-bg-elevated);
+}
+
+.quiz-notice-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.quiz-notice h6 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.quiz-notice p {
+  font-size: 0.9rem;
+  margin: 0;
+}
 
 [hidden] {
   display: none !important;
