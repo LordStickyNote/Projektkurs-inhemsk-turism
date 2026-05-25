@@ -705,6 +705,11 @@ article {
   border-radius: var(--radius-lg);
 }
 
+#detailMap {
+  height: 300px;
+  border-radius: var(--radius-lg);
+}
+
 .map-skeleton-loader {
   height: 600px;
   border-radius: var(--radius-xl);

@@ -429,6 +429,14 @@ export async function renderDetailModal(item) {
 
       </section>
 
+      <section class="card stack gap-4">
+
+        <h2>Hitta hit</h2>
+
+        <div id="detailMap"></div>
+
+        </section>
+
       <hr>
 
       <section>
