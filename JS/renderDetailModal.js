@@ -15,7 +15,9 @@ export async function renderDetailModal(item) {
   }
 
   function renderAccommodationDetails(item) {
-    return `
+
+    if (item.wifi !== undefined) {
+        return `
     <section class="card stack gap-4">
 
     <div class="stack width-full gap-4">
@@ -62,10 +64,16 @@ export async function renderDetailModal(item) {
 
     </section>
   `;
+    } else {
+        return "";
+    }
+    
   }
 
   function renderFoodDetails(item) {
-    return `
+
+    if (item.vegetarian_option !== undefined) {
+        return `
     <section class="card stack gap-4">
 
     <div class="stack width-full gap-4">
@@ -118,10 +126,15 @@ export async function renderDetailModal(item) {
 
     </section>
   `;
+    } else {
+        return "";
+    }
+    
   }
 
   function renderSeeAndDoDetails(item) {
-    return `
+    if (item.child_discount !== undefined) {
+        return `
     <section class="card width-full stack gap-4">
 
     <div class="stack width-full gap-4">
@@ -182,6 +195,10 @@ export async function renderDetailModal(item) {
 
     </section>
   `;
+    } else {
+        return "";
+    }
+    
   }
 
   const reviews = await getReviews(item.id);
@@ -419,8 +436,8 @@ export async function renderDetailModal(item) {
 
   <div class="grid gap-6">
 
-    ${nearbyPlaces
-      .slice(0, 4)
+    ${nearbyPlaces.length > 0 ?
+      nearbyPlaces.slice(0, 4)
       .map(
         (place) => `
 
@@ -453,7 +470,15 @@ export async function renderDetailModal(item) {
 
         `,
       )
-      .join("")}
+      .join("") : `
+            <div class="card">
+
+        <p class="text-faded">
+          Inga platser i närheten hittades.
+        </p>
+
+      </div>
+      `}
 
   </div>
       </section>
@@ -479,12 +504,7 @@ export async function renderDetailModal(item) {
     }')`;
 
     card.addEventListener("click", () => {
-      const placeWithType = {
-        ...place,
-        type: item.type,
-      };
-
-      renderDetailModal(placeWithType);
+      renderDetailModal(place);
     });
   });
 }

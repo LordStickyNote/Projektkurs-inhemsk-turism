@@ -68,8 +68,6 @@ export async function getReviews(id) {
 
     const data = await response.json();
 
-    console.log(data)
-
     return data.payload;
   } catch (error) {
 
@@ -102,5 +100,6 @@ export async function getNearbyPlaces(lat, lng) {
 
     console.error("Fel vid hämtning av närliggande platser", error);
 
+    return [];
   }
 }
