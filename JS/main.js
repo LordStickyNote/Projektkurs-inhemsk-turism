@@ -970,6 +970,8 @@ function paginateItems(items) {
 loadMoreBtn.addEventListener("click", () => {
   visibleItems += itemsPerLoad;
 
+  container.classList.add("no-animation")
+
   reloadCurrentCategory();
 })
 

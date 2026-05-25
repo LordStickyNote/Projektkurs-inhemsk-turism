@@ -23,6 +23,10 @@ export async function renderSeeAndDo(sections, container) {
     for (const item of itemsWithImages) {
       const article = document.createElement("article");
 
+      if (container.classList.contains("no-animation")) {
+        article.classList.add("no-animation");
+}
+
       article.addEventListener("click", () => {
       renderDetailModal(item);
     })
