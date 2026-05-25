@@ -346,6 +346,8 @@ export async function renderDetailModal(item) {
 
         </section>
 
+        <hr>
+
       <section class="stack gap-4">
 
         <div class="row row-between align-center">
@@ -430,17 +432,23 @@ export async function renderDetailModal(item) {
 
       </section>
 
+      <hr>
+
       <section class="card stack gap-4">
+
+        <div class="width-full stack gap-4">
 
         <h2>Hitta hit</h2>
 
         <div id="detailMap"></div>
 
+        </div>
+
         </section>
 
       <hr>
 
-      <section>
+      <section class="stack gap-4">
           <h2>Platser i närheten</h2>
 
   <div class="grid gap-6">

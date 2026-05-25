@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/CSS/style.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
-  <main>
+  <main class="stack gap-4">
   <body class="gap-4">
     <span class="tab-container">
       <button class="tab" id="doBtn">Se och göra</button>
@@ -29,8 +29,8 @@
     </span>
     <div id="toggleAndSortingDiv" hidden>
       <div class="width-full row row-between card">
-        <select class="btn btn-outline btn-sm" name="sortList" id="sortList">
-          <option value="rating">Betyg</option>
+        <select class="btn-outline sortingList" name="sortList" id="sortList">
+          <option value="rating">Hösta betyg</option>
           <option value="name">Namn A-Ö</option>
         </select>
         <span class="row gap-2 btn-square-container">
@@ -389,7 +389,7 @@
         <button class="btn btn-secondary" id="nextPageBtn">Nästa</button>
       </div>
       <div class="card row gap-4">
-        <h3>Hittar du inte det du söker? Gör vårt quiz!</h3>
+        <h3>Hittar du inte det du söker? Gör vårat quiz!</h3>
         <a href="/quiz.html" class="btn btn-primary"
           >Hitta en resa<svg
             xmlns="http://www.w3.org/2000/svg"

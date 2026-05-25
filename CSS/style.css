@@ -393,16 +393,14 @@ a {
   border-radius: var(--radius-sm);
   padding: calc(var(--space-2) / 2);
 }
-.btn-square:hover {
-  background-color: #ffffff00;
-  color: var(--color-primary-hover);
+.btn-square:hover svg {
   fill: var(--color-primary-hover);
 }
 
 .btn-square svg {
   fill: var(--color-text);
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
 }
 
 /*---- button sizes ----*/
@@ -461,12 +459,13 @@ a {
   border-radius: var(--radius-full);
   padding: calc(var(--space-3) / 2) var(--space-3);
   width: 100%;
-  font-size: var(--text-sm);
+  font-size: 0.9rem;
+  font-weight: 700;
   letter-spacing: 0.5px;
 
   background: none;
   border: 2px solid #00000000;
-  color: var(--color-text-faded);
+  color: var(--color-text);
 }
 
 .tab:hover {
@@ -726,7 +725,7 @@ select {
   color: var(--color-text);
   border-radius: var(--radius-sm);
   padding: calc(var(--space-1) / 2) var(--space-1);
-  font-size: var(--text-sm);
+  font-size: 0.9rem;
 }
 select:hover {
   border: 1px solid var(--color-primary-hover);
@@ -738,6 +737,11 @@ option {
   color: var(--color-text);
   background-color: var(--color-bg-card);
   font-size: var(--text-sm);
+}
+
+.sortingList {
+  border-radius: var(--radius-md);
+  padding: 8px
 }
 
 /*---- label ----*/
@@ -879,7 +883,7 @@ input[type="checkbox"]:checked {
   position: fixed;
   inset: 0;
   background-color: var(--color-bg);
-  z-index: 1000;
+  z-index: 3000;
   overflow-y: auto;
 }
 
