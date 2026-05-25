@@ -1123,6 +1123,16 @@ function resetButtonActive() {
     resetFilterBtn.disabled = false;
   }
 }
+ 
+function getActiveFilterCount() {
+  let count = 0;
+
+  if (municipalityFilter.value) count++;
+  if (priceRange.value) count++
+
+  count += getSelectedActivityTypes().length;
+  count += getSelectedAttractionTypes().length;
+}
 
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
 function handleFilterChange() {
