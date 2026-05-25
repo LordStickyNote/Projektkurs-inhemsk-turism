@@ -1,10 +1,10 @@
 export function renderMap(sections, container) {
-    const ownIcon = L.divIcon({
+const ownIcon = L.divIcon({
     className: "",
     html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <g opacity=".75">
     <path fill="#02ad6f" d="M50,99.5C22.71,99.5.5,77.29.5,50S22.71.5,50,.5s49.5,22.21,49.5,49.5-22.21,49.5-49.5,49.5Z"/>
-    <path d="M50,1c27.02,0,49,21.98,49,49..."/>
+    <path d="M50,1c27.02,0,49,21.98,49,49s-21.98,49-49,49S1,77.02,1,50,22.98,1,50,1M50,0C22.39,0,0,22.39,0,50s22.39,50,50,50,50-22.39,50-50S77.61,0,50,0h0Z"/>
   </g>
   <g opacity=".85">
     <ellipse fill="#122e2e" cx="50" cy="50" rx="37.36" ry="35.71"/>
