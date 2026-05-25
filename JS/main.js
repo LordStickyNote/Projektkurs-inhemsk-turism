@@ -49,6 +49,11 @@ const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
 const filterBtn = document.getElementById("btn-float-SeeAndDo");
 
+// DOM-element: Knappar för filter
+const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
+const openFilterBtn = document.getElementById("btn-float-SeeAndDo");
+const closeFilterBtn = document.getElementById("filterBtn");
+
 // DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
 const municipalityFilter = document.getElementById("municipalityFilter");
@@ -1215,3 +1220,14 @@ if (quizResults) {
 } else {
   loadSeeAndDo();
 }
+
+openFilterBtn.addEventListener("click", () => {
+  filterMenu.style.display = "flex";
+  openFilterBtn.style.display = "none";
+});
+
+closeFilterBtn.addEventListener("click", () => {
+  filterMenu.style.display = "none";
+  openFilterBtn.style.display = "flex";
+  window.scrollTo(top)
+});
