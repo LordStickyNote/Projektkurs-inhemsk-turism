@@ -1132,6 +1132,25 @@ function getActiveFilterCount() {
 
   count += getSelectedActivityTypes().length;
   count += getSelectedAttractionTypes().length;
+
+  if (effort.value) count++;
+  if (involvesAnimals.checked) count++;
+  if (involvesWater.checked) count++;
+  if (experienceType.value) count++;
+  if (localSignificance.checked) count++;
+  if (childFriendly.checked) count++;
+
+  count += getSelectedFoodTypes().length;
+  if (foodPrice.value) count++;
+  if (foodRating.value) count++;
+
+  count += getselectedAccommodationTypes().length;
+  if (accommodationRating.value) count++;
+  if (hasWifi.checked) count++;
+  if (freeParking.checked) count++;
+  if (petFriendly.checled) count++;
+
+  return count;
 }
 
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
