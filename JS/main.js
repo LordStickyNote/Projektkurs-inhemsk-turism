@@ -174,8 +174,16 @@ function setFilterGroupDisabled(filterGroup, disabled) {
 
 // Uppdaterar list/karta-knapparna så att aktiv vy:s knapp är inaktiverad.
 function updateViewButtons() {
-  listViewBtn.disabled = currentView === "list";
-  mapViewBtn.disabled = currentView === "map";
+    listViewBtn.classList.remove("view-active");
+  mapViewBtn.classList.remove("view-active");
+
+  if (currentView === "list") {
+    listViewBtn.classList.add("view-active");
+  }
+
+  if (currentView === "map") {
+    mapViewBtn.classList.add("view-active");
+  }
 }
 
 // Pagination används bara när inga lokala/cross-controller-filter riskerar att missa data.
@@ -885,7 +893,6 @@ async function applyAccommodationFilters(resetPage = true) {
 
   currentRenderFunction = renderAccommodation;
   renderCurrentView();
-  updateViewButtons();
 }
 
 // Laddar startsida för boenden.
@@ -995,7 +1002,6 @@ function scrollToTop() {
 function updatePaginationControls() {
   if (showingQuizResults || currentView === "map") {
     pagination.style.display = "none";
-    filterBtn.style.display = "none";
     return;
   }
 
