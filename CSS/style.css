@@ -403,8 +403,8 @@ a {
 
 .btn-square svg {
   fill: var(--color-text);
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
 }
 
 /*---- button sizes ----*/
@@ -890,5 +890,37 @@ input[type="checkbox"]:checked {
     width: 800px;
     height: 90vh;
     overflow-y: scroll;
+    padding: var(--space-4);
+  }
+
+  #btn-float-SeeAndDo {
+    display: none;
+  }
+
+  #filterBtn {
+    display: none;
+  }
+
+  #resetFilterBtn {
+    width: 100%;
+  }
+
+  #quiz-wrapper {
+    min-width: 600px;
+    align-self: center;
+  }
+
+  .tab-container {
+    width: 600px;
+    justify-self: center;
+  }
+
+  #header {
+    flex-flow: row;
+    justify-content: center;
+  }
+
+  #toggleAndSortingDiv{
+    width: fit-content;
   }
 }

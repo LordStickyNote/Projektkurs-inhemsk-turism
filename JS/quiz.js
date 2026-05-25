@@ -104,11 +104,16 @@ function renderQuestion() {
   document.querySelector("h5").textContent =
     `${currentQuestionIndex + 1}/${quizQuestions.length}`;
 
+
   const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
   document.querySelector(".progress-bar").style.width = `${progress}%`;
 
   if (currentQuestionIndex === 0) {
     prevBtn.disabled = true;
+    prevBtn.innerHTML = `Tillbaka`;
+    // document.getElementById("prevBtn").addEventListener("click", () => {
+    //   history.back();
+    // });
   } else if (currentQuestionIndex > 0) {
     prevBtn.disabled = false;
   }
