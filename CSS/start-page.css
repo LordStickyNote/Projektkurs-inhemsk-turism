@@ -14,3 +14,18 @@
   box-sizing: border-box;
   backdrop-filter: blur(2px);
 }
+
+@media (min-width: 900px){
+  body{
+    justify-content: center;
+  }
+
+  #content-container{
+    width: fit-content;
+    justify-self: center;
+  }
+
+    .btn{
+    width: fit-content;
+  }
+}
