@@ -1,3 +1,5 @@
+import { renderDetailModal } from "./renderDetailModal.js";
+
 const ownIcon = L.divIcon({
     className: "",
     html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -9,7 +11,7 @@ const ownIcon = L.divIcon({
     <ellipse fill="#122e2e" cx="50" cy="50" rx="37.36" ry="35.71"/>
   </g>
 </svg>`,
-    iconSize: [24, 32],
+    iconSize: [26, 32],
     iconAnchor: [14, 12]
 })
 
@@ -27,11 +29,12 @@ export function renderMap(sections, container) {
   for (const section of sections) {
     for (const item of section.items) {
 
-        L.marker([Number(item.lat), Number(item.lng)], { icon: ownIcon })
-        .addTo(map)
+        const marker = L.marker([Number(item.lat), Number(item.lng)], { icon: ownIcon });
+
+        marker.addTo(map)
         .bindPopup(`
-            <div class="card card-map">
-        <span class="card-listing-content width-full">
+            <div class="card card-map popup-card">
+        <span class="card-popup-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
           <span class="row row-between">
@@ -47,7 +50,17 @@ export function renderMap(sections, container) {
               </span>
           </span>
         </span>
-      </div>`)
+      </div>`);
+
+      marker.on("popupopen", () => {
+        const popupElement = marker.getPopup().getElement();
+
+        popupElement.style.cursor = "pointer";
+
+        popupElement.addEventListener("click", () => {
+          renderDetailModal(item);
+        })
+      })
     }
   }
 }

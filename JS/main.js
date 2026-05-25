@@ -1118,6 +1118,8 @@ function updateResultsCount() {
   }
 
   resultsCount.textContent = `${total} resultat`;
+
+  closeFilterBtn.innerHTML = `Visa resultat (${total})`
 }
 
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.

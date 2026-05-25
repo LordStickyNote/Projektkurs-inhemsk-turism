@@ -249,15 +249,23 @@ a {
 }
 
 .card-map {
-  width: 200px;
+  min-width: 220px;
   min-height: fit-content;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   padding: 0;
   overflow-x: hidden;
   flex-direction: row;
   color: var(--color-text);
   gap: var(--space-10);
+}
+
+.card-popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 10px;
 }
 
 .card-listing-content {
@@ -695,7 +703,6 @@ article {
 .leaflet-popup-content-wrapper {
   background: none;
   box-shadow: unset;
-  width: 200px;
 }
 
 .leaflet-popup-tip {
