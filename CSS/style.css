@@ -234,7 +234,6 @@ a {
 }
 
 @keyframes cardFadeIn {
-
   from {
     opacity: 0;
     transform: scale(1.02);
@@ -678,7 +677,6 @@ article {
 }
 
 @keyframes loading-animation {
-  
   0% {
     opacity: 0.55;
   }
@@ -829,7 +827,6 @@ input[type="checkbox"]:checked {
 }
 
 @keyframes filterFadeIn {
-
   from {
     opacity: 0;
     transform: translateY(12px);
@@ -998,4 +995,64 @@ input[type="checkbox"]:checked {
 
 [hidden] {
   display: none !important;
+}
+
+#results {
+  width: 100%;
+}
+
+/*==== Medium screen ====*/
+
+@media (min-width: 1900px) {
+  #page-content {
+    max-height: 100vh;
+    justify-content: center;
+    gap: var(--space-10);
+    margin: var(--space-10) 0;
+  }
+
+  .filter-menu-container {
+    display: flex;
+    position: unset;
+    max-width: 500px;
+    height: 90vh;
+  }
+
+  #results {
+    width: 800px;
+    height: 90vh;
+    overflow-y: scroll;
+    padding: var(--space-4);
+  }
+
+  #btn-float-SeeAndDo {
+    display: none;
+  }
+
+  #filterBtn {
+    display: none;
+  }
+
+  #resetFilterBtn {
+    width: 100%;
+  }
+
+  #quiz-wrapper {
+    min-width: 600px;
+    align-self: center;
+  }
+
+  .tab-container {
+    width: 600px;
+    justify-self: center;
+  }
+
+  #header {
+    flex-flow: row;
+    justify-content: center;
+  }
+
+  #toggleAndSortingDiv{
+    width: fit-content;
+  }
 }
