@@ -3,29 +3,29 @@ import { PIXAYBAY_API_KEY } from "./config.js";
 const imageCache = {};
 
 export function getFoodSearchQuery(item) {
-    const tags = item.search_tags?.toLowerCase() || "";
+  const tags = item.search_tags?.toLowerCase() || "";
 
-    if (tags.includes("grekiskt")) {
-        return "greek restaurant food"
-    }
+  if (tags.includes("grekiskt")) {
+    return "greek restaurant food";
+  }
 
-    if (tags.includes("korv")) {
-        return "sausage hot dog"
-    }
+  if (tags.includes("korv")) {
+    return "sausage hot dog";
+  }
 
-    if (tags.includes("vietnamesiskt")) {
-        return "vietnamese food"
-    }
+  if (tags.includes("vietnamesiskt")) {
+    return "vietnamese food";
+  }
 
-    if (tags.includes("thai")) {
-        return "thai food"
-    }
+  if (tags.includes("thai")) {
+    return "thai food";
+  }
 
-    if (tags.includes("husman")) {
-        return "swedish food"
-    }
+  if (tags.includes("husman")) {
+    return "swedish food";
+  }
 
-    return item.search_tags || item.description;
+  return item.search_tags || item.description;
 }
 
 const imageQueries = {
@@ -69,6 +69,18 @@ const imageQueries = {
   Camping: "camping site camper sweden",
   Stuga: "swedish cabin cottage nature",
   "B&B": "small guesthouse sweden",
+
+  // Food
+  Pizzeria: "pizza restaurant food",
+  Restaurang: "restaurant interior",
+  Lunchrestaurang: "restaurant food interior",
+  Kebab: "kebab restaurant",
+  Sushi: "sushi restaurant",
+  Café: "coffee shop interior",
+  Hamburgare: "burger restaurant",
+  Korv: "sausage hot dog hotdog",
+  Gatukök: "hot dog hotdog burger",
+  Hamburgerkedja: "burger fries fastfood"
 };
 
 const blockedWords = [
