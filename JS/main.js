@@ -52,7 +52,7 @@ const filterBtn = document.getElementById("btn-float-SeeAndDo");
 // DOM-element: Knappar för filter
 const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
 const openFilterBtn = document.getElementById("btn-float-SeeAndDo");
-const closeFilterBtn = document.getElementById("filterBtn");
+const closeFilterBtn = document.getElementById("applyFilterBtn"); 
 
 // DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
@@ -1231,5 +1231,4 @@ openFilterBtn.addEventListener("click", () => {
 closeFilterBtn.addEventListener("click", () => {
   filterMenu.style.display = "none";
   openFilterBtn.style.display = "flex";
-  window.scrollTo(top)
 });
