@@ -20,11 +20,6 @@ export const activityTypeMap = {
     "Simhall"
   ],
 
-  animals: [
-    "Djurpark",
-    "Älgpark"
-  ],
-
   adventure: [
     "Zipline",
     "Klippklättring",
