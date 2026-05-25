@@ -28,8 +28,8 @@ document
   .querySelector("#accommodationBtn")
   .addEventListener("click", loadAccommodation);
 
-let currentPage = 1;
-const perPage = 20;
+let visibleItems = 20;
+const itemsPerLoad = 20;
 
 // Håller koll på vilken huvudkategori användaren är inne på. Behövs då kommunfiltret används av flera kategorier.
 let activeCategory = "";
@@ -47,7 +47,12 @@ let allEstablishments = [];
 const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
-const filterBtn = document.getElementById("btn-float-SeeAndDo")
+const filterBtn = document.getElementById("btn-float-SeeAndDo");
+
+// DOM-element: Knappar för filter
+const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
+const openFilterBtn = document.getElementById("btn-float-SeeAndDo");
+const closeFilterBtn = document.getElementById("filterBtn");
 
 // DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
@@ -83,21 +88,16 @@ const listViewBtn = document.getElementById("listViewBtn");
 const mapViewBtn = document.getElementById("mapViewBtn");
 
 // DOM-element: paginering
-const prevPageBtn = document.getElementById("prevPageBtn");
-const nextPageBtn = document.getElementById("nextPageBtn");
-const pageNumber = document.getElementById("pageNumber");
-const pagination = document.getElementById("pagination");
-pagination.hidden = true;
+const loadMoreBtn = document.getElementById("loadMoreBtn");
 
 // DOM-element: sortering
 const sortList = document.getElementById("sortList");
 sortList.addEventListener("change", () => {
   if (showingQuizResults) {
-
     currentSections = [
       {
-        items: sortItems(quizResults)
-      }
+        items: sortItems(quizResults),
+      },
     ];
 
     renderCurrentView();
@@ -113,22 +113,6 @@ resetFilterBtn.addEventListener("click", () => {
   resetFilters();
   resetButtonActive();
   reloadCurrentCategory();
-});
-
-nextPageBtn.addEventListener("click", () => {
-  currentPage++;
-  pageNumber.textContent = currentPage;
-  reloadCurrentCategory();
-  scrollToTop();
-});
-
-prevPageBtn.addEventListener("click", () => {
-  if (currentPage === 1) return;
-
-  currentPage--;
-  pageNumber.textContent = currentPage;
-  reloadCurrentCategory();
-  scrollToTop();
 });
 
 // Lyssnar efter ändringar i alla aktivitetsfiltren och kör handleFilterChange.
@@ -174,37 +158,16 @@ function setFilterGroupDisabled(filterGroup, disabled) {
 
 // Uppdaterar list/karta-knapparna så att aktiv vy:s knapp är inaktiverad.
 function updateViewButtons() {
-  listViewBtn.disabled = currentView === "list";
-  mapViewBtn.disabled = currentView === "map";
-}
+  listViewBtn.classList.remove("view-active");
+  mapViewBtn.classList.remove("view-active");
 
-// Pagination används bara när inga lokala/cross-controller-filter riskerar att missa data.
-function shouldUsePagination() {
-  if (currentView === "map") {
-    return false;
+  if (currentView === "list") {
+    listViewBtn.classList.add("view-active");
   }
 
-  const hasFoodType =
-    activeCategory === "food" && getSelectedFoodTypes().length > 0;
-
-  const hasActivityType =
-    activeCategory === "seeAndDo" && getSelectedActivityTypes().length > 0;
-  const hasAttractionType =
-    activeCategory === "seeAndDo" && getSelectedAttractionTypes().length > 0;
-
-  const hasAccommodationType =
-    activeCategory === "accommodation" &&
-    getselectedAccommodationTypes().length > 0;
-
-  const hasEstablishmentFilters = municipalityFilter.value || priceRange.value;
-
-  return (
-    !hasFoodType &&
-    !hasEstablishmentFilters &&
-    !hasActivityType &&
-    !hasAttractionType &&
-    !hasAccommodationType
-  );
+  if (currentView === "map") {
+    mapViewBtn.classList.add("view-active");
+  }
 }
 
 // Kör rätt filterfunktion beroende på vilken kategori som är aktiv.
@@ -309,11 +272,9 @@ function mapSkeletonLoader() {
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   showingQuizResults = false;
-  pagination.style.display = "";
-  pagination.hidden = false;
 
   activeCategory = "seeAndDo";
-  currentPage = 1;
+  visibleItems = 20;
 
   updateViewButtons();
   resetFilters();
@@ -326,31 +287,31 @@ async function loadSeeAndDo() {
     skeletonLoaders();
   }
 
-  const usePagination = shouldUsePagination();
-
   showFiltersForCategory();
 
   // Array som innehåller sektioner med titel + data från SMAPI
-  const sectionsData = [];
+  let mergedItems = [];
 
   // Loopar igenom sections (activity + attraction, se categories.js)
   for (const section of categories.seeAndDo.sections) {
     // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
-    const items = await getData(
-      section.controller,
-      getSortApiFilters(),
-      usePagination ? currentPage : null,
-      usePagination ? perPage : null,
-    );
+    const items = await getData(section.controller, getSortApiFilters());
 
     const cardItems = await useEstablishmentForCards(items);
-    // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
-    sectionsData.push({
-      items: cardItems,
-    });
-  }
 
-  currentSections = sectionsData;
+    mergedItems.push(...cardItems);
+  }
+  // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
+
+  const paginatedItems = paginateItems(mergedItems);
+
+  currentSections = [
+    {
+      items: paginatedItems,
+      totalItems: mergedItems.length,
+    },
+  ];
+
   currentRenderFunction = renderSeeAndDo;
   renderCurrentView();
 }
@@ -431,16 +392,10 @@ async function getFilteredActivities() {
   }; // Hämtar API-filter
 
   const selectedTypes = getSelectedActivityTypes();
-  const usePagination = shouldUsePagination();
 
   // Om inget "typ av aktivitet"-filter är valt hämtas "activity"-objekt direkt från SMAPI
   if (selectedTypes.length === 0) {
-    return await getData(
-      "activity",
-      apiFilters,
-      usePagination ? currentPage : null,
-      usePagination ? perPage : null,
-    );
+    return await getData("activity", apiFilters);
   }
 
   const requests = [];
@@ -451,15 +406,10 @@ async function getFilteredActivities() {
 
     for (const description of descriptions) {
       requests.push(
-        getData(
-          "activity",
-          {
-            ...apiFilters,
-            descriptions: description,
-          },
-          usePagination ? currentPage : null,
-          usePagination ? perPage : null,
-        ),
+        getData("activity", {
+          ...apiFilters,
+          descriptions: description,
+        }),
       );
     }
   }
@@ -493,16 +443,9 @@ async function getFilteredAttractions() {
   // Hämtar vald typ av sevärdhet i filtret. T.ex. Historia, natur etc.
   const selectedTypes = getSelectedAttractionTypes();
 
-  const usePagination = shouldUsePagination();
-
   // Om ingen typ är vald hämtas sevärdheter med övriga filter
   if (selectedTypes.length === 0) {
-    return await getData(
-      "attraction",
-      apiFilters,
-      usePagination ? currentPage : null,
-      usePagination ? perPage : null,
-    );
+    return await getData("attraction", apiFilters);
   }
 
   const requests = [];
@@ -512,15 +455,10 @@ async function getFilteredAttractions() {
 
     for (const category of categories) {
       requests.push(
-        getData(
-          "attraction",
-          {
-            ...apiFilters,
-            categories: category,
-          },
-          usePagination ? currentPage : null,
-          usePagination ? perPage : null,
-        ),
+        getData("attraction", {
+          ...apiFilters,
+          categories: category,
+        }),
       );
     }
   }
@@ -558,13 +496,15 @@ function hasActiveAttractionFilters() {
 // Funktion som körs när filter ändras under "Se och göra"
 async function applySeeAndDoFilters(resetPage = true) {
   if (resetPage) {
-    currentPage = 1;
+    visibleItems = 20;
   }
 
-  if (currentView === "map") {
-    mapSkeletonLoader();
-  } else {
-    skeletonLoaders();
+  if (resetPage) {
+    if (currentView === "map") {
+      mapSkeletonLoader();
+    } else {
+      skeletonLoaders();
+    }
   }
 
   const activityActive = hasActiveActivityFilters();
@@ -580,9 +520,14 @@ async function applySeeAndDoFilters(resetPage = true) {
     activities = await filterByEstablishment(activities);
     activities = await useEstablishmentForCards(activities);
 
+    const totalItems = activities.length;
+
+    const paginatedItems = paginateItems(activities);
+
     currentSections = [
       {
-        items: activities,
+        items: paginatedItems,
+        totalItems,
       },
     ];
 
@@ -602,9 +547,14 @@ async function applySeeAndDoFilters(resetPage = true) {
     attractions = await filterByEstablishment(attractions);
     attractions = await useEstablishmentForCards(attractions);
 
+    const totalItems = attractions.length;
+
+    const paginatedItems = paginateItems(attractions);
+
     currentSections = [
       {
-        items: attractions,
+        items: paginatedItems,
+        totalItems,
       },
     ];
 
@@ -624,9 +574,16 @@ async function applySeeAndDoFilters(resetPage = true) {
   activities = await useEstablishmentForCards(activities);
   attractions = await useEstablishmentForCards(attractions);
 
+  const mergedItems = [...activities, ...attractions];
+
+  const totalItems = mergedItems.length;
+
+  const paginatedItems = paginateItems(mergedItems);
+
   currentSections = [
     {
-      items: [...activities, ...attractions],
+      items: paginatedItems,
+      totalItems,
     },
   ];
 
@@ -640,7 +597,6 @@ async function applySeeAndDoFilters(resetPage = true) {
 
 // Hämtar alla establishments från SMAPI eller returnerar data som redan finns cachad.
 async function getAllEstablishments() {
-
   const cached = localStorage.getItem("establishments");
 
   if (cached) {
@@ -650,10 +606,7 @@ async function getAllEstablishments() {
 
   allEstablishments = await getData("establishment");
 
-  localStorage.setItem(
-    "establishments",
-    JSON.stringify(allEstablishments)
-  );
+  localStorage.setItem("establishments", JSON.stringify(allEstablishments));
 
   return allEstablishments;
 }
@@ -739,13 +692,15 @@ function getFoodFilterValues() {
 // Körs när användaren andrar något mat-filter
 async function applyFoodFilters(resetPage = true) {
   if (resetPage) {
-    currentPage = 1;
+    visibleItems = 20;
   }
 
-  if (currentView === "map") {
-    mapSkeletonLoader();
-  } else {
-    skeletonLoaders();
+  if (resetPage) {
+    if (currentView === "map") {
+      mapSkeletonLoader();
+    } else {
+      skeletonLoaders();
+    }
   }
 
   const food = categories.food;
@@ -755,15 +710,8 @@ async function applyFoodFilters(resetPage = true) {
     ...getSortApiFilters(),
   };
 
-  const usePagination = shouldUsePagination();
-
   // Hämtar alla matobjekt från food-controllern.
-  let items = await getData(
-    "food",
-    apiFilters,
-    usePagination ? currentPage : null,
-    usePagination ? perPage : null,
-  );
+  let items = await getData("food", apiFilters);
 
   // Filtrerar mat lokalt i JS.
   items = filterFood(items, getFoodFilterValues());
@@ -775,9 +723,14 @@ async function applyFoodFilters(resetPage = true) {
   items = await useEstablishmentForCards(items);
 
   // Sparar resultatet globalt så både lista och karta kan rendera samma data.
+  const totalItems = items.length;
+
+  const paginatedItems = paginateItems(items);
+
   currentSections = [
     {
-      items: items,
+      items: paginatedItems,
+      totalItems,
     },
   ];
 
@@ -791,11 +744,9 @@ async function applyFoodFilters(resetPage = true) {
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
   showingQuizResults = false;
-  pagination.style.display = "";
-  pagination.hidden = false;
 
   activeCategory = "food";
-  currentPage = 1;
+  visibleItems = 20;
 
   updateViewButtons();
   resetFilters();
@@ -808,22 +759,20 @@ async function loadFood() {
     skeletonLoaders();
   }
 
-  const usePagination = shouldUsePagination();
-
   showFiltersForCategory();
 
   const food = categories.food;
-  let items = await getData(
-    "food",
-    getSortApiFilters(),
-    usePagination ? currentPage : null,
-    usePagination ? perPage : null,
-  );
+  let items = await getData("food", getSortApiFilters());
   items = await useEstablishmentForCards(items);
+
+  const totalItems = items.length;
+
+  const paginatedItems = paginateItems(items);
 
   currentSections = [
     {
-      items: items,
+      items: paginatedItems,
+      totalItems,
     },
   ];
 
@@ -845,13 +794,15 @@ function getAccommodationFilterValues() {
 // Körs när användaren ändrar boendefilter.
 async function applyAccommodationFilters(resetPage = true) {
   if (resetPage) {
-    currentPage = 1;
+    visibleItems = 20;
   }
 
-  if (currentView === "map") {
-    mapSkeletonLoader();
-  } else {
-    skeletonLoaders();
+  if (resetPage) {
+    if (currentView === "map") {
+      mapSkeletonLoader();
+    } else {
+      skeletonLoaders();
+    }
   }
 
   // Hämtar aktuella filter-värden
@@ -863,39 +814,34 @@ async function applyAccommodationFilters(resetPage = true) {
     ...getSortApiFilters(),
   };
 
-  const usePagination = shouldUsePagination();
-
-  let items = await getData(
-    "accommodation",
-    apiFilters,
-    usePagination ? currentPage : null,
-    usePagination ? perPage : null,
-  );
+  let items = await getData("accommodation", apiFilters);
 
   // Hämtar filtrerande boenden direkt från SMAPI.
   items = await filterByEstablishment(items, "accommodation");
 
   items = await useEstablishmentForCards(items);
 
+  const totalItems = items.length;
+
+  const paginatedItems = paginateItems(items);
+
   currentSections = [
     {
-      items: items,
+      items: paginatedItems,
+      totalItems,
     },
   ];
 
   currentRenderFunction = renderAccommodation;
   renderCurrentView();
-  updateViewButtons();
 }
 
 // Laddar startsida för boenden.
 async function loadAccommodation() {
   showingQuizResults = false;
-  pagination.style.display = "";
-  pagination.hidden = false;
+  visibleItems = 20;
 
   activeCategory = "accommodation";
-  currentPage = 1;
 
   updateViewButtons();
   resetFilters();
@@ -910,22 +856,20 @@ async function loadAccommodation() {
 
   const accommodation = categories.accommodation;
 
-  const usePagination = shouldUsePagination();
-
   showFiltersForCategory();
 
-  let items = await getData(
-    accommodation.controller,
-    getSortApiFilters(),
-    usePagination ? currentPage : null,
-    usePagination ? perPage : null,
-  );
+  let items = await getData(accommodation.controller, getSortApiFilters());
 
   items = await useEstablishmentForCards(items);
 
+  const totalItems = items.length;
+
+  const paginatedItems = paginateItems(items);
+
   currentSections = [
     {
-      items: items,
+      items: paginatedItems,
+      totalItems,
     },
   ];
 
@@ -944,20 +888,18 @@ listViewBtn.addEventListener("click", () => {
   } else {
     applyCurrentFilters();
   }
-  
+
   updateViewButtons();
 });
 
 // Funktion som körs när knappen för kartvy klickas.
 mapViewBtn.addEventListener("click", () => {
   currentView = "map";
-  pagination.style.display = "none";
 
   if (showingQuizResults) {
     renderCurrentView();
   } else {
-      applyCurrentFilters();
-
+    applyCurrentFilters();
   }
 
   updateViewButtons();
@@ -967,15 +909,27 @@ let currentRenderFunction = renderSeeAndDo;
 
 // Renderar antingen karta eller lista bereonde på currentView
 async function renderCurrentView() {
+  updateResultsCount();
+
   if (currentView === "map") {
     renderMap(currentSections, container);
   } else if (currentRenderFunction === renderSeeAndDo) {
-    await renderSeeAndDo(currentSections, container);
+    await renderSeeAndDo(
+      currentSections,
+      container,
+      visibleItems,
+      itemsPerLoad,
+    );
   } else {
-    await currentRenderFunction(currentSections[0].items, container);
+    await currentRenderFunction(
+      currentSections[0].items,
+      container,
+      visibleItems,
+      itemsPerLoad,
+    );
   }
 
-  updatePaginationControls();
+  updateLoadMoreButton();
 }
 
 // Laddar om aktiv kategori utan att återställa sidnumreringen.
@@ -991,47 +945,33 @@ function scrollToTop() {
   });
 }
 
-// Uppdaterar paginerings-UI:t: döljer/visar det beroende på kart- eller listvy samt aktiverar/inaktiverar knapparna beroende på aktuell sida och data.
-function updatePaginationControls() {
-  if (showingQuizResults || currentView === "map") {
-    pagination.style.display = "none";
-    filterBtn.style.display = "none";
+function paginateItems(items) {
+  if (currentView === "map") {
+    return items;
+  }
+
+  return items.slice(0, visibleItems);
+}
+
+loadMoreBtn.addEventListener("click", () => {
+  visibleItems += itemsPerLoad;
+
+  reloadCurrentCategory();
+});
+
+function updateLoadMoreButton() {
+  if (currentView === "map") {
+    loadMoreBtn.hidden = true;
     return;
   }
 
-  pagination.style.display = "";
-  filterBtn.style.display = "";
+  const totalItems = currentSections[0]?.totalItems || 0;
 
-  const usePagination = shouldUsePagination();
-
-  if (!activeCategory) {
-    pagination.style.display = "none";
-    filterBtn.style.display = "none";
-    return;
+  if (visibleItems >= totalItems) {
+    loadMoreBtn.hidden = true;
+  } else {
+    loadMoreBtn.hidden = false;
   }
-
-  pagination.hidden = false;
-
-  pageNumber.textContent = currentPage;
-
-  if (!usePagination) {
-    pageNumber.textContent = "1";
-    prevPageBtn.disabled = true;
-    nextPageBtn.disabled = true;
-    return;
-  }
-
-  prevPageBtn.disabled = currentPage === 1;
-
-  let hasNextPage = false;
-
-  for (const section of currentSections) {
-    if (section.items.length >= perPage) {
-      hasNextPage = true;
-    }
-  }
-
-  nextPageBtn.disabled = !hasNextPage;
 }
 
 // Marker rätt huvudkategori som aktiv.
@@ -1087,6 +1027,8 @@ function resetFilters() {
 
   setFilterGroupDisabled(activityFilters, false);
   setFilterGroupDisabled(attractionFilters, false);
+
+  updateFilterButton();
 }
 
 // Aktiverar eller inaktiverar "Återställ filter"-knappen beroende på om något filter är aktivt eller inte.
@@ -1118,10 +1060,73 @@ function resetButtonActive() {
   }
 }
 
+function getActiveFilterCount() {
+  let count = 0;
+
+  if (municipalityFilter.value) count++;
+  if (priceRange.value) count++;
+
+  count += getSelectedActivityTypes().length;
+  count += getSelectedAttractionTypes().length;
+
+  if (effort.value) count++;
+  if (involvesAnimals.checked) count++;
+  if (involvesWater.checked) count++;
+  if (experienceType.value) count++;
+  if (localSignificance.checked) count++;
+  if (childFriendly.checked) count++;
+
+  count += getSelectedFoodTypes().length;
+  if (foodPrice.value) count++;
+  if (foodRating.value) count++;
+
+  count += getselectedAccommodationTypes().length;
+  if (accommodationRating.value) count++;
+  if (hasWifi.checked) count++;
+  if (freeParking.checked) count++;
+  if (petFriendly.checled) count++;
+
+  return count;
+}
+
+function updateFilterButton() {
+  const count = getActiveFilterCount();
+
+  if (count > 0) {
+    filterBtn.classList.add("filter-active");
+
+    filterBtn.innerHTML = `
+    Filter
+    <span class="filter-count">
+    ${count}
+    </span>
+    `;
+  } else {
+    filterBtn.classList.remove("filter-active");
+
+    filterBtn.innerHTML = `Filter`;
+  }
+}
+
+function updateResultsCount() {
+  const resultsCount = document.getElementById("resultsCount");
+
+  let total = 0;
+
+  for (const section of currentSections) {
+    total += section.totalItems || section.items.length;
+  }
+
+  resultsCount.textContent = `${total} resultat`;
+
+  closeFilterBtn.innerHTML = `Visa resultat (${total})`
+}
+
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
 function handleFilterChange() {
   applyCurrentFilters();
   resetButtonActive();
+  updateFilterButton();
 }
 
 function showFiltersForCategory() {
@@ -1156,11 +1161,16 @@ function getSortApiFilters() {
 
 function quizNotice() {
   const div = document.createElement("div");
+  div.classList.add("quiz-notice");
 
   const button = document.createElement("button");
+  button.classList.add("btn", "btn-primary");
 
   div.innerHTML = `
-  <h6>Visar dina rekommendationer baserat på dina svar från "Hitta en resa"</h6>
+  <div class="quiz-notice-content">
+  <h6>Visar personliga rekommendationer</h6>
+  <p>Resultaten baseras på dina svar i quizet.
+  </div>
   `;
 
   button.textContent = "Visa allt";
@@ -1168,12 +1178,13 @@ function quizNotice() {
   button.addEventListener("click", () => {
     showingQuizResults = false;
     sessionStorage.removeItem("quizResults");
+    document.getElementById("quizNoticeContainer").innerHTML = "";
     loadSeeAndDo();
   });
 
   div.append(button);
 
-  container.prepend(div);
+  document.getElementById("quizNoticeContainer").append(div);
 }
 
 function sortItems(items) {
@@ -1192,11 +1203,12 @@ function sortItems(items) {
 
 if (quizResults) {
   showingQuizResults = true;
+  visibleItems = 20;
   activeCategory = "seeAndDo";
 
   currentSections = [
     {
-      items: sortItems(quizResults)
+      items: sortItems(quizResults),
     },
   ];
 
@@ -1210,3 +1222,14 @@ if (quizResults) {
 } else {
   loadSeeAndDo();
 }
+
+openFilterBtn.addEventListener("click", () => {
+  filterMenu.style.display = "flex";
+  openFilterBtn.style.display = "none";
+});
+
+closeFilterBtn.addEventListener("click", () => {
+  filterMenu.style.display = "none";
+  openFilterBtn.style.display = "flex";
+  window.scrollTo(top)
+});

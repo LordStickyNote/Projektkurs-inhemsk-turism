@@ -62,13 +62,13 @@ const imageQueries = {
   Naturreservat: "forest lake nature reserve sweden",
   Sevärdhet: "tourist attraction sweden",
   Slott: "castle sweden aerial",
+  Köpcentrum: "shopping mall centre",
 
   // Accommodation
   Hotell: "hotel room interior",
   Camping: "camping site camper sweden",
-  "bed and breakfast": "small guesthouse sweden",
   Stuga: "swedish cabin cottage nature",
-
+  "B&B": "small guesthouse sweden",
 };
 
 const blockedWords = [
