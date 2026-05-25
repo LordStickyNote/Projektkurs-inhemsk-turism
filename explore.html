@@ -277,37 +277,41 @@
             <div id="foodFilters" class="width-full" hidden>
               <div class="filter-category width-full">
                 <div class="collapsible-header">
-                  <h3>Filtrera mat</h3>
+                  <h3>Typ av mat</h3>
                   <hr />
                 </div>
 
-                <span>
-                  <h4>Typ av mat</h4>
-                  <label>
+                <div class="stack gap-2">
+                  <label class="card card-filter-option">
+                    <h3>Asiatiskt</h3>
                     <input type="checkbox" name="foodType" value="asian" />
-                    Asiatiskt
                   </label>
-                  <label>
+                  <label class="card card-filter-option">
+                    <h3>Pizza</h3>
                     <input type="checkbox" name="foodType" value="pizza" />
-                    Pizza
                   </label>
-                  <label>
+                  <label class="card card-filter-option">
+                    <h3>Kebab</h3>
                     <input type="checkbox" name="foodType" value="kebab" />
-                    Kebab
                   </label>
-                  <label>
+                  <label class="card card-filter-option">
+                    <h3>Hamburgare</h3>
                     <input type="checkbox" name="foodType" value="hamburgare" />
-                    Hamburgare
                   </label>
-                  <label>
+                  <label class="card card-filter-option">
+                    <h3>Sallad</h3>
                     <input type="checkbox" name="foodType" value="sallad" />
-                    Sallad
                   </label>
-                  <label>
+                  <label class="card card-filter-option">
+                    <h3>Husman</h3>
                     <input type="checkbox" name="foodType" value="husman" />
-                    Husman
                   </label>
-                </span>
+                </div>
+
+                <div class="collapsible-header">
+                  <h3>Pris & betyg</h3>
+                  <hr />
+                </div>
 
                 <label class="card card-filter-option" for="foodPrice">
                   <h3>Pris per person</h3>
@@ -333,37 +337,41 @@
             <div id="accommodationFilters" class="width-full" hidden>
               <div class="filter-category width-full">
                 <div class="collapsible-header">
-                  <h3>Filtrera boenden</h3>
+                  <h3>Boendetyp</h3>
                   <hr />
                 </div>
 
-                <span>
-                  <h4>Boendetyp</h4>
-                  <label>
+                <div class="stack gap-2">
+                  <label class="card card-filter-option">
+                    <h3>Hotell</h3>
                     <input
                       type="checkbox"
                       name="accommodationType"
                       value="Hotell"
                     />
-                    Hotell
                   </label>
-                  <label>
+                  <label class="card card-filter-option">
+                    <h3>Camping</h3>
                     <input
                       type="checkbox"
                       name="accommodationType"
                       value="Camping"
                     />
-                    Camping
                   </label>
-                  <label>
+                  <label class="card card-filter-option">
+                    <h3>B&B</h3>
                     <input
                       type="checkbox"
                       name="accommodationType"
                       value="B&B"
                     />
-                    B&B
                   </label>
-                </span>
+                </div>
+
+                <div class="collapsible-header">
+                  <h3>Övriga krav</h3>
+                  <hr />
+                </div>
 
                 <label
                   class="card card-filter-option"
@@ -396,16 +404,16 @@
             </div>
           </div>
           <div
-          style="padding: var(--space-8); box-sizing: border-box"
-          class="row gap-4 width-full"
-        >
-          <button class="btn btn-outline" id="resetFilterBtn">
-            Rensa filter
-          </button>
-          <button id="applyFilterBtn" class="btn btn-primary width-full">
-            Visa resultat
-          </button>
-        </div>
+            style="padding: var(--space-8); box-sizing: border-box"
+            class="row gap-4 width-full"
+          >
+            <button class="btn btn-outline" id="resetFilterBtn">
+              Rensa filter
+            </button>
+            <button id="applyFilterBtn" class="btn btn-primary width-full">
+              Visa resultat
+            </button>
+          </div>
         </div>
       </div>
       <section id="quizNoticeContainer"></section>

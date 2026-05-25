@@ -909,6 +909,7 @@ let currentRenderFunction = renderSeeAndDo;
 
 // Renderar antingen karta eller lista bereonde på currentView
 async function renderCurrentView() {
+  updateViewButtons();
   updateResultsCount();
 
   if (currentView === "map") {
