@@ -1,39 +1,46 @@
 import { getPixabayImage } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
 
-export async function renderAccommodation(items, container) {
+export async function renderAccommodation(
+  items,
+  container,
+  visibleItems,
+  itemsPerLoad,
+) {
   const renderedSections = [];
 
   const sectionElement = document.createElement("section");
   sectionElement.classList.add("grid", "width-full", "gap-6");
 
-    const itemsWithImages = await Promise.all(
-  
-      items.map(async (item) => {
-        const imageSearchTerm = item.description === "B&B" ? "small guesthouse sweden" : item.description;
-  
-        const imageUrl = (await getPixabayImage(imageSearchTerm, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
-  
-        return {
-          ...item,
-          imageUrl,
-        };
-      })
-    );
+  const itemsWithImages = await Promise.all(
+    items.map(async (item) => {
+      const imageSearchTerm =
+        item.description === "B&B"
+          ? "small guesthouse sweden"
+          : item.description;
 
-  for (const item of itemsWithImages) {
+      const imageUrl =
+        (await getPixabayImage(imageSearchTerm, item.id)) ||
+        "./img/High_Chaparral_Theme_Park.jpg";
+
+      return {
+        ...item,
+        imageUrl,
+      };
+    }),
+  );
+
+  for (const [index, item] of itemsWithImages.entries()) {
     const article = document.createElement("article");
-
-          if (container.classList.contains("no-animation")) {
-        article.classList.add("no-animation");
-}
 
     article.addEventListener("click", () => {
       renderDetailModal(item);
-    })
+    });
+
+    const shouldAnimate = index >= visibleItems - itemsPerLoad;
 
     article.innerHTML = `
-            <div class="card card-listing" style="background-image: url('${item.imageUrl}');">
+            <div class="card card-listing ${!shouldAnimate ? "no-animation" : ""}" style="background-image: url('${item.imageUrl}');">
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>

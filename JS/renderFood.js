@@ -1,40 +1,38 @@
 import { getPixabayImage, getFoodSearchQuery } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
 
-export async function renderFood(items, container) {
-
+export async function renderFood(items, container, visibleItems, itemsPerLoad) {
   const renderedSections = [];
 
   const sectionElement = document.createElement("section");
   sectionElement.classList.add("grid", "width-full", "gap-6");
 
   const itemsWithImages = await Promise.all(
-
     items.map(async (item) => {
       const query = getFoodSearchQuery(item);
 
-      const imageUrl = (await getPixabayImage(query, item.id)) || "./img/High_Chaparral_Theme_Park.jpg";
+      const imageUrl =
+        (await getPixabayImage(query, item.id)) ||
+        "./img/High_Chaparral_Theme_Park.jpg";
 
       return {
         ...item,
         imageUrl,
       };
-    })
+    }),
   );
 
-  for (const item of itemsWithImages) {
+  for (const [index, item] of itemsWithImages.entries()) {
     const article = document.createElement("article");
-
-          if (container.classList.contains("no-animation")) {
-        article.classList.add("no-animation");
-}
 
     article.addEventListener("click", () => {
       renderDetailModal(item);
-    })
+    });
+
+    const shouldAnimate = index >= visibleItems - itemsPerLoad;
 
     article.innerHTML = `
-                        <div class="card card-listing" style="background-image: url('${item.imageUrl}');">
+            <div class="card card-listing ${!shouldAnimate ? "no-animation" : ""}" style="background-image: url('${item.imageUrl}');">
         <span class="card-listing-content width-full">
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>

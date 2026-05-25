@@ -224,8 +224,8 @@ a {
   animation: cardFadeIn 0.45s ease;
 }
 
-.no-animation .card-listing {
-  animation: none;
+.card-listing.no-animation {
+  animation: none !important;
 }
 
 .card-listing:hover {
