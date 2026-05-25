@@ -974,6 +974,9 @@ let currentRenderFunction = renderSeeAndDo;
 
 // Renderar antingen karta eller lista bereonde på currentView
 async function renderCurrentView() {
+
+  updateResultsCount();
+
   if (currentView === "map") {
     renderMap(currentSections, container);
   } else if (currentRenderFunction === renderSeeAndDo) {
@@ -1172,6 +1175,18 @@ function updateFilterButton() {
 
     filterBtn.innerHTML = `Filter`;
   }
+}
+
+function updateResultsCount() {
+  const resultsCount = document.getElementById("resultsCount");
+
+  let total = 0;
+
+  for (const section of currentSections) {
+    total += section.items.length;
+  }
+
+  resultsCount.textContent = `${total} resultat`
 }
 
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
