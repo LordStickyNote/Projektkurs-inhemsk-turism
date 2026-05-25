@@ -1093,6 +1093,8 @@ function resetFilters() {
 
   setFilterGroupDisabled(activityFilters, false);
   setFilterGroupDisabled(attractionFilters, false);
+
+  updateFilterButton();
 }
 
 // Aktiverar eller inaktiverar "Återställ filter"-knappen beroende på om något filter är aktivt eller inte.
@@ -1153,10 +1155,30 @@ function getActiveFilterCount() {
   return count;
 }
 
+function updateFilterButton() {
+  const count = getActiveFilterCount();
+
+  if (count > 0) {
+    filterBtn.classList.add("filter-active");
+
+    filterBtn.innerHTML = `
+    Filter
+    <span class="filter-count">
+    ${count}
+    </span>
+    `;
+  } else {
+    filterBtn.classList.remove("filter-active");
+
+    filterBtn.innerHTML = `Filter`;
+  }
+}
+
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
 function handleFilterChange() {
   applyCurrentFilters();
   resetButtonActive();
+  updateFilterButton();
 }
 
 function showFiltersForCategory() {
