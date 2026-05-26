@@ -58,6 +58,18 @@ html {
   overflow-y: scroll;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 hr {
   height: 1px;
   background-color: var(--color-border);
@@ -330,11 +342,11 @@ a {
 /* primary */
 .btn-primary {
   background: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-bg);
   border: var(--color-primary) solid 2px;
 }
 .btn-primary svg {
-  fill: #ffffff;
+  fill: var(--color-bg);
 }
 
 .btn-primary:hover {
@@ -520,8 +532,8 @@ a {
 
 .badge-red {
   border: #ff6b6b 1px solid;
-  color: #ff6b6b;
-  background-color: #ff6b6b24;
+  color: #ff9b9b;
+  background-color: #3a2328;
 }
 
 /*==== details ====*/
@@ -1162,4 +1174,23 @@ input[type="checkbox"]:checked {
   .site-footer {
     padding-inline: var(--space-4);
   }
+}
+/* Quiz + explore - logo */
+
+.quiz-logo {
+  width: min(400px, 45vw);
+  height: auto;
+  display: block;
+  align-self: center;
+}
+
+.explore-logo {
+  width: min(350px, 60vw);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.explore-logo {
+  margin: 0 auto calc(var(--space-4) * -1);
 }
