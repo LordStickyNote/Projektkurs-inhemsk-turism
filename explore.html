@@ -45,9 +45,6 @@
               <option value="rating">Högsta betyg</option>
               <option value="name">Namn A-Ö</option>
             </select>
-            <div class="row gap-4 align-center">
-              <p id="resultsCount" class="text-faded"></p>
-            </div>
             <span class="row gap-2 btn-square-container">
               <button id="listViewBtn" class="btn btn-square">
                 <svg
@@ -421,6 +418,7 @@
         </div>
         <div class="stack gap-4 width-full" id="resultsContainer">
           <section id="quizNoticeContainer"></section>
+            <p id="resultsCount" class="text-faded"></p>
           <section id="results"></section>
         </div>
       </div>
@@ -430,7 +428,7 @@
             <h2>Sparade platser</h2>
             <button id="closeFavoritesBtn">X</button>
           </div>
-          <hr>
+          <hr />
           <section id="favoriteResults"></section>
         </div>
       </div>

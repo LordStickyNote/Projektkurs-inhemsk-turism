@@ -403,6 +403,7 @@ a {
   color: var(--color-text);
   border-radius: var(--radius-sm);
   padding: calc(var(--space-2) / 2);
+  margin-left: var(--space-1);
 }
 .btn-square:hover svg {
   fill: var(--color-primary-hover);
@@ -1025,12 +1026,13 @@ input[type="checkbox"]:checked {
 #favoritesBtn {
   background: none;
   border: none;
+  margin-right: auto;
 }
 
 #favoritesBtn svg {
   width: 34px;
   height: 34px;
-  fill: var(--color-primary);
+  fill: var(--color-primary-hover);
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.50));
   cursor: pointer;
 }
@@ -1044,7 +1046,7 @@ input[type="checkbox"]:checked {
 }
 
 .favorite-btn.active svg {
-  fill: var(--color-primary);
+  fill: var(--color-primary-hover);
   animation: favoritePop 0.3s ease;
 }
 
@@ -1068,8 +1070,17 @@ input[type="checkbox"]:checked {
 }
 
 .favorite-btn-detail.active svg {
-  fill: var(--color-primary);
+  fill: var(--color-primary-hover);
   animation: favoritePop 0.3s ease;
+}
+
+#resultsCount {
+  font-size: var(--text-lg);
+  padding-inline: var(--space-4);
+}
+
+#toggleAndSortingDiv .card {
+    padding: var(--space-3) var(--space-4);
 }
 
 @keyframes favoritePop {
@@ -1095,6 +1106,22 @@ input[type="checkbox"]:checked {
   background: rgba(0,0,0,0.2);
 
   backdrop-filter: blur(2px);
+  animation: favoriteFadeIn 0.2s ease;
+}
+
+@keyframes favoriteFadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 .favorites-content {
@@ -1238,7 +1265,6 @@ input[type="checkbox"]:checked {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
-    align-items: center;
   }
 
   #toggleAndSortingDiv{

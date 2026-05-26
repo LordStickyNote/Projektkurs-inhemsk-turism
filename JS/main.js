@@ -1135,7 +1135,7 @@ function updateResultsCount() {
     total += section.totalItems || section.items.length;
   }
 
-  resultsCount.textContent = `${total} resultat`;
+  resultsCount.textContent = `${total} platser hittades`;
 
   closeFilterBtn.innerHTML = `Visa resultat (${total})`;
 }
