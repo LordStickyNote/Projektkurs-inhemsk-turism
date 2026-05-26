@@ -1001,6 +1001,10 @@ input[type="checkbox"]:checked {
   width: 100%;
 }
 
+.filter-menu-open {
+  display: flex;
+}
+
 /*==== Medium screen ====*/
 
 @media (min-width: 1400px) {
@@ -1017,10 +1021,6 @@ input[type="checkbox"]:checked {
 
   #resultsContainer{
     width: fit-content;
-  }
-
-  #page-content{
-    align-items: center;
   }
 
   #page-content.quiz-layout > .stack {

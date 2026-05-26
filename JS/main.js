@@ -271,9 +271,8 @@ function mapSkeletonLoader() {
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   showingQuizResults = false;
+  filterMenu.classList.remove("filter-menu-open");
 
-  filterBtn.hidden = false;
-  filterMenu.hidden = false;
   document.getElementById("page-content").classList.remove("quiz-layout");
 
   activeCategory = "seeAndDo";
@@ -747,9 +746,8 @@ async function applyFoodFilters(resetPage = true) {
 // Laddar startsidan var mat kategorin.
 async function loadFood() {
   showingQuizResults = false;
+  filterMenu.classList.remove("filter-menu-open");
 
-  filterBtn.hidden = false;
-  filterMenu.hidden = false;
   document.getElementById("page-content").classList.remove("quiz-layout");
 
   activeCategory = "food";
@@ -846,9 +844,8 @@ async function applyAccommodationFilters(resetPage = true) {
 // Laddar startsida för boenden.
 async function loadAccommodation() {
   showingQuizResults = false;
-
-  filterBtn.hidden = false;
-  filterMenu.hidden = false;
+  filterMenu.classList.remove("filter-menu-open");
+  
   document.getElementById("page-content").classList.remove("quiz-layout");
 
   visibleItems = 20;
@@ -1097,7 +1094,7 @@ function getActiveFilterCount() {
   if (accommodationRating.value) count++;
   if (hasWifi.checked) count++;
   if (freeParking.checked) count++;
-  if (petFriendly.checled) count++;
+  if (petFriendly.checked) count++;
 
   return count;
 }
@@ -1232,7 +1229,7 @@ if (quizResults) {
   toggleAndSortingDiv.hidden = false;
 
   filterBtn.hidden = true;
-  filterMenu.hidden = true;
+  filterMenu.classList.remove("filter-menu-open");
 
   document.getElementById("page-content").classList.add("quiz-layout");
 
@@ -1242,15 +1239,13 @@ if (quizResults) {
 }
 
 filterBtn.addEventListener("click", () => {
-  filterMenu.hidden = false;
-  filterMenu.style.display = "flex";
+  filterMenu.classList.add("filter-menu-open");
 
   filterBtn.hidden = true;
 });
 
 closeFilterBtn.addEventListener("click", () => {
-  filterMenu.hidden = true;
-  filterMenu.style.display = "flex";
+  filterMenu.classList.remove("filter-menu-open");
 
   filterBtn.hidden = false;
 });
