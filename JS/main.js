@@ -51,7 +51,6 @@ const filterBtn = document.getElementById("btn-float-SeeAndDo");
 
 // DOM-element: Knappar för filter
 const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
-const openFilterBtn = document.getElementById("btn-float-SeeAndDo");
 const closeFilterBtn = document.getElementById("applyFilterBtn"); 
 
 // DOM-element: gemensamma filter
@@ -272,6 +271,10 @@ function mapSkeletonLoader() {
 // Funktion för att köra "Se och göra" kategorin.
 async function loadSeeAndDo() {
   showingQuizResults = false;
+
+  filterBtn.hidden = false;
+  filterMenu.hidden = false;
+  document.getElementById("page-content").classList.remove("quiz-layout");
 
   activeCategory = "seeAndDo";
   visibleItems = 20;
@@ -745,6 +748,10 @@ async function applyFoodFilters(resetPage = true) {
 async function loadFood() {
   showingQuizResults = false;
 
+  filterBtn.hidden = false;
+  filterMenu.hidden = false;
+  document.getElementById("page-content").classList.remove("quiz-layout");
+
   activeCategory = "food";
   visibleItems = 20;
 
@@ -839,6 +846,11 @@ async function applyAccommodationFilters(resetPage = true) {
 // Laddar startsida för boenden.
 async function loadAccommodation() {
   showingQuizResults = false;
+
+  filterBtn.hidden = false;
+  filterMenu.hidden = false;
+  document.getElementById("page-content").classList.remove("quiz-layout");
+
   visibleItems = 20;
 
   activeCategory = "accommodation";
@@ -1219,17 +1231,22 @@ if (quizResults) {
 
   toggleAndSortingDiv.hidden = false;
 
+  filterBtn.hidden = true;
+  filterMenu.hidden = true;
+
+  document.getElementById("page-content").classList.add("quiz-layout");
+
   quizNotice();
 } else {
   loadSeeAndDo();
 }
 
-openFilterBtn.addEventListener("click", () => {
+filterBtn.addEventListener("click", () => {
   filterMenu.style.display = "flex";
-  openFilterBtn.style.display = "none";
+  filterBtn.style.display = "none";
 });
 
 closeFilterBtn.addEventListener("click", () => {
   filterMenu.style.display = "none";
-  openFilterBtn.style.display = "flex";
+  filterBtn.style.display = "flex";
 });

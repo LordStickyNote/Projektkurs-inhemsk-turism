@@ -1011,6 +1011,15 @@ input[type="checkbox"]:checked {
     margin: var(--space-10) 0;
   }
 
+  #page-content.quiz-layout {
+    justify-content: center;
+  }
+
+  #page-content.quiz-layout > .stack {
+    max-width: 800px;
+    width: 100%;
+  }
+
   .filter-menu-container {
     display: flex;
     max-width: 500px;
