@@ -1263,6 +1263,8 @@ function renderFavorites() {
     
     const article = document.createElement("article");
 
+    article.classList.add("favorite-item")
+
     article.innerHTML = `
     <div class="card">
       <h3>${item.name}</h3>
