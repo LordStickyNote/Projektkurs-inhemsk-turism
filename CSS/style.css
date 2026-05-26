@@ -1005,7 +1005,7 @@ input[type="checkbox"]:checked {
 
 @media (min-width: 1900px) {
   #page-content {
-    max-height: 100vh;
+    align-items: flex-start;
     justify-content: center;
     gap: var(--space-10);
     margin: var(--space-10) 0;
@@ -1013,15 +1013,27 @@ input[type="checkbox"]:checked {
 
   .filter-menu-container {
     display: flex;
-    position: unset;
     max-width: 500px;
-    height: 90vh;
+    position: sticky;
+    align-self: flex-start;
+    top: 100px;
+    overflow-y: auto;
+    padding-bottom: 60px;
+    max-height: calc(100vh - var(--space-10) * 2);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .filter-menu {
+    overflow: visible;
+    max-height: none;
+    height: auto;
   }
 
   #results {
     width: 800px;
-    height: 90vh;
-    overflow-y: scroll;
+    overflow: visible;
     padding: var(--space-4);
   }
 
@@ -1029,7 +1041,7 @@ input[type="checkbox"]:checked {
     display: none;
   }
 
-  #filterBtn {
+  #applyFilterBtn {
     display: none;
   }
 
@@ -1043,16 +1055,19 @@ input[type="checkbox"]:checked {
   }
 
   .tab-container {
-    width: 600px;
+    width: 100%;
     justify-self: center;
   }
 
   #header {
-    flex-flow: row;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    align-items: center;
   }
 
   #toggleAndSortingDiv{
-    width: fit-content;
+    width: 100%;
+    justify-content: space-between;
   }
 }
