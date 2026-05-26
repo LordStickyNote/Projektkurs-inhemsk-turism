@@ -1197,6 +1197,7 @@ function quizNotice() {
     showingQuizResults = false;
     sessionStorage.removeItem("quizResults");
     document.getElementById("quizNoticeContainer").innerHTML = "";
+    filterBtn.hidden = false;
     loadSeeAndDo();
   });
 
