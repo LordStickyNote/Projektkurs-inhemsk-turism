@@ -28,7 +28,7 @@
           <button class="tab" id="accommodationBtn">Boenden</button>
         </span>
         <div id="toggleAndSortingDiv" class="width-full" hidden>
-          <div class="width-full row row-between card">
+          <div class="width-full row row-between">
             <select
               class="btn-outline sortingList"
               name="sortList"
@@ -37,9 +37,6 @@
               <option value="rating">Högsta betyg</option>
               <option value="name">Namn A-Ö</option>
             </select>
-            <div class="row gap-4 align-center">
-              <p id="resultsCount" class="text-faded"></p>
-            </div>
             <span class="row gap-2 btn-square-container">
               <button id="listViewBtn" class="btn btn-square" aria-label="Visa som lista">
                 <svg
@@ -414,19 +411,22 @@
         </div>
         <div class="stack gap-4 width-full" id="resultsContainer">
           <section id="quizNoticeContainer"></section>
+          <div class="row gap-4 align-center">
+              <p id="resultsCount" class="text-faded"></p>
+            </div>
           <section id="results"></section>
         </div>
       </div>
       <div id="detailModal" hidden>
         <div id="detailContent"></div>
       </div>
+      <div class="row gap-4 justify-center">
+        <button id="loadMoreBtn" class="btn btn-secondary">Ladda fler</button>
+      </div>
       <hr />
       <div class="stack gap-10">
-        <div class="row gap-4 justify-center">
-          <button id="loadMoreBtn" class="btn btn-primary">Ladda fler</button>
-        </div>
         <div class="card row gap-4">
-          <h2>Hittar du inte det du söker? Gör vårt quiz!</h2>
+          <h3>Hittar du inte det du söker? Gör vårt quiz!</h3>
           <a href="/quiz.html" class="btn btn-primary"
             >Hitta en resa
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
