@@ -1003,7 +1003,7 @@ input[type="checkbox"]:checked {
 
 /*==== Medium screen ====*/
 
-@media (min-width: 1900px) {
+@media (min-width: 1000px) {
   #page-content {
     align-items: flex-start;
     justify-content: center;
