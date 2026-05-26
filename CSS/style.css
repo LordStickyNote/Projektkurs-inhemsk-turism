@@ -1005,6 +1005,20 @@ input[type="checkbox"]:checked {
   display: flex;
 }
 
+.favorite-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  transition: 0.2s ease;
+}
+
+.favorite-btn.active {
+  background: var(--color-primary);
+  color: white;
+}
+
 /*==== Medium screen ====*/
 
 @media (min-width: 1400px) {

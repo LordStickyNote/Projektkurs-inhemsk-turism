@@ -63,7 +63,14 @@ export async function renderSeeAndDo(
 
       const favoriteBtn = article.querySelector(".favorite-btn");
 
-      favoriteBtn.addEventListener("click", {})
+      favoriteBtn.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        const active = toggleFavorite(item.favoriteId);
+
+        favoriteBtn.classList.toggle("active", active);
+      })
 
       sectionElement.append(article);
     }
