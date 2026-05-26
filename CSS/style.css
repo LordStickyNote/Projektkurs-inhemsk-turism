@@ -58,18 +58,6 @@ html {
   overflow-y: scroll;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 hr {
   height: 1px;
   background-color: var(--color-border);
@@ -342,11 +330,11 @@ a {
 /* primary */
 .btn-primary {
   background: var(--color-primary);
-  color: var(--color-bg);
+  color: #ffffff;
   border: var(--color-primary) solid 2px;
 }
 .btn-primary svg {
-  fill: var(--color-bg);
+  fill: #ffffff;
 }
 
 .btn-primary:hover {
@@ -532,8 +520,8 @@ a {
 
 .badge-red {
   border: #ff6b6b 1px solid;
-  color: #ff9b9b;
-  background-color: #3a2328;
+  color: #ff6b6b;
+  background-color: #ff6b6b24;
 }
 
 /*==== details ====*/
