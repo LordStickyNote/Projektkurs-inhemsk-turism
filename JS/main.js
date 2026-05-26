@@ -1242,11 +1242,15 @@ if (quizResults) {
 }
 
 filterBtn.addEventListener("click", () => {
+  filterMenu.hidden = false;
   filterMenu.style.display = "flex";
-  filterBtn.style.display = "none";
+
+  filterBtn.hidden = true;
 });
 
 closeFilterBtn.addEventListener("click", () => {
-  filterMenu.style.display = "none";
-  filterBtn.style.display = "flex";
+  filterMenu.hidden = true;
+  filterMenu.style.display = "flex";
+
+  filterBtn.hidden = false;
 });

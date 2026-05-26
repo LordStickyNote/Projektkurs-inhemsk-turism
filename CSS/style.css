@@ -1051,7 +1051,7 @@ input[type="checkbox"]:checked {
   }
 
   #btn-float-SeeAndDo {
-    display: none;
+    display: none !important;
   }
 
   #applyFilterBtn {
