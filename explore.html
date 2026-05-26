@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Titelsida</title>
+    <title>Utforska resor</title>
     <script type="module" src="JS/main.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,9 +46,9 @@
               <option value="name">Namn A-Ö</option>
             </select>
             <span class="row gap-2 btn-square-container">
-              <button id="listViewBtn" class="btn btn-square">
+              <button id="listViewBtn" class="btn btn-square" aria-label="Visa som lista">
                 <svg
-                  id="Lager_1"
+                  id="listViewIcon"
                   data-name="Lager 1"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 94.77 94.77"
@@ -94,9 +94,9 @@
                   />
                 </svg>
               </button>
-              <button id="mapViewBtn" class="btn btn-square">
+              <button id="mapViewBtn" class="btn btn-square" aria-label="Visa på karta">
                 <svg
-                  id="Lager_1"
+                  id="mapViewIcon"
                   data-name="Lager 1"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 71.56 100"
@@ -122,6 +122,7 @@
           </div>
         </div>
       </header>
+      <hr>
       <button id="btn-float-SeeAndDo" class="btn-float btn btn-primary">
         Filter
       </button>
@@ -435,11 +436,11 @@
       <div id="detailModal" hidden>
         <div id="detailContent"></div>
       </div>
+      <div class="row gap-4 justify-center">
+        <button id="loadMoreBtn" class="btn btn-secondary">Ladda fler</button>
+      </div>
       <hr />
       <div class="stack gap-10">
-        <div class="row gap-4 justify-center">
-          <button id="loadMoreBtn" class="btn btn-primary">Ladda fler</button>
-        </div>
         <div class="card row gap-4">
           <h3>Hittar du inte det du söker? Gör vårt quiz!</h3>
           <a href="/quiz.html" class="btn btn-primary"
