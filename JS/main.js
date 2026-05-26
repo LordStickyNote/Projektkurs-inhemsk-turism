@@ -626,6 +626,7 @@ async function useEstablishmentForCards(items) {
     return {
       ...item, // Behåller controller-specifik data
       ...establishment, // lägger till visningsdata för resultatskorten
+      favoriteId: `${item.name}-${item.city}`,
     };
   });
 }
