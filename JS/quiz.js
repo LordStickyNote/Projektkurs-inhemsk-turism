@@ -173,10 +173,6 @@ prevBtn.addEventListener("click", () => {
 function mapQuizToFilters() {
   const activityThemes = [];
 
-  if (quizState.interest.includes("animals")) {
-    activityThemes.push("animals");
-  }
-
   if (quizState.interest.includes("adventure")) {
     activityThemes.push("adventure");
   }
