@@ -910,7 +910,7 @@ input[type="checkbox"]:checked {
   width: 100%;
   min-height: 100vh;
   background: var(--color-background);
-  padding: var(--space-8);
+  padding: var(--space-4);
   box-sizing: border-box;
   animation: detailFadeIn 0.2s ease;
 }

@@ -16,9 +16,8 @@ export async function renderDetailModal(item) {
   }
 
   function renderAccommodationDetails(item) {
-
     if (item.wifi !== undefined) {
-        return `
+      return `
     <section class="card stack gap-4">
 
     <div class="stack width-full gap-4">
@@ -27,37 +26,46 @@ export async function renderDetailModal(item) {
 
       <div class="details">
 
-        <div>
+        <span>
           <span class="text-faded">Wifi</span>
 
-          <span>
-            ${formatBoolean(item.wifi)}
+<span${
+        formatBoolean(item.wifi) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>             ${formatBoolean(item.wifi)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">
             Husdjur tillåtna
           </span>
 
-          <span>
-            ${formatBoolean(item.pet_friendly)}
+<span${
+        formatBoolean(item.pet_friendly) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>             ${formatBoolean(item.pet_friendly)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">
             Gratis parkering
           </span>
 
-          <span>
-            ${formatBoolean(item.free_parking)}
+<span${
+        formatBoolean(item.free_parking) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>             ${formatBoolean(item.free_parking)}
           </span>
-        </div>
+        </span>
 
       </div>
 
@@ -66,15 +74,13 @@ export async function renderDetailModal(item) {
     </section>
   `;
     } else {
-        return "";
+      return "";
     }
-    
   }
 
   function renderFoodDetails(item) {
-
     if (item.vegetarian_option !== undefined) {
-        return `
+      return `
     <section class="card stack gap-4">
 
     <div class="stack width-full gap-4">
@@ -83,43 +89,57 @@ export async function renderDetailModal(item) {
 
       <div class="details">
 
-        <div>
+        <span>
           <span class="text-faded">Vegetariskt</span>
 
-          <span>
-            ${formatBoolean(item.vegetarian_option)}
+<span${
+        formatBoolean(item.vegetarian_option) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>             ${formatBoolean(item.vegetarian_option)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">Uteservering</span>
 
-          <span>
+          <span${
+        formatBoolean(item.outdoor_seating) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }> 
             ${formatBoolean(item.outdoor_seating)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">Takeaway</span>
 
-          <span>
+          <span${
+        formatBoolean(item.takeout) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }> 
             ${formatBoolean(item.takeout)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">Barnmeny</span>
 
-          <span>
-            ${formatBoolean(item.child_menu)}
+<span${
+        formatBoolean(item.child_menu) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>             ${formatBoolean(item.child_menu)}
           </span>
-        </div>
+        </span>
 
       </div>
 
@@ -128,14 +148,13 @@ export async function renderDetailModal(item) {
     </section>
   `;
     } else {
-        return "";
+      return "";
     }
-    
   }
 
   function renderSeeAndDoDetails(item) {
     if (item.child_discount !== undefined) {
-        return `
+      return `
     <section class="card width-full stack gap-4">
 
     <div class="stack width-full gap-4">
@@ -144,51 +163,67 @@ export async function renderDetailModal(item) {
 
       <div class="details">
 
-        <div>
+        <span>
+
+        
+        
           <span class="text-faded">
             Barnrabatt
           </span>
 
-          <span>
-            ${formatBoolean(item.child_discount)}
+<span${
+        formatBoolean(item.child_discount) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>            ${formatBoolean(item.child_discount)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">
             Studentrabatt
           </span>
 
-          <span>
-            ${formatBoolean(item.student_discount)}
+<span${
+        formatBoolean(item.student_discount) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>            ${formatBoolean(item.student_discount)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">
             Seniorrabatt
           </span>
 
-          <span>
+          <span${
+            formatBoolean(item.senior_discount) === "Nej"
+              ? ' class="text-faded"'
+              : ""
+          }>
             ${formatBoolean(item.senior_discount)}
           </span>
-        </div>
+        </span>
 
         <hr>
 
-        <div>
+        <span>
           <span class="text-faded">
             Utomhus
           </span>
 
-          <span>
-            ${formatBoolean(item.outdoors)}
+<span${
+        formatBoolean(item.outdoors) === "Nej"
+          ? ' class="text-faded"'
+          : ""
+      }>             ${formatBoolean(item.outdoors)}
           </span>
-        </div>
+        </span>
 
       </div>
 
@@ -197,9 +232,8 @@ export async function renderDetailModal(item) {
     </section>
   `;
     } else {
-        return "";
+      return "";
     }
-    
   }
 
   const reviews = await getReviews(item.id);
@@ -259,7 +293,16 @@ export async function renderDetailModal(item) {
 
           <div class="row row-between align-center">
 
-            <h1>${item.name}</h1>
+            <div class="row-between row width-full">
+              <h2>${item.name}</h2>
+              <span class="star-container">
+              ${`<svg class='star' viewBox='0 0 16 16'>
+              <path
+                d='M7.71954 0.445459C7.86922 -0.0151958 8.52092 -0.0151964 8.6706 0.445459L9.76667 3.81881C9.8336 4.02483 10.0256 4.16431 10.2422 4.16431H13.7892C14.2735 4.16431 14.4749 4.78411 14.083 5.06881L11.2135 7.15366C11.0383 7.28098 10.9649 7.50667 11.0319 7.71268L12.1279 11.086C12.2776 11.5467 11.7504 11.9298 11.3585 11.6451L8.48896 9.5602C8.31372 9.43288 8.07642 9.43288 7.90118 9.5602L5.03163 11.6451C4.63977 11.9298 4.11253 11.5467 4.26221 11.086L5.35828 7.71268C5.42521 7.50667 5.35188 7.28098 5.17664 7.15366L2.30709 5.06881C1.91524 4.78411 2.11662 4.16431 2.60099 4.16431H6.14794C6.36455 4.16431 6.55653 4.02483 6.62347 3.81881L7.71954 0.445459Z'
+              ></path></svg
+            >`.repeat(Math.trunc(item.rating))}
+              </span>
+            </div>
 
             <span
               class="star-container"
@@ -366,7 +409,11 @@ export async function renderDetailModal(item) {
 
             <p>${Math.trunc(item.rating || 0)}</p>
 
-            <span aria-hidden="true">★</span>
+            <span aria-hidden="true"><svg class='star' viewBox='0 0 16 16'>
+              <path
+                d='M7.71954 0.445459C7.86922 -0.0151958 8.52092 -0.0151964 8.6706 0.445459L9.76667 3.81881C9.8336 4.02483 10.0256 4.16431 10.2422 4.16431H13.7892C14.2735 4.16431 14.4749 4.78411 14.083 5.06881L11.2135 7.15366C11.0383 7.28098 10.9649 7.50667 11.0319 7.71268L12.1279 11.086C12.2776 11.5467 11.7504 11.9298 11.3585 11.6451L8.48896 9.5602C8.31372 9.43288 8.07642 9.43288 7.90118 9.5602L5.03163 11.6451C4.63977 11.9298 4.11253 11.5467 4.26221 11.086L5.35828 7.71268C5.42521 7.50667 5.35188 7.28098 5.17664 7.15366L2.30709 5.06881C1.91524 4.78411 2.11662 4.16431 2.60099 4.16431H6.14794C6.36455 4.16431 6.55653 4.02483 6.62347 3.81881L7.71954 0.445459Z'
+              ></path></svg
+            ></span>
 
           </div>
 
@@ -394,11 +441,15 @@ export async function renderDetailModal(item) {
 
                   <div class="row row-between">
 
-                    <span
+                    <span class="star-container"
                       role="img"
                       aria-label="${review.rating} av 5 stjärnor">
 
-                      ${"★".repeat(Math.trunc(review.rating))}
+                      ${`<svg class='star star-sm' viewBox='0 0 16 16'>
+              <path
+                d='M7.71954 0.445459C7.86922 -0.0151958 8.52092 -0.0151964 8.6706 0.445459L9.76667 3.81881C9.8336 4.02483 10.0256 4.16431 10.2422 4.16431H13.7892C14.2735 4.16431 14.4749 4.78411 14.083 5.06881L11.2135 7.15366C11.0383 7.28098 10.9649 7.50667 11.0319 7.71268L12.1279 11.086C12.2776 11.5467 11.7504 11.9298 11.3585 11.6451L8.48896 9.5602C8.31372 9.43288 8.07642 9.43288 7.90118 9.5602L5.03163 11.6451C4.63977 11.9298 4.11253 11.5467 4.26221 11.086L5.35828 7.71268C5.42521 7.50667 5.35188 7.28098 5.17664 7.15366L2.30709 5.06881C1.91524 4.78411 2.11662 4.16431 2.60099 4.16431H6.14794C6.36455 4.16431 6.55653 4.02483 6.62347 3.81881L7.71954 0.445459Z'
+              ></path></svg
+            >`.repeat(Math.trunc(review.rating))}
 
                     </span>
 
@@ -453,10 +504,12 @@ export async function renderDetailModal(item) {
 
   <div class="grid gap-6">
 
-    ${nearbyPlaces.length > 0 ?
-      nearbyPlaces.slice(0, 4)
-      .map(
-        (place) => `
+    ${
+      nearbyPlaces.length > 0
+        ? nearbyPlaces
+            .slice(0, 4)
+            .map(
+              (place) => `
 
           <article class="card card-listing">
 
@@ -486,8 +539,9 @@ export async function renderDetailModal(item) {
           </article>
 
         `,
-      )
-      .join("") : `
+            )
+            .join("")
+        : `
             <div class="card">
 
         <p class="text-faded">
@@ -495,7 +549,8 @@ export async function renderDetailModal(item) {
         </p>
 
       </div>
-      `}
+      `
+    }
 
   </div>
       </section>
@@ -506,8 +561,7 @@ export async function renderDetailModal(item) {
   `;
 
   setTimeout(() => {
-    
-    renderDetailMap(item.lat, item.lng)
+    renderDetailMap(item.lat, item.lng);
   }, 0);
 
   document.getElementById("closeDetailBtn").addEventListener("click", () => {

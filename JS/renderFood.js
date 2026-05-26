@@ -25,6 +25,15 @@ export async function renderFood(items, container, visibleItems, itemsPerLoad) {
   for (const [index, item] of itemsWithImages.entries()) {
     const article = document.createElement("article");
 
+      article.tabIndex = 0;
+      article.setAttribute("role", "button");
+
+      article.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          renderDetailModal(item);
+        }
+      });    
     article.addEventListener("click", () => {
       renderDetailModal(item);
     });
