@@ -951,7 +951,7 @@ async function renderCurrentView() {
 }
 
 // Laddar om aktiv kategori utan att återställa sidnumreringen.
-function reloadCurrentCategory() {
+export function reloadCurrentCategory() {
   applyCurrentFilters(false);
 }
 
@@ -1252,7 +1252,8 @@ function renderFavorites() {
   favoriteResults.innerHTML = "";
 
   if (favorites.length === 0) {
-    favoriteResults.innerHTML = `<p>Inga sparade favoriter ännu</p>`
+    favoriteResults.innerHTML = `<h3>Inga sparade platser ännu</h3>
+                                <p>Tryck på hjärtat på ett kort för att spara det här</p>`
   };
 
   for (const item of favorites) {

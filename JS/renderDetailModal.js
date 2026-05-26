@@ -1,6 +1,8 @@
 import { getPixabayImage } from "./imageApi.js";
 import { getReviews, getNearbyPlaces } from "./api.js";
 import { renderDetailMap } from "./map.js";
+import { isFavorite, toggleFavorite } from "./favorites.js";
+import { updateFavoritesCount, reloadCurrentCategory } from "./main.js";
 
 export async function renderDetailModal(item) {
   function renderSpecificDetails(item) {
@@ -269,6 +271,15 @@ export async function renderDetailModal(item) {
               ${"".repeat(Math.trunc(item.rating || 0))}
             </span>
 
+              <button class="favorite-btn-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.37 88.44">
+                <path
+                  d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"
+                />
+              </svg>
+              <span id="favoritesCount"></span>
+            </button>
+
           </div>
 
           <div class="row row-between align-center">
@@ -504,6 +515,24 @@ export async function renderDetailModal(item) {
 
     </main>
   `;
+
+  const favoriteBtn = modal.querySelector(".favorite-btn-detail");
+
+  const favoriteActive = isFavorite(item.id);
+
+  if (favoriteActive) {
+    favoriteBtn.classList.add("active");
+  }
+
+  favoriteBtn.addEventListener("click", () => {
+    const active = toggleFavorite(item);
+
+    favoriteBtn.classList.toggle("active", active);
+
+    updateFavoritesCount();
+
+    reloadCurrentCategory();
+  })
 
   setTimeout(() => {
     
