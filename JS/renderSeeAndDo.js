@@ -1,5 +1,6 @@
 import { getPixabayImage } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
+import { isFavorite, toggleFavorite } from "./favorites.js";
 
 export async function renderSeeAndDo(
   sections,
@@ -35,9 +36,14 @@ export async function renderSeeAndDo(
 
       const shouldAnimate = index >= visibleItems - itemsPerLoad;
 
+      const favoriteActive = isFavorite(item.favoriteId);
+
       article.innerHTML = `
             <div class="card card-listing ${!shouldAnimate ? "no-animation" : ""}" style="background-image: url('${item.imageUrl}');">
         <span class="card-listing-content width-full">
+                    <button class="favorite-btn ${favoriteActive ? "active" : ""}">
+            Y
+            </button>
           <h3>${item.name}</h3>
           <h4 class="text-faded">${item.city}</h4>
           <span class="row row-between">
@@ -54,6 +60,10 @@ export async function renderSeeAndDo(
         </span>
       </div>
             `;
+
+      const favoriteBtn = article.querySelector(".favorite-btn");
+
+      favoriteBtn.addEventListener("click", {})
 
       sectionElement.append(article);
     }
