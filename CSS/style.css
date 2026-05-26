@@ -1003,7 +1003,7 @@ input[type="checkbox"]:checked {
 
 /*==== Medium screen ====*/
 
-@media (min-width: 1900px) {
+@media (min-width: 1200px) {
   #page-content {
     align-items: flex-start;
     justify-content: center;
@@ -1047,7 +1047,7 @@ input[type="checkbox"]:checked {
   }
 
   #btn-float-SeeAndDo {
-    display: none;
+    display: none !important;
   }
 
   #applyFilterBtn {
