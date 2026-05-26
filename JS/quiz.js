@@ -72,7 +72,7 @@ function renderQuestion() {
   const question = quizQuestions[currentQuestionIndex];
   const container = document.getElementById("quiz-container");
 
-  document.querySelector("h1").textContent = question.title;
+  document.getElementById("questionTitle").textContent = question.title;
 
   container.innerHTML = "";
 

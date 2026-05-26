@@ -1,3 +1,9 @@
+.start-page-logo {
+  width: min(400px, 45vw);
+  height: auto;
+  display: block;
+}
+
 #start-page-bg {
   background-image: url(/img/bg-2.jpg);
   background-size: cover;
@@ -15,17 +21,17 @@
   backdrop-filter: blur(2px);
 }
 
-@media (min-width: 900px){
-  body{
+@media (min-width: 900px) {
+  body {
     justify-content: center;
   }
 
-  #content-container{
+  #content-container {
     width: fit-content;
     justify-self: center;
   }
 
-    .btn{
+  .btn {
     width: fit-content;
   }
 }

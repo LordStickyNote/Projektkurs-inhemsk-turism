@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Titelsida</title>
+    <title>Utforska resor</title>
     <script type="module" src="JS/main.js"></script>
     <script src="/JS/footer.js"></script>
 
@@ -23,6 +23,8 @@
   <body>
     <main class="gap-4 stack">
       <header id="header" class="gap-4 stack align-center">
+        <img class="explore-logo" src="/img/logotyp.svg" alt="" />
+        <h1 class="sr-only">Utforska resor och aktiviteter</h1>
         <span class="tab-container">
           <button class="tab" id="doBtn">Se och göra</button>
           <button class="tab" id="foodBtn">Mat</button>
@@ -42,9 +44,9 @@
               <p id="resultsCount" class="text-faded"></p>
             </div>
             <span class="row gap-2 btn-square-container">
-              <button id="listViewBtn" class="btn btn-square">
+              <button id="listViewBtn" class="btn btn-square" aria-label="Visa som lista">
                 <svg
-                  id="Lager_1"
+                  id="listViewIcon"
                   data-name="Lager 1"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 94.77 94.77"
@@ -90,9 +92,9 @@
                   />
                 </svg>
               </button>
-              <button id="mapViewBtn" class="btn btn-square">
+              <button id="mapViewBtn" class="btn btn-square" aria-label="Visa på karta">
                 <svg
-                  id="Lager_1"
+                  id="mapViewIcon"
                   data-name="Lager 1"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 71.56 100"
@@ -427,7 +429,7 @@
           <button id="loadMoreBtn" class="btn btn-primary">Ladda fler</button>
         </div>
         <div class="card row gap-4">
-          <h3>Hittar du inte det du söker? Gör vårt quiz!</h3>
+          <h2>Hittar du inte det du söker? Gör vårt quiz!</h2>
           <a href="/quiz.html" class="btn btn-primary"
             >Hitta en resa
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
