@@ -1015,6 +1015,10 @@ input[type="checkbox"]:checked {
     justify-content: center;
   }
 
+  #resultsContainer{
+    width: fit-content;
+  }
+
   #page-content{
     align-items: center;
   }
