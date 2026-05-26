@@ -4,6 +4,7 @@ import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
 import { renderMap } from "./map.js";
+import { getFavorites } from "./favorites.js";
 import {
   activityTypeMap,
   buildActivityApiFilters,
@@ -48,6 +49,12 @@ const container = document.getElementById("results");
 const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
 const filterBtn = document.getElementById("btn-float-SeeAndDo");
+
+// DOM-element: Favorisera/spara platser
+const favoritesBtn = document.getElementById("favoritesBtn");
+const favoritesModal = document.getElementById("favoritesModal");
+const favoriteResults = document.getElementById("favoriteResults");
+const closeFavoritesBtn = document.getElementById("closeFavoritesBtn");
 
 // DOM-element: Knappar för filter
 const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
