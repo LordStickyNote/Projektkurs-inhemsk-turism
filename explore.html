@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Utforska resor</title>
+    <link rel="icon" href="/img/logotyp.svg" type="image/svg+xml" />
     <script type="module" src="JS/main.js"></script>
     <script src="/JS/footer.js"></script>
 
@@ -23,12 +24,12 @@
   <body>
     <main class="gap-4 stack">
       <header id="header" class="gap-4 stack align-center">
-        <img class="explore-logo" src="/img/logotyp.svg" alt="" />
+        <img class="explore-logo" src="/img/logotyp.svg" alt="SydostGuiden" />
         <h1 class="sr-only">Utforska resor och aktiviteter</h1>
-        <span class="tab-container">
-          <button class="tab" id="doBtn">Se och göra</button>
-          <button class="tab" id="foodBtn">Mat</button>
-          <button class="tab" id="accommodationBtn">Boenden</button>
+        <span class="tab-container" role="group" aria-label="Välj kategori">
+          <button class="tab" id="doBtn" type="button">Se och göra</button>
+          <button class="tab" id="foodBtn" type="button">Mat</button>
+          <button class="tab" id="accommodationBtn" type="button">Boenden</button>
         </span>
         <div id="toggleAndSortingDiv" class="width-full" hidden>
           <div class="width-full row row-between card">
@@ -44,8 +45,10 @@
               <p id="resultsCount" class="text-faded"></p>
             </div>
             <span class="row gap-2 btn-square-container">
-              <button id="listViewBtn" class="btn btn-square" aria-label="Visa som lista">
+              <button id="listViewBtn" class="btn btn-square" type="button" aria-label="Visa som lista" aria-pressed="false">
                 <svg
+                  aria-hidden="true"
+                  focusable="false"
                   id="listViewIcon"
                   data-name="Lager 1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -92,8 +95,10 @@
                   />
                 </svg>
               </button>
-              <button id="mapViewBtn" class="btn btn-square" aria-label="Visa på karta">
+              <button id="mapViewBtn" class="btn btn-square" type="button" aria-label="Visa på karta" aria-pressed="false">
                 <svg
+                  aria-hidden="true"
+                  focusable="false"
                   id="mapViewIcon"
                   data-name="Lager 1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +126,7 @@
         </div>
       </header>
       <hr>
-      <button id="btn-float-SeeAndDo" class="btn-float btn btn-primary">
+      <button id="btn-float-SeeAndDo" class="btn-float btn btn-primary" type="button" aria-controls="filter-menu-containerSeeAndDo" aria-expanded="false">
         Filter
       </button>
       <div class="row" id="page-content">
@@ -407,10 +412,10 @@
             style="padding: var(--space-8); box-sizing: border-box"
             class="row gap-4 width-full"
           >
-            <button class="btn btn-outline" id="resetFilterBtn">
+            <button class="btn btn-outline" id="resetFilterBtn" type="button">
               Rensa filter
             </button>
-            <button id="applyFilterBtn" class="btn btn-primary width-full">
+            <button id="applyFilterBtn" class="btn btn-primary width-full" type="button" aria-controls="filter-menu-containerSeeAndDo">
               Visa resultat
             </button>
           </div>
@@ -426,13 +431,13 @@
       <hr />
       <div class="stack gap-10">
         <div class="row gap-4 justify-center">
-          <button id="loadMoreBtn" class="btn btn-primary">Ladda fler</button>
+          <button id="loadMoreBtn" class="btn btn-primary" type="button">Ladda fler</button>
         </div>
         <div class="card row gap-4">
           <h2>Hittar du inte det du söker? Gör vårt quiz!</h2>
           <a href="/quiz.html" class="btn btn-primary"
             >Hitta en resa
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
               <path
                 d="M338.8-9.9c11.9 8.6 16.3 24.2 10.9 37.8L271.3 224 416 224c13.5 0 25.5 8.4 30.1 21.1s.7 26.9-9.6 35.5l-288 240c-11.3 9.4-27.4 9.9-39.3 1.3s-16.3-24.2-10.9-37.8L176.7 288 32 288c-13.5 0-25.5-8.4-30.1-21.1s-.7-26.9 9.6-35.5l288-240c11.3-9.4 27.4-9.9 39.3-1.3z"
               />

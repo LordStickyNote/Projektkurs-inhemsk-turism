@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resequiz</title>
+    <link rel="icon" href="/img/logotyp.svg" type="image/svg+xml" />
 
     <script type="module" src="JS/quiz.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,9 +30,9 @@
   <body class="height-screen">
     <div id="quiz-wrapper" class="justify-center height-full stack gap-10">
       <div class="btn-back">
-        <h6 id="backBtn" class="btn">Tillbaka</h6>
+        <button id="backBtn" class="btn" type="button">Tillbaka</button>
       </div>
-      <img class="explore-logo" src="/img/logotyp.svg" alt="" />
+      <img class="explore-logo" src="/img/logotyp.svg" alt="SydostGuiden" />
       <div class="gap-4 stack">
         <div class="quiz-intro stack gap-2">
           <h1 class="display">Hitta en resa som passar dig</h1>
@@ -40,9 +41,9 @@
             med resor och upplevelser som passar dina rekommendationer bäst.
           </p>
         </div>
-        <h2 id="questionTitle"></h2>
+        <h2 id="questionTitle" aria-live="polite"></h2>
         <div class="row gap-3">
-          <div class="progress-bar-container card width-full">
+          <div class="progress-bar-container card width-full" role="progressbar" aria-label="Quizfrågor" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25">
             <div class="progress-bar"></div>
           </div>
           <h5></h5>
@@ -50,16 +51,16 @@
       </div>
       <div class="stack gap-6" id="quiz-container"></div>
       <div class="row gap-4">
-        <button id="prevBtn" class="width-full btn btn-secondary">
+        <button id="prevBtn" class="width-full btn btn-secondary" type="button">
           Föregående
         </button>
-        <button id="nextBtn" class="width-full btn btn-primary">Nästa</button>
+        <button id="nextBtn" class="width-full btn btn-primary" type="button">Nästa</button>
       </div>
     </div>
     <section id="results" hidden></section>
     <div id="quizBtnDiv" hidden>
-      <button><a href="index.html">Utforska fler platser</a></button>
-      <button id="restartQuizBtn">Gör om quizet</button>
+      <a href="index.html" class="btn btn-primary">Utforska fler platser</a>
+      <button id="restartQuizBtn" type="button">Gör om quizet</button>
     </div>
   </body>
 </html>

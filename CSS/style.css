@@ -320,11 +320,22 @@ a {
   cursor: pointer;
   text-wrap: nowrap;
   transition: var(--transition-exit);
+  font-family: inherit;
 }
 
 .btn:hover {
   transition: var(--transition-hover);
   transform: scale(1.02);
+}
+
+.btn:focus-visible,
+.tab:focus-visible,
+.card-listing:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--color-primary-hover);
+  outline-offset: 3px;
 }
 
 .btn svg {
@@ -361,7 +372,9 @@ a {
   color: var(--color-text-faded);
   margin: var(--space-4) var(--space-2);
 }
-.btn-back a {
+.btn-back .btn {
+  background: none;
+  border: 0;
   color: var(--color-text-faded);
   font-weight: unset;
 }
