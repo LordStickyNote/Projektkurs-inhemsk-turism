@@ -1003,7 +1003,7 @@ input[type="checkbox"]:checked {
 
 /*==== Medium screen ====*/
 
-@media (min-width: 1000px) {
+@media (min-width: 1400px) {
   #page-content {
     align-items: flex-start;
     justify-content: center;
@@ -1013,6 +1013,10 @@ input[type="checkbox"]:checked {
 
   #page-content.quiz-layout {
     justify-content: center;
+  }
+
+  #page-content{
+    align-items: center;
   }
 
   #page-content.quiz-layout > .stack {
