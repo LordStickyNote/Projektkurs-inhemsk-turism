@@ -869,6 +869,15 @@ input[type="checkbox"]:checked {
 
 /*==== quiz ====*/
 
+.quiz-intro {
+  max-width: 620px;
+}
+
+.quiz-intro p {
+  max-width: 560px;
+  line-height: 1.6;
+}
+
 #quiz-container:has(input[type="radio"]:checked) .card-answer,
 #quiz-container:has(input[type="checkbox"]:checked) .card-answer {
   opacity: 0.6;

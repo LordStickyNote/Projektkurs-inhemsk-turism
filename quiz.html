@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="sv">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz</title>
+    <title>Resequiz</title>
 
     <script type="module" src="JS/quiz.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,7 +33,14 @@
       </div>
       <img class="explore-logo" src="/img/logotyp.svg" alt="" />
       <div class="gap-4 stack">
-        <h1 class="display"></h1>
+        <div class="quiz-intro stack gap-2">
+          <h1 class="display">Hitta en resa som passar dig</h1>
+          <p class="text-faded">
+            Svara på några korta frågor så samlar vi dina val och matchar dem
+            med resor och upplevelser som passar dina rekommendationer bäst.
+          </p>
+        </div>
+        <h2 id="questionTitle"></h2>
         <div class="row gap-3">
           <div class="progress-bar-container card width-full">
             <div class="progress-bar"></div>
