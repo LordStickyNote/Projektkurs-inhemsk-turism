@@ -22,12 +22,6 @@ let allEstablishments = [];
 
 const quizQuestions = [
   {
-    id: "intro",
-    title: "Hitta din perfekta destination!",
-    multiple: true,
-    options: [],
-  },
-  {
     id: "interest",
     title: "Vad vill du främst uppleva?",
     multiple: true,
@@ -92,13 +86,8 @@ function renderQuestion() {
     input.value = option.value;
 
     if (question.multiple) {
-      document.querySelector("#questionAnswerSupport").textContent =
-        "Flera val kan väljas på denna fråga";
       input.checked = quizState[question.id].includes(option.value);
     } else {
-      document.querySelector("#questionAnswerSupport").textContent =
-        "Endast ett val kan väljas på denna fråga";
-
       input.checked = quizState[question.id] === option.value;
     }
 
@@ -112,13 +101,9 @@ function renderQuestion() {
     container.appendChild(label);
   }
 
-  if (question.id == "intro") {
-    container.innerHTML = `<p>Svara på några korta frågor så hjälper vi dig att hitta resor och upplevelser som passar dina preferenser bäst!</p>`;
-    document.querySelector("#questionAnswerSupport").textContent = "";
-  }
-
-  document.querySelector("#progress-counter").textContent =
+  document.querySelector("h5").textContent =
     `${currentQuestionIndex + 1}/${quizQuestions.length}`;
+
 
   const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
   document.querySelector(".progress-bar").style.width = `${progress}%`;
@@ -160,7 +145,7 @@ nextBtn.addEventListener("click", () => {
     currentQuestionIndex++;
     renderQuestion();
 
-    if (currentQuestionIndex === 4) {
+    if (currentQuestionIndex === 3) {
       nextBtn.innerHTML = "Visa resultat";
     } else {
       nextBtn.innerHTML = "Nästa";
@@ -182,9 +167,6 @@ prevBtn.addEventListener("click", () => {
   if (currentQuestionIndex > 0) {
     currentQuestionIndex--;
     renderQuestion();
-
-      nextBtn.innerHTML = "Nästa";
-    }
   }
 });
 
