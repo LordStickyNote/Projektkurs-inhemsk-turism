@@ -1243,10 +1243,14 @@ if (quizResults) {
 
 filterBtn.addEventListener("click", () => {
   filterMenu.hidden = false;
+  filterMenu.style.display = "flex";
+
   filterBtn.hidden = true;
 });
 
 closeFilterBtn.addEventListener("click", () => {
   filterMenu.hidden = true;
+  filterMenu.style.display = "flex";
+
   filterBtn.hidden = false;
 });
