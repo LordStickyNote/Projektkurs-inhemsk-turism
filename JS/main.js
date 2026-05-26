@@ -1246,6 +1246,45 @@ if (quizResults) {
   loadSeeAndDo();
 }
 
+function renderFavorites() {
+  const favoriteIds = getFavorites();
+
+  const allItems = [];
+
+  for (const section of currentSections) {
+    allItems.push(...section.items);
+  }
+
+  const favoriteItems = allItems.filter((item) => favoriteIds.includes(item.favoriteId));
+
+  favoriteResults.innerHTML = "";
+
+  for (const item of favoriteItems) {
+    
+    const article = document.createElement("article");
+
+    article.innerHTML = `
+    <div class="card">
+      <h3>${item.name}</h3>
+      <p>${item.city}</p>
+    </div>
+    `;
+
+    favoriteResults.append(article);
+  }
+}
+
+favoritesBtn.addEventListener("click", () => {
+
+  renderFavorites();
+
+  favoritesModal.hidden = false;
+})
+
+closeFavoritesBtn.addEventListener("click", () => {
+  favoritesModal.hidden = true;
+})
+
 filterBtn.addEventListener("click", () => {
   filterMenu.classList.add("filter-menu-open");
 
