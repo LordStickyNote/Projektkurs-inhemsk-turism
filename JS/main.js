@@ -55,10 +55,11 @@ const favoritesBtn = document.getElementById("favoritesBtn");
 const favoritesModal = document.getElementById("favoritesModal");
 const favoriteResults = document.getElementById("favoriteResults");
 const closeFavoritesBtn = document.getElementById("closeFavoritesBtn");
+const favoritesCount = document.getElementById("favoritesCount");
 
 // DOM-element: Knappar för filter
 const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
-const closeFilterBtn = document.getElementById("applyFilterBtn"); 
+const closeFilterBtn = document.getElementById("applyFilterBtn");
 
 // DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
@@ -298,18 +299,16 @@ async function loadSeeAndDo() {
 
   showFiltersForCategory();
 
-  // Array som innehåller sektioner med titel + data från SMAPI
-  let mergedItems = [];
+  // Kör requestsen parallella, snabbare laddning
+  const results = await Promise.all(
+    categories.seeAndDo.sections.map(async (section) => {
+      const items = await getData(section.controller, getSortApiFilters());
 
-  // Loopar igenom sections (activity + attraction, se categories.js)
-  for (const section of categories.seeAndDo.sections) {
-    // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
-    const items = await getData(section.controller, getSortApiFilters());
+      return useEstablishmentForCards(items);
+    }),
+  );
 
-    const cardItems = await useEstablishmentForCards(items);
-
-    mergedItems.push(...cardItems);
-  }
+  const mergedItems = results.flat();
   // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
 
   const paginatedItems = paginateItems(mergedItems);
@@ -853,7 +852,7 @@ async function applyAccommodationFilters(resetPage = true) {
 async function loadAccommodation() {
   showingQuizResults = false;
   filterMenu.classList.remove("filter-menu-open");
-  
+
   document.getElementById("page-content").classList.remove("quiz-layout");
 
   visibleItems = 20;
@@ -1137,7 +1136,7 @@ function updateResultsCount() {
 
   resultsCount.textContent = `${total} resultat`;
 
-  closeFilterBtn.innerHTML = `Visa resultat (${total})`
+  closeFilterBtn.innerHTML = `Visa resultat (${total})`;
 }
 
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
@@ -1255,15 +1254,16 @@ function renderFavorites() {
     allItems.push(...section.items);
   }
 
-  const favoriteItems = allItems.filter((item) => favoriteIds.includes(item.favoriteId));
+  const favoriteItems = allItems.filter((item) =>
+    favoriteIds.includes(item.favoriteId),
+  );
 
   favoriteResults.innerHTML = "";
 
   for (const item of favoriteItems) {
-    
     const article = document.createElement("article");
 
-    article.classList.add("favorite-item")
+    article.classList.add("favorite-item");
 
     article.innerHTML = `
     <div class="card">
@@ -1277,15 +1277,14 @@ function renderFavorites() {
 }
 
 favoritesBtn.addEventListener("click", () => {
-
   renderFavorites();
 
   favoritesModal.hidden = false;
-})
+});
 
 closeFavoritesBtn.addEventListener("click", () => {
   favoritesModal.hidden = true;
-})
+});
 
 filterBtn.addEventListener("click", () => {
   filterMenu.classList.add("filter-menu-open");
