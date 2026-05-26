@@ -36,7 +36,7 @@ export async function renderSeeAndDo(
 
       const shouldAnimate = index >= visibleItems - itemsPerLoad;
 
-      const favoriteActive = isFavorite(item.favoriteId);
+      const favoriteActive = isFavorite(item.id);
 
       article.innerHTML = `
             <div class="card card-listing ${!shouldAnimate ? "no-animation" : ""}" style="background-image: url('${item.imageUrl}');">
@@ -69,7 +69,7 @@ export async function renderSeeAndDo(
 
         e.stopPropagation();
 
-        const active = toggleFavorite(item.favoriteId);
+        const active = toggleFavorite(item);
 
         favoriteBtn.classList.toggle("active", active);
       })

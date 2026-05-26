@@ -5,6 +5,7 @@ import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
 import { renderMap } from "./map.js";
 import { getFavorites } from "./favorites.js";
+import { renderDetailModal } from "./renderDetailModal.js";
 import {
   activityTypeMap,
   buildActivityApiFilters,
@@ -1246,21 +1247,15 @@ if (quizResults) {
 }
 
 function renderFavorites() {
-  const favoriteIds = getFavorites();
-
-  const allItems = [];
-
-  for (const section of currentSections) {
-    allItems.push(...section.items);
-  }
-
-  const favoriteItems = allItems.filter((item) =>
-    favoriteIds.includes(item.favoriteId),
-  );
+  const favorites = getFavorites();
 
   favoriteResults.innerHTML = "";
 
-  for (const item of favoriteItems) {
+  if (favorites.length === 0) {
+    favoriteResults.innerHTML = `<p>Inga sparade favoriter ännu</p>`
+  };
+
+  for (const item of favorites) {
     const article = document.createElement("article");
 
     article.classList.add("favorite-item");
@@ -1271,6 +1266,11 @@ function renderFavorites() {
       <p>${item.city}</p>
     </div>
     `;
+
+    article.addEventListener("click", () => {
+      renderDetailModal(item);
+      favoritesModal.hidden = true;
+    })
 
     favoriteResults.append(article);
   }
