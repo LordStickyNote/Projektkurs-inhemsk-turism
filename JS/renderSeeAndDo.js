@@ -1,6 +1,7 @@
 import { getPixabayImage } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
 import { isFavorite, toggleFavorite } from "./favorites.js";
+import { updateFavoritesCount } from "./main.js";
 
 export async function renderSeeAndDo(
   sections,
@@ -70,6 +71,8 @@ export async function renderSeeAndDo(
         e.stopPropagation();
 
         const active = toggleFavorite(item);
+
+        updateFavoritesCount();
 
         favoriteBtn.classList.toggle("active", active);
       })

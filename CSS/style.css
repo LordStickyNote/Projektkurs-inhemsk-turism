@@ -1029,10 +1029,15 @@ input[type="checkbox"]:checked {
 }
 
 #favoritesBtn svg {
-    width: 34px;
+  width: 34px;
   height: 34px;
-  fill: white;
+  fill: var(--color-primary);
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.50));
+  cursor: pointer;
+}
+
+#favoritesBtn:hover svg {
+  transform: scale(1.1);
 }
 
 .favorite-btn:hover svg {
@@ -1110,6 +1115,10 @@ input[type="checkbox"]:checked {
   cursor: pointer;
 
   transition: 0.2s ease;
+}
+
+.favorite-item:hover {
+  transform: translateY(-2px);
 }
 
 /*==== Medium screen ====*/

@@ -1276,6 +1276,11 @@ function renderFavorites() {
   }
 }
 
+export function updateFavoritesCount() {
+
+  favoritesCount.textContent = getFavorites().length;
+}
+
 favoritesBtn.addEventListener("click", () => {
   renderFavorites();
 
@@ -1297,3 +1302,5 @@ closeFilterBtn.addEventListener("click", () => {
 
   filterBtn.hidden = false;
 });
+
+updateFavoritesCount();
