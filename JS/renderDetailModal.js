@@ -207,6 +207,10 @@ export async function renderDetailModal(item) {
   const reviews = await getReviews(item.id);
   const nearbyPlaces = await getNearbyPlaces(item.lat, item.lng);
 
+  const filteredNearbyPlaces = nearbyPlaces.filter((place) => {
+    return String(place.id) !== String(item.id)
+  });
+
   const imageUrl =
     (await getPixabayImage(item.description, item.id)) ||
     "./img/High_Chaparral_Theme_Park.jpg";
@@ -464,8 +468,8 @@ export async function renderDetailModal(item) {
 
   <div class="grid gap-6">
 
-    ${nearbyPlaces.length > 0 ?
-      nearbyPlaces.slice(0, 4)
+    ${filteredNearbyPlaces.length > 0 ?
+      filteredNearbyPlaces.slice(0, 4)
       .map(
         (place) => `
 

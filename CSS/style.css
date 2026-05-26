@@ -1132,14 +1132,14 @@ input[type="checkbox"]:checked {
 
   transform: translateX(-50%);
 
-  width: min(700px, 100%);
+  width: min(90vw, 480px);
   max-height: 70vh;
 
   overflow-y: auto;
 
   padding: var(--space-6);
 
-  border-radius: 50px 50px 0 0;
+  border-radius: 42px 42px 0 0;
 
   background: var(--color-bg) ;
 }
@@ -1167,11 +1167,8 @@ input[type="checkbox"]:checked {
 
 .favorite-item {
   padding: var(--space-2);
-
   border-radius: 20px;
-
   cursor: pointer;
-
   transition: 0.2s ease;
 }
 
