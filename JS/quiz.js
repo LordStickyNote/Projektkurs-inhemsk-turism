@@ -126,9 +126,6 @@ function renderQuestion() {
   if (currentQuestionIndex === 0) {
     prevBtn.disabled = true;
     prevBtn.innerHTML = `Tillbaka`;
-    // document.getElementById("prevBtn").addEventListener("click", () => {
-    //   history.back();
-    // });
   } else if (currentQuestionIndex > 0) {
     prevBtn.disabled = false;
   }
