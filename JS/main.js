@@ -4,6 +4,8 @@ import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
 import { renderMap } from "./map.js";
+import { getFavorites } from "./favorites.js";
+import { renderDetailModal } from "./renderDetailModal.js";
 import {
   activityTypeMap,
   buildActivityApiFilters,
@@ -49,9 +51,16 @@ const seeAndDoFilters = document.getElementById("SeeAndDoFilters");
 const foodFilters = document.getElementById("foodFilters");
 const filterBtn = document.getElementById("btn-float-SeeAndDo");
 
+// DOM-element: Favorisera/spara platser
+const favoritesBtn = document.getElementById("favoritesBtn");
+const favoritesModal = document.getElementById("favoritesModal");
+const favoriteResults = document.getElementById("favoriteResults");
+const closeFavoritesBtn = document.getElementById("closeFavoritesBtn");
+const favoritesCount = document.getElementById("favoritesCount");
+
 // DOM-element: Knappar för filter
 const filterMenu = document.getElementById("filter-menu-containerSeeAndDo");
-const closeFilterBtn = document.getElementById("applyFilterBtn"); 
+const closeFilterBtn = document.getElementById("applyFilterBtn");
 
 // DOM-element: gemensamma filter
 const childFriendly = document.getElementById("childFriendly");
@@ -291,18 +300,16 @@ async function loadSeeAndDo() {
 
   showFiltersForCategory();
 
-  // Array som innehåller sektioner med titel + data från SMAPI
-  let mergedItems = [];
+  // Kör requestsen parallella, snabbare laddning
+  const results = await Promise.all(
+    categories.seeAndDo.sections.map(async (section) => {
+      const items = await getData(section.controller, getSortApiFilters());
 
-  // Loopar igenom sections (activity + attraction, se categories.js)
-  for (const section of categories.seeAndDo.sections) {
-    // Hämtar data från SMAPI. Items är en array från SMAPI med de olika platserna
-    const items = await getData(section.controller, getSortApiFilters());
+      return useEstablishmentForCards(items);
+    }),
+  );
 
-    const cardItems = await useEstablishmentForCards(items);
-
-    mergedItems.push(...cardItems);
-  }
+  const mergedItems = results.flat();
   // Struktur för render-funktionen. Innehåller titeln för sektionen + alla objekt från SMAPI
 
   const paginatedItems = paginateItems(mergedItems);
@@ -626,6 +633,7 @@ async function useEstablishmentForCards(items) {
     return {
       ...item, // Behåller controller-specifik data
       ...establishment, // lägger till visningsdata för resultatskorten
+      favoriteId: `${item.name}-${item.city}`,
     };
   });
 }
@@ -845,7 +853,7 @@ async function applyAccommodationFilters(resetPage = true) {
 async function loadAccommodation() {
   showingQuizResults = false;
   filterMenu.classList.remove("filter-menu-open");
-  
+
   document.getElementById("page-content").classList.remove("quiz-layout");
 
   visibleItems = 20;
@@ -943,7 +951,7 @@ async function renderCurrentView() {
 }
 
 // Laddar om aktiv kategori utan att återställa sidnumreringen.
-function reloadCurrentCategory() {
+export function reloadCurrentCategory() {
   applyCurrentFilters(false);
 }
 
@@ -1127,9 +1135,9 @@ function updateResultsCount() {
     total += section.totalItems || section.items.length;
   }
 
-  resultsCount.textContent = `${total} resultat`;
+  resultsCount.textContent = `${total} platser hittades`;
 
-  closeFilterBtn.innerHTML = `Visa resultat (${total})`
+  closeFilterBtn.innerHTML = `Visa resultat (${total})`;
 }
 
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
@@ -1189,6 +1197,7 @@ function quizNotice() {
     showingQuizResults = false;
     sessionStorage.removeItem("quizResults");
     document.getElementById("quizNoticeContainer").innerHTML = "";
+    filterBtn.hidden = false;
     loadSeeAndDo();
   });
 
@@ -1238,6 +1247,52 @@ if (quizResults) {
   loadSeeAndDo();
 }
 
+function renderFavorites() {
+  const favorites = getFavorites();
+
+  favoriteResults.innerHTML = "";
+
+  if (favorites.length === 0) {
+    favoriteResults.innerHTML = `<h3>Inga sparade platser ännu</h3>
+                                <p>Tryck på hjärtat på ett kort för att spara det här</p>`
+  };
+
+  for (const item of favorites) {
+    const article = document.createElement("article");
+
+    article.classList.add("favorite-item");
+
+    article.innerHTML = `
+    <div class="card">
+      <h3>${item.name}</h3>
+      <p>${item.city}</p>
+    </div>
+    `;
+
+    article.addEventListener("click", () => {
+      renderDetailModal(item);
+      favoritesModal.hidden = true;
+    })
+
+    favoriteResults.append(article);
+  }
+}
+
+export function updateFavoritesCount() {
+
+  favoritesCount.textContent = getFavorites().length;
+}
+
+favoritesBtn.addEventListener("click", () => {
+  renderFavorites();
+
+  favoritesModal.hidden = false;
+});
+
+closeFavoritesBtn.addEventListener("click", () => {
+  favoritesModal.hidden = true;
+});
+
 filterBtn.addEventListener("click", () => {
   filterMenu.classList.add("filter-menu-open");
 
@@ -1249,3 +1304,5 @@ closeFilterBtn.addEventListener("click", () => {
 
   filterBtn.hidden = false;
 });
+
+updateFavoritesCount();

@@ -28,7 +28,15 @@
           <button class="tab" id="accommodationBtn">Boenden</button>
         </span>
         <div id="toggleAndSortingDiv" class="width-full" hidden>
-          <div class="width-full row row-between">
+          <div class="width-full row row-between card">
+            <button id="favoritesBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.37 88.44">
+                <path
+                  d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"
+                />
+              </svg>
+              <span id="favoritesCount"></span>
+            </button>
             <select
               class="btn-outline sortingList"
               name="sortList"
@@ -411,10 +419,18 @@
         </div>
         <div class="stack gap-4 width-full" id="resultsContainer">
           <section id="quizNoticeContainer"></section>
-          <div class="row gap-4 align-center">
-              <p id="resultsCount" class="text-faded"></p>
-            </div>
+            <p id="resultsCount" class="text-faded"></p>
           <section id="results"></section>
+        </div>
+      </div>
+      <div id="favoritesModal" hidden>
+        <div class="favorites-content">
+          <div class="favorites-header">
+            <h2>Sparade platser</h2>
+            <button id="closeFavoritesBtn">X</button>
+          </div>
+          <hr />
+          <section id="favoriteResults"></section>
         </div>
       </div>
       <div id="detailModal" hidden>

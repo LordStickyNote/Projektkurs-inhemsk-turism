@@ -1,5 +1,7 @@
 import { getPixabayImage } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
+import { isFavorite, toggleFavorite } from "./favorites.js";
+import { updateFavoritesCount } from "./main.js";
 
 export async function renderSeeAndDo(
   sections,
@@ -45,11 +47,18 @@ export async function renderSeeAndDo(
 
       const shouldAnimate = index >= visibleItems - itemsPerLoad;
 
+      const favoriteActive = isFavorite(item.id);
+
       article.innerHTML = `
             <div class="card card-listing ${!shouldAnimate ? "no-animation" : ""}" style="background-image: url('${item.imageUrl}');">
         <span class="card-listing-content width-full">
-          <h2>${item.name}</h2>
-          <p class="text-faded">${item.city}</p>
+                    <button class="favorite-btn ${favoriteActive ? "active" : ""}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.37 88.44">
+  <path d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"/>
+</svg>
+            </button>
+          <h3>${item.name}</h3>
+          <h4 class="text-faded">${item.city}</h4>
           <span class="row row-between">
               <span class="gap-2">
                 <span class="badge badge-red">${item.description}</span>
@@ -64,6 +73,19 @@ export async function renderSeeAndDo(
         </span>
       </div>
             `;
+
+      const favoriteBtn = article.querySelector(".favorite-btn");
+
+      favoriteBtn.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        const active = toggleFavorite(item);
+
+        updateFavoritesCount();
+
+        favoriteBtn.classList.toggle("active", active);
+      })
 
       sectionElement.append(article);
     }
