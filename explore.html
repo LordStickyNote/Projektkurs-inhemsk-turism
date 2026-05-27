@@ -29,14 +29,6 @@
         </span>
         <div id="toggleAndSortingDiv" class="width-full" hidden>
           <div class="width-full row row-between card">
-            <button id="favoritesBtn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.37 88.44">
-                <path
-                  d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"
-                />
-              </svg>
-              <span id="favoritesCount"></span>
-            </button>
             <select
               class="btn-outline sortingList"
               name="sortList"
@@ -45,7 +37,20 @@
               <option value="rating">Högsta betyg</option>
               <option value="name">Namn A-Ö</option>
             </select>
+
             <span class="row gap-2 btn-square-container">
+              <button id="favoritesBtn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 99.37 88.44"
+                >
+                  <path
+                    d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"
+                  />
+                </svg>
+                <span id="favoritesCount"></span>
+              </button>
+              <div class="vr"></div>
               <button
                 id="listViewBtn"
                 class="btn btn-square"
