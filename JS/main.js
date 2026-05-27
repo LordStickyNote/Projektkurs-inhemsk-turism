@@ -708,7 +708,6 @@ async function applyFoodFilters(resetPage = true) {
     }
   }
 
-  const food = categories.food;
   const values = getFoodFilterValues();
   const apiFilters = {
     ...buildFoodApiFilters(values),
