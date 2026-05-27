@@ -6,9 +6,9 @@ Webbplatsen är skapad av Alfred Oskar och Saman och syftet med webbplatsen är 
 ## Användning
 Sidan använder 2 APIer som vardera kräver en API-nyckel. Dessa läggs in som en fil med namn "config.js" som har strukturen:
 ```
-export let API_KEY = "API nyckel";
+export let API_KEY = "API-nyckel";
 
-export const PIXAYBAY_API_KEY = "API nyckel";
+export const PIXAYBAY_API_KEY = "API-nyckel";
 ```
 
 Lägg filen i mappen "JS" som finns i projektet.
