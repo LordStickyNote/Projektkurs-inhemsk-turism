@@ -66,6 +66,13 @@ hr {
   width: 100%;
 }
 
+.vr {
+  width: 1.3px;
+  height: 38px;
+  border: none;
+  background-color: var(--color-border);
+}
+
 /*==== Typography ====*/
 
 .display {
@@ -751,7 +758,7 @@ option {
 
 .sortingList {
   border-radius: var(--radius-md);
-  padding: 8px
+  padding: 8px;
 }
 
 /*---- label ----*/
@@ -896,7 +903,6 @@ input[type="checkbox"]:checked {
   transition: width ease-in-out 0.6s;
 }
 
-
 #detailModal {
   position: fixed;
   inset: 0;
@@ -904,7 +910,7 @@ input[type="checkbox"]:checked {
   z-index: 3000;
   overflow-y: auto;
   scrollbar-width: thin;
-    scrollbar-color: var(--color-border) transparent;
+  scrollbar-color: var(--color-border) transparent;
 }
 
 #detailContent {
@@ -917,7 +923,6 @@ input[type="checkbox"]:checked {
 }
 
 @keyframes detailFadeIn {
-
   from {
     opacity: 0;
     transform: translateY(12px);
@@ -930,7 +935,6 @@ input[type="checkbox"]:checked {
     filter: blur(0);
   }
 }
-
 
 #detailContent img {
   width: 100%;
@@ -947,7 +951,7 @@ input[type="checkbox"]:checked {
   height: 48px;
   border: none;
   border-radius: 999px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   color: white;
   font-size: 1.25rem;
   cursor: pointer;
@@ -1031,7 +1035,7 @@ input[type="checkbox"]:checked {
   width: 34px;
   height: 34px;
   fill: white;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.50));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
 }
 
 #favoritesBtn {
@@ -1044,7 +1048,7 @@ input[type="checkbox"]:checked {
   width: 34px;
   height: 34px;
   fill: var(--color-primary-hover);
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.50));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
   cursor: pointer;
 }
 
@@ -1068,7 +1072,6 @@ input[type="checkbox"]:checked {
 }
 
 .favorite-btn-detail svg {
-
   width: 36px;
   height: 36px;
 
@@ -1093,7 +1096,7 @@ input[type="checkbox"]:checked {
 }
 
 #toggleAndSortingDiv .card {
-    padding: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-4);
 }
 
 @keyframes favoritePop {
@@ -1116,14 +1119,13 @@ input[type="checkbox"]:checked {
 
   z-index: 9999;
 
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 
   backdrop-filter: blur(2px);
   animation: favoriteFadeIn 0.2s ease;
 }
 
 @keyframes favoriteFadeIn {
-
   from {
     opacity: 0;
     transform: translateY(12px);
@@ -1154,7 +1156,7 @@ input[type="checkbox"]:checked {
 
   border-radius: 42px 42px 0 0;
 
-  background: var(--color-bg) ;
+  background: var(--color-bg);
 }
 
 #favoriteResults {
@@ -1172,7 +1174,7 @@ input[type="checkbox"]:checked {
   height: 36px;
   border: none;
   border-radius: 999px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   color: white;
   font-size: 1.25rem;
   cursor: pointer;
@@ -1215,7 +1217,7 @@ input[type="checkbox"]:checked {
     justify-content: center;
   }
 
-  #resultsContainer{
+  #resultsContainer {
     width: fit-content;
   }
 
@@ -1278,7 +1280,7 @@ input[type="checkbox"]:checked {
     gap: var(--space-6);
   }
 
-  #toggleAndSortingDiv{
+  #toggleAndSortingDiv {
     width: 100%;
     justify-content: space-between;
   }
