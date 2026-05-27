@@ -186,7 +186,7 @@ prevBtn.addEventListener("click", () => {
       nextBtn.innerHTML = "Nästa";
     }
   }
-});
+);
 
 function mapQuizToFilters() {
   const activityThemes = [];
