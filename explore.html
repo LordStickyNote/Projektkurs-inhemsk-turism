@@ -439,8 +439,13 @@
       <div id="favoritesModal" hidden>
         <div class="favorites-content">
           <div class="favorites-header">
-            <h2>Sparade platser</h2>
-            <button id="closeFavoritesBtn">X</button>
+            <div class="width-full row gap-4">
+              <h2 style="text-wrap: nowrap;">Sparade platser</h2>
+              <button id="clear-favorites" class="btn btn-sm btn-secondary">Rensa favoriter</button>
+            </div>
+            <div class="width-full">
+              <button id="closeFavoritesBtn">X</button>
+            </div>
           </div>
           <hr />
           <section id="favoriteResults"></section>

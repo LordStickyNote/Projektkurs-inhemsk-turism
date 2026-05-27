@@ -1248,14 +1248,25 @@ if (quizResults) {
 }
 
 function renderFavorites() {
-  const favorites = getFavorites();
+  var favorites = getFavorites();
+
+  document.getElementById("clear-favorites").addEventListener("click", () => {
+    localStorage.removeItem("favorites");
+    renderFavorites();
+    updateFavoritesCount();
+
+    var getFavoriteBtn = document.querySelectorAll(".favorite-btn.active");
+    for (const btn of getFavoriteBtn) {
+      btn.classList.remove("active")
+    }
+  });
 
   favoriteResults.innerHTML = "";
 
   if (favorites.length === 0) {
     favoriteResults.innerHTML = `<h3>Inga sparade platser ännu</h3>
-                                <p>Tryck på hjärtat på ett kort för att spara det här</p>`
-  };
+                                <p>Tryck på hjärtat på ett kort för att spara det här</p>`;
+  }
 
   for (const item of favorites) {
     const article = document.createElement("article");
@@ -1272,14 +1283,13 @@ function renderFavorites() {
     article.addEventListener("click", () => {
       renderDetailModal(item);
       favoritesModal.hidden = true;
-    })
+    });
 
     favoriteResults.append(article);
   }
 }
 
 export function updateFavoritesCount() {
-
   favoritesCount.textContent = getFavorites().length;
 }
 
