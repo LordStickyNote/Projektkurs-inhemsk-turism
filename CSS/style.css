@@ -903,6 +903,8 @@ input[type="checkbox"]:checked {
   background-color: var(--color-bg);
   z-index: 3000;
   overflow-y: auto;
+  scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
 }
 
 #detailContent {
@@ -1087,6 +1089,7 @@ input[type="checkbox"]:checked {
 #resultsCount {
   font-size: var(--text-lg);
   padding-inline: var(--space-4);
+  margin-top: -30px;
 }
 
 #toggleAndSortingDiv .card {
@@ -1188,6 +1191,7 @@ input[type="checkbox"]:checked {
 
 #favoritesCount {
   color: white;
+  margin-left: -8px;
 }
 
 .favorites-header {
