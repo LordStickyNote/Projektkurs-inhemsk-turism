@@ -35,7 +35,7 @@ export function renderMap(sections, container) {
         .bindPopup(`
             <div class="card card-map popup-card">
         <span class="card-popup-content width-full">
-          <h2>${item.name}</h2>
+          <h3>${item.name}</h3>
           <p class="text-faded">${item.city}</p>
           <span class="row row-between">
               <span class="gap-2">
