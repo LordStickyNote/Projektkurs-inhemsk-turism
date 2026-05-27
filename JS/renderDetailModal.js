@@ -287,7 +287,7 @@ export async function renderDetailModal(item) {
 
 </button>
 
-      <section class="stack gap-8">
+      <section class="stack gap-6">
 
         <div class="width-full">
           <img
@@ -297,10 +297,19 @@ export async function renderDetailModal(item) {
 
         <div class="stack gap-2">
 
-          <div class="row row-between align-center">
-
-            <div class="row-between row width-full">
+            <div class="row-between row align-start">
               <h2>${item.name}</h2>
+                                        <button class="favorite-btn-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.37 88.44">
+                <path
+                  d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"
+                />
+              </svg>
+            </button>
+
+            </div>
+
+            <div class="row row-between align-center">
               <span class="star-container">
               ${`<svg class='star' viewBox='0 0 16 16'>
               <path
@@ -308,38 +317,18 @@ export async function renderDetailModal(item) {
               ></path></svg
             >`.repeat(Math.trunc(item.rating))}
               </span>
-            </div>
 
-            <span
-              class="star-container"
-              role="img"
-              aria-label="${Math.trunc(item.rating || 0)} av 5 stjärnor">
-
-              ${"".repeat(Math.trunc(item.rating || 0))}
-            </span>
-
-              <button class="favorite-btn-detail">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.37 88.44">
-                <path
-                  d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"
-                />
-              </svg>
-              <span id="favoritesCount"></span>
-            </button>
-
-          </div>
-
-          <div class="row row-between align-center">
-
-            <p class="text-faded">
-              ${item.city || "-"} | ${item.description || "-"}
-            </p>
-
-            <p class="text-faded">
+                          <p class="text-faded">
              Pris: ${item.price_range || "-"} kr
             </p>
 
-          </div>
+            </div>
+
+                        <p class="text-faded">
+              ${item.city || "-"} | ${item.description || "-"}
+            </p>
+
+            </div>
 
         </div>
 
