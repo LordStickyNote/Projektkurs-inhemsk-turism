@@ -57,19 +57,19 @@ const quizQuestions = [
     multiple: false,
     options: [
       { label: "Ja", value: true },
-      { label: "Spelar ingen roll", value: null },
+      { label: "Nej", value: null },
     ],
   },
   {
     id: "preferences",
-    title: "Vad är viktigast för dig?",
+    title: "Vad är viktigt för dig?",
     multiple: true,
     options: [
-      { label: "Lokala pärlor", value: "localGem" },
-      { label: "Högt betyg", value: "highRating" },
-      { label: "Budgetvänligt", value: "budget" },
-      { label: "Nära vatten", value: "nearWater" },
-      { label: "Familjevänligt", value: "familyFriendly" },
+      { label: "Gömda pärlor & lokala favoriter", value: "localGem" },
+      { label: "Populära och välkända platser", value: "highRating" },
+      { label: "Budgetvänliga upplevelser", value: "budget" },
+      { label: "Vara nära vatten", value: "nearWater" },
+      { label: "Familjevänliga alternativ", value: "familyFriendly" },
     ],
   },
 ];
@@ -323,7 +323,7 @@ function scoreItem(item, filters) {
       text.includes("galleri") ||
       text.includes("kultur")
     ) {
-      score += 12;
+      score += 8;
     }
   }
 
@@ -334,7 +334,7 @@ function scoreItem(item, filters) {
       text.includes("kyrka") ||
       text.includes("museum")
     ) {
-      score += 12;
+      score += 8;
     }
   }
 
@@ -345,7 +345,7 @@ function scoreItem(item, filters) {
       text.includes("vandring") ||
       text.includes("skog")
     ) {
-      score += 12;
+      score += 8;
     }
   }
 
@@ -357,7 +357,7 @@ function scoreItem(item, filters) {
       text.includes("paintball") ||
       text.includes("gokart")
     ) {
-      score += 12;
+      score += 8;
     }
   }
 
@@ -370,7 +370,7 @@ function scoreItem(item, filters) {
       text.includes("simhall") ||
       text.includes("hav")
     ) {
-      score += 14;
+      score += 8;
     }
   }
 
@@ -382,7 +382,7 @@ function scoreItem(item, filters) {
       text.includes("djurpark") ||
       text.includes("gård")
     ) {
-      score += 12;
+      score += 8;
     }
   }
 
@@ -390,16 +390,12 @@ function scoreItem(item, filters) {
     score += 4;
   }
 
-  if (item.rating) {
-    score += Number(item.rating);
-  }
-
   if (filters.preferences?.highRating && Number(item.rating) >= 4) {
-    score += 3;
+    score += 5;
   }
 
   if (filters.preferences?.localGem) {
-    score += 2;
+    score += 3;
   }
 
   if (filters.preferences?.nearWater) {
@@ -410,7 +406,7 @@ function scoreItem(item, filters) {
       text.includes("strand") ||
       text.includes("hav")
     ) {
-      score += 3;
+      score += 4;
     }
   }
 
@@ -422,13 +418,34 @@ function scoreItem(item, filters) {
       text.includes("familj") ||
       text.includes("lek")
     ) {
-      score += 2;
+      score += 4;
     }
   }
 
-  if (filters.preferences?.budget && item.price_range) {
+if (
+  filters.preferences?.budget &&
+  item.price_range
+) {
+
+  const minPrice =
+    Number(item.price_range.split("-")[0]);
+
+  if (minPrice <= 25) {
+    score += 5;
+  }
+
+  else if (minPrice <= 100) {
+    score += 4;
+  }
+
+  else if (minPrice <= 250) {
+    score += 3;
+  }
+
+  else if (minPrice <= 500) {
     score += 1;
   }
+}
 
   return score;
 }
