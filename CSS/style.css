@@ -1278,6 +1278,12 @@ input[type="checkbox"]:checked {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
+    min-width: 700px;
+    flex-flow: row;
+  }
+
+  main{
+    align-items: center;
   }
 
   #toggleAndSortingDiv {
