@@ -14,8 +14,7 @@ export async function renderFood(items, container, visibleItems, itemsPerLoad) {
       const query = getFoodSearchQuery(item);
 
       const imageUrl =
-        (await getPixabayImage(query, item.id)) ||
-        "./img/High_Chaparral_Theme_Park.jpg";
+        (await getPixabayImage(query, item.id));
 
       return {
         ...item,

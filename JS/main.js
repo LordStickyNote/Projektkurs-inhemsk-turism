@@ -1,5 +1,4 @@
 import { getData } from "./api.js";
-import { categories } from "./categories.js";
 import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
@@ -21,7 +20,6 @@ import {
 const quizResults = JSON.parse(sessionStorage.getItem("quizResults"));
 
 let showingQuizResults = false;
-let quizSections = [];
 
 // Kopplar de tre huvudkategorierna med klick-event.
 document.querySelector("#doBtn").addEventListener("click", loadSeeAndDo);
@@ -70,22 +68,18 @@ const priceRange = document.getElementById("priceRange");
 // DOM-element: aktivitets- och servärdhetsfiltren
 const activityFilters = document.getElementById("activityFilters");
 const attractionFilters = document.getElementById("attractionFilters");
-const activityType = document.getElementById("activityType");
 const effort = document.getElementById("effort");
 const involvesAnimals = document.getElementById("involvesAnimals");
 const involvesWater = document.getElementById("involvesWater");
-const attractionType = document.getElementById("attractionType");
 const experienceType = document.getElementById("experienceType");
 const localSignificance = document.getElementById("localSignificance");
 
 // DOM-element: mat-filter
-const foodType = document.getElementById("foodType");
 const foodPrice = document.getElementById("foodPrice");
 const foodRating = document.getElementById("foodRating");
 
 // DOM-element: boende-filter
 const accommodationFilters = document.getElementById("accommodationFilters");
-const accommodationType = document.getElementById("accommodationType");
 const accommodationRating = document.getElementById("accommodationRating");
 const hasWifi = document.getElementById("hasWifi");
 const freeParking = document.getElementById("freeParking");
@@ -300,10 +294,12 @@ async function loadSeeAndDo() {
 
   showFiltersForCategory();
 
+  const controllers = ["activity", "attraction"]
+
   // Kör requestsen parallella, snabbare laddning
   const results = await Promise.all(
-    categories.seeAndDo.sections.map(async (section) => {
-      const items = await getData(section.controller, getSortApiFilters());
+    controllers.map(async (controller) => {
+      const items = await getData(controller, getSortApiFilters());
 
       return useEstablishmentForCards(items);
     }),
@@ -633,7 +629,6 @@ async function useEstablishmentForCards(items) {
     return {
       ...item, // Behåller controller-specifik data
       ...establishment, // lägger till visningsdata för resultatskorten
-      favoriteId: `${item.name}-${item.city}`,
     };
   });
 }
@@ -713,7 +708,6 @@ async function applyFoodFilters(resetPage = true) {
     }
   }
 
-  const food = categories.food;
   const values = getFoodFilterValues();
   const apiFilters = {
     ...buildFoodApiFilters(values),
@@ -774,7 +768,6 @@ async function loadFood() {
 
   showFiltersForCategory();
 
-  const food = categories.food;
   let items = await getData("food", getSortApiFilters());
   items = await useEstablishmentForCards(items);
 
@@ -871,11 +864,9 @@ async function loadAccommodation() {
     skeletonLoaders();
   }
 
-  const accommodation = categories.accommodation;
-
   showFiltersForCategory();
 
-  let items = await getData(accommodation.controller, getSortApiFilters());
+  let items = await getData("accommodation", getSortApiFilters());
 
   items = await useEstablishmentForCards(items);
 

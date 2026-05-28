@@ -18,8 +18,7 @@ export async function renderSeeAndDo(
     const itemsWithImages = await Promise.all(
       section.items.map(async (item) => {
         const imageUrl =
-          (await getPixabayImage(item.description, item.id)) ||
-          "./img/High_Chaparral_Theme_Park.jpg";
+          (await getPixabayImage(item.description, item.id));
 
         return {
           ...item,

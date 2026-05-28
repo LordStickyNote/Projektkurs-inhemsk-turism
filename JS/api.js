@@ -7,14 +7,10 @@ const apiCache = {};
 export async function getData(
   controller,
   filters = {},
-  page = null,
-  perPage = null,
 ) {
   const cacheKey = JSON.stringify({
     controller,
     filters,
-    page,
-    perPage,
   });
 
   if (apiCache[cacheKey]) {
@@ -27,11 +23,6 @@ export async function getData(
     method: "getall",
     ...filters,
   });
-
-  if (page && perPage) {
-    params.set("current_page", page);
-    params.set("per_page", perPage);
-  }
 
   const url = `${BASE_URL}?${params}`;
 

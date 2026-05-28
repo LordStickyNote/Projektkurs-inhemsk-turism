@@ -22,8 +22,7 @@ export async function renderAccommodation(
           : item.description;
 
       const imageUrl =
-        (await getPixabayImage(imageSearchTerm, item.id)) ||
-        "./img/High_Chaparral_Theme_Park.jpg";
+        (await getPixabayImage(imageSearchTerm, item.id));
 
       return {
         ...item,
