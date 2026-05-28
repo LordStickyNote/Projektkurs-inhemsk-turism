@@ -304,7 +304,7 @@ async function showResults() {
 
   sessionStorage.setItem("quizState", JSON.stringify(quizState));
 
-  window.location.href = "/explore.html";
+  window.location.href = "explore.html";
 }
 
 function scoreItem(item, filters) {
