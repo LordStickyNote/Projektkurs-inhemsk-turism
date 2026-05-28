@@ -1260,7 +1260,7 @@ input[type="checkbox"]:checked {
     display: none;
   }
 
-  #resetFilterBtn {
+  .resetFilterBtn {
     width: 100%;
   }
 

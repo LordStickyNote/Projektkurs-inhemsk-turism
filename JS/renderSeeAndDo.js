@@ -1,7 +1,7 @@
 import { getPixabayImage } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
 import { isFavorite, toggleFavorite } from "./favorites.js";
-import { updateFavoritesCount } from "./main.js";
+import { updateFavoritesCount, updateResultsCount } from "./main.js";
 
 export async function renderSeeAndDo(
   sections,
@@ -77,7 +77,6 @@ export async function renderSeeAndDo(
       const favoriteBtn = article.querySelector(".favorite-btn");
 
       favoriteBtn.addEventListener("click", (e) => {
-
         e.stopPropagation();
 
         const active = toggleFavorite(item);
@@ -85,7 +84,7 @@ export async function renderSeeAndDo(
         updateFavoritesCount();
 
         favoriteBtn.classList.toggle("active", active);
-      })
+      });
 
       sectionElement.append(article);
     }
@@ -93,7 +92,11 @@ export async function renderSeeAndDo(
     renderedSections.push(sectionElement);
   }
 
-  container.innerHTML = "";
+  if (!updateResultsCount()) {
+    container.innerHTML = `<div class="align-center stack gap-4"><h2>Inga platser hittades</h2><p>Testa att ändra eller rensa filtret.</p> <button class="btn btn-secondary resetFilterBtn">Rensa filter</button></div>`;
+  } else {
+    container.innerHTML = "";
+  }
 
   container.append(...renderedSections);
 }

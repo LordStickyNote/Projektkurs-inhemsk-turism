@@ -116,11 +116,13 @@ sortList.addEventListener("change", () => {
 });
 const toggleAndSortingDiv = document.getElementById("toggleAndSortingDiv");
 
-const resetFilterBtn = document.getElementById("resetFilterBtn");
-resetFilterBtn.addEventListener("click", () => {
-  resetFilters();
-  resetButtonActive();
-  reloadCurrentCategory();
+const resetFilterBtn = document.getElementsByClassName("resetFilterBtn");
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".resetFilterBtn")) {
+    resetFilters();
+    resetButtonActive();
+    reloadCurrentCategory();
+  }
 });
 
 // Lyssnar efter ändringar i alla aktivitetsfiltren och kör handleFilterChange.
@@ -1126,7 +1128,7 @@ function updateFilterButton() {
   }
 }
 
-function updateResultsCount() {
+export function updateResultsCount() {
   const resultsCount = document.getElementById("resultsCount");
 
   let total = 0;
@@ -1138,6 +1140,8 @@ function updateResultsCount() {
   resultsCount.textContent = `${total} platser hittades`;
 
   closeFilterBtn.innerHTML = `Visa resultat (${total})`;
+
+  return total;
 }
 
 // Körs varje gång ett filtervärde ändras. Tillämpar filtrerna och uppdaterar "reset"-knappen.
@@ -1257,7 +1261,7 @@ function renderFavorites() {
 
     var getFavoriteBtn = document.querySelectorAll(".favorite-btn.active");
     for (const btn of getFavoriteBtn) {
-      btn.classList.remove("active")
+      btn.classList.remove("active");
     }
   });
 
