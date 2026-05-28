@@ -32,9 +32,7 @@ export async function renderDetailModal(item) {
           <span class="text-faded">Wifi</span>
 
 <span${
-        formatBoolean(item.wifi) === "Nej"
-          ? ' class="text-faded"'
-          : ""
+        formatBoolean(item.wifi) === "Nej" ? ' class="text-faded"' : ""
       }>             ${formatBoolean(item.wifi)}
           </span>
         </span>
@@ -47,9 +45,7 @@ export async function renderDetailModal(item) {
           </span>
 
 <span${
-        formatBoolean(item.pet_friendly) === "Nej"
-          ? ' class="text-faded"'
-          : ""
+        formatBoolean(item.pet_friendly) === "Nej" ? ' class="text-faded"' : ""
       }>             ${formatBoolean(item.pet_friendly)}
           </span>
         </span>
@@ -62,9 +58,7 @@ export async function renderDetailModal(item) {
           </span>
 
 <span${
-        formatBoolean(item.free_parking) === "Nej"
-          ? ' class="text-faded"'
-          : ""
+        formatBoolean(item.free_parking) === "Nej" ? ' class="text-faded"' : ""
       }>             ${formatBoolean(item.free_parking)}
           </span>
         </span>
@@ -108,10 +102,10 @@ export async function renderDetailModal(item) {
           <span class="text-faded">Uteservering</span>
 
           <span${
-        formatBoolean(item.outdoor_seating) === "Nej"
-          ? ' class="text-faded"'
-          : ""
-      }> 
+            formatBoolean(item.outdoor_seating) === "Nej"
+              ? ' class="text-faded"'
+              : ""
+          }> 
             ${formatBoolean(item.outdoor_seating)}
           </span>
         </span>
@@ -122,10 +116,8 @@ export async function renderDetailModal(item) {
           <span class="text-faded">Takeaway</span>
 
           <span${
-        formatBoolean(item.takeout) === "Nej"
-          ? ' class="text-faded"'
-          : ""
-      }> 
+            formatBoolean(item.takeout) === "Nej" ? ' class="text-faded"' : ""
+          }> 
             ${formatBoolean(item.takeout)}
           </span>
         </span>
@@ -136,9 +128,7 @@ export async function renderDetailModal(item) {
           <span class="text-faded">Barnmeny</span>
 
 <span${
-        formatBoolean(item.child_menu) === "Nej"
-          ? ' class="text-faded"'
-          : ""
+        formatBoolean(item.child_menu) === "Nej" ? ' class="text-faded"' : ""
       }>             ${formatBoolean(item.child_menu)}
           </span>
         </span>
@@ -220,9 +210,7 @@ export async function renderDetailModal(item) {
           </span>
 
 <span${
-        formatBoolean(item.outdoors) === "Nej"
-          ? ' class="text-faded"'
-          : ""
+        formatBoolean(item.outdoors) === "Nej" ? ' class="text-faded"' : ""
       }>             ${formatBoolean(item.outdoors)}
           </span>
         </span>
@@ -242,7 +230,7 @@ export async function renderDetailModal(item) {
   const nearbyPlaces = await getNearbyPlaces(item.lat, item.lng);
 
   const filteredNearbyPlaces = nearbyPlaces.filter((place) => {
-    return String(place.id) !== String(item.id)
+    return String(place.id) !== String(item.id);
   });
 
   const imageUrl =
@@ -287,7 +275,7 @@ export async function renderDetailModal(item) {
 
 </button>
 
-      <section class="stack gap-6">
+      <section class="stack gap-6 width-full">
 
         <div class="width-full">
           <img
@@ -382,6 +370,19 @@ export async function renderDetailModal(item) {
               </p>
 
             </div>
+<hr>
+            <div class="row gap-2">
+              <p>
+                <strong>Address:</strong>
+                ${item.address || "Ej tillgängligt"}
+              </p>
+            </div>
+            <div class="row gap-2">
+              <p>
+                <strong>Ort:</strong>
+                ${item.city || "Ej tillgängligt"}
+              </p>
+            </div>
 
           </div>
 
@@ -395,7 +396,7 @@ export async function renderDetailModal(item) {
 
         <hr>
 
-      <section class="stack gap-4">
+      <section class="stack gap-4 width-full">
 
         <div class="row row-between align-center">
 
@@ -503,15 +504,17 @@ export async function renderDetailModal(item) {
 
       <hr>
 
-      <section class="stack gap-4">
+      <section class="stack gap-4 width-full">
           <h2>Platser i närheten</h2>
 
   <div class="grid gap-6">
 
-    ${filteredNearbyPlaces.length > 0 ?
-      filteredNearbyPlaces.slice(0, 4)
-      .map(
-        (place) => `
+    ${
+      filteredNearbyPlaces.length > 0
+        ? filteredNearbyPlaces
+            .slice(0, 4)
+            .map(
+              (place) => `
 
           <article class="card card-listing">
 
@@ -578,7 +581,7 @@ export async function renderDetailModal(item) {
     updateFavoritesCount();
 
     reloadCurrentCategory();
-  })
+  });
 
   setTimeout(() => {
     renderDetailMap(item.lat, item.lng);

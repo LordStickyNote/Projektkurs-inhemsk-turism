@@ -1260,7 +1260,7 @@ input[type="checkbox"]:checked {
     display: none;
   }
 
-  #resetFilterBtn {
+  .resetFilterBtn {
     width: 100%;
   }
 
@@ -1282,12 +1282,21 @@ input[type="checkbox"]:checked {
     flex-flow: row;
   }
 
-  main{
+  main {
     align-items: center;
   }
 
   #toggleAndSortingDiv {
     width: 100%;
     justify-content: space-between;
+  }
+
+  #detailModal{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  #detailContent {
+    width: 800px;
   }
 }
