@@ -275,7 +275,7 @@ export async function renderDetailModal(item) {
 
 </button>
 
-      <section class="stack gap-6">
+      <section class="stack gap-6 width-full">
 
         <div class="width-full">
           <img
@@ -396,7 +396,7 @@ export async function renderDetailModal(item) {
 
         <hr>
 
-      <section class="stack gap-4">
+      <section class="stack gap-4 width-full">
 
         <div class="row row-between align-center">
 
@@ -504,7 +504,7 @@ export async function renderDetailModal(item) {
 
       <hr>
 
-      <section class="stack gap-4">
+      <section class="stack gap-4 width-full">
           <h2>Platser i närheten</h2>
 
   <div class="grid gap-6">
