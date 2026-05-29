@@ -296,7 +296,7 @@ async function loadSeeAndDo() {
 
   showFiltersForCategory();
 
-  const controllers = ["activity", "attraction"]
+  const controllers = ["activity", "attraction"];
 
   // Kör requestsen parallella, snabbare laddning
   const results = await Promise.all(
@@ -1301,11 +1301,19 @@ closeFavoritesBtn.addEventListener("click", () => {
 filterBtn.addEventListener("click", () => {
   filterMenu.classList.add("filter-menu-open");
 
+  document.querySelector("#resultsContainer").setAttribute("inert", "");
+  document.querySelector("html").style.overflow = "hidden";
+  document.querySelector("#lower-page-btns").setAttribute("inert", "");
+
   filterBtn.hidden = true;
 });
 
 closeFilterBtn.addEventListener("click", () => {
   filterMenu.classList.remove("filter-menu-open");
+
+  document.querySelector("#resultsContainer").removeAttribute("inert");
+  document.querySelector("html").style.overflow = "";
+  document.querySelector("#lower-page-btns").removeAttribute("inert");
 
   filterBtn.hidden = false;
 });

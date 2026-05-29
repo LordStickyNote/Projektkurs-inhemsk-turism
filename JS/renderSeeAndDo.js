@@ -17,8 +17,7 @@ export async function renderSeeAndDo(
 
     const itemsWithImages = await Promise.all(
       section.items.map(async (item) => {
-        const imageUrl =
-          (await getPixabayImage(item.description, item.id));
+        const imageUrl = await getPixabayImage(item.description, item.id);
 
         return {
           ...item,
@@ -83,6 +82,18 @@ export async function renderSeeAndDo(
         updateFavoritesCount();
 
         favoriteBtn.classList.toggle("active", active);
+      });
+
+      favoriteBtn.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          
+
+          const active = toggleFavorite(item);
+
+          updateFavoritesCount();
+
+          favoriteBtn.classList.toggle("active", active);
+        }
       });
 
       sectionElement.append(article);
