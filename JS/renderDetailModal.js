@@ -5,6 +5,10 @@ import { isFavorite, toggleFavorite } from "./favorites.js";
 import { updateFavoritesCount, reloadCurrentCategory } from "./main.js";
 
 export async function renderDetailModal(item) {
+  document.querySelector("#page-content").setAttribute("inert", "");
+  document.querySelector("html").style.overflow = "hidden";
+  document.querySelector("#lower-page-btns").setAttribute("inert", "");
+
   function renderSpecificDetails(item) {
     if (item.type === "food") {
       return renderFoodDetails(item);
@@ -254,12 +258,25 @@ export async function renderDetailModal(item) {
   modal.addEventListener("click", (event) => {
     if (event.target === modal) {
       modal.hidden = true;
+      document.querySelector("#page-content").removeAttribute("inert");
+      document.querySelector("html").style.overflow = "";
+      document.querySelector("#lower-page-btns").removeAttribute("inert");
+    }
+  });
+
+  modal.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      modal.hidden = true;
+      document.querySelector("#page-content").removeAttribute("inert");
+      document.querySelector("html").style.overflow = "";
+      document.querySelector("#lower-page-btns").removeAttribute("inert");
     }
   });
 
   const content = document.getElementById("detailContent");
 
   modal.hidden = false;
+  modal.focus();
 
   modal.scrollTop = 0;
 
@@ -589,6 +606,9 @@ export async function renderDetailModal(item) {
 
   document.getElementById("closeDetailBtn").addEventListener("click", () => {
     modal.hidden = true;
+    document.querySelector("#page-content").removeAttribute("inert");
+    document.querySelector("html").style.overflow = "";
+    document.querySelector("#lower-page-btns").removeAttribute("inert");
   });
 
   const nearbyCards = content.querySelectorAll(".nearby-cards");
@@ -598,9 +618,17 @@ export async function renderDetailModal(item) {
 
     const imageUrl = await getPixabayImage(place.description, place.id);
 
-    card.style.backgroundImage = `url('${
-      imageUrl || "./img/High_Chaparral_Theme_Park.jpg"
-    }')`;
+    card.style.backgroundImage = `url('${imageUrl}')`;
+
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        renderDetailModal(place);
+      }
+    });
 
     card.addEventListener("click", () => {
       renderDetailModal(place);

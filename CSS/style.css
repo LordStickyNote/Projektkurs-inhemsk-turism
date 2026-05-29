@@ -176,6 +176,7 @@ a {
   display: flex;
   flex-flow: row;
   justify-content: space-between;
+  cursor: pointer;
 }
 .card-filter-option:hover {
   transform: scale(1.02);
@@ -578,6 +579,9 @@ a {
 /*---- width ----*/
 .width-full {
   width: 100%;
+}
+.width-fit {
+  width: fit-content;
 }
 .height-full {
   height: 100%;
