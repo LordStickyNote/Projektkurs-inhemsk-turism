@@ -1268,6 +1268,16 @@ function renderFavorites() {
 
     article.classList.add("favorite-item");
 
+    article.tabIndex = "0";
+    
+    article.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        renderDetailModal(item);
+        favoritesModal.hidden = true;
+      }
+    });
+
     article.innerHTML = `
     <div class="card">
       <h3>${item.name}</h3>
@@ -1292,6 +1302,7 @@ favoritesBtn.addEventListener("click", () => {
   renderFavorites();
 
   favoritesModal.hidden = false;
+  document.getElementById("clear-favorites").focus();
 });
 
 closeFavoritesBtn.addEventListener("click", () => {
