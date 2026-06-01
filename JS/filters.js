@@ -16,10 +16,6 @@ export const activityTypeMap = {
     "Hälsocenter"
   ],
 
-  swim: [
-    "Simhall"
-  ],
-
   adventure: [
     "Zipline",
     "Klippklättring",
