@@ -1185,6 +1185,7 @@ function quizNotice() {
     sessionStorage.removeItem("quizResults");
     document.getElementById("quizNoticeContainer").innerHTML = "";
     filterBtn.hidden = false;
+    filterMenu.hidden = false;
     loadSeeAndDo();
   });
 
@@ -1226,6 +1227,7 @@ if (quizResults) {
 
   filterBtn.hidden = true;
   filterMenu.classList.remove("filter-menu-open");
+  filterMenu.hidden = true;
 
   document.getElementById("page-content").classList.add("quiz-layout");
 
