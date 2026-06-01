@@ -1080,7 +1080,7 @@ input[type="checkbox"]:checked {
   height: 36px;
 
   fill: white;
-
+  cursor: pointer;
   transition: 0.2s ease;
 }
 
@@ -1295,7 +1295,7 @@ input[type="checkbox"]:checked {
     justify-content: space-between;
   }
 
-  #detailModal{
+  #detailModal {
     display: flex;
     width: 100%;
     justify-content: center;

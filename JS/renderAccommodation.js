@@ -1,7 +1,7 @@
 import { getPixabayImage } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
 import { isFavorite, toggleFavorite } from "./favorites.js";
-import { updateFavoritesCount } from "./main.js";
+import { updateFavoritesCount, updateResultsCount } from "./main.js";
 
 export async function renderAccommodation(
   items,
@@ -21,8 +21,7 @@ export async function renderAccommodation(
           ? "small guesthouse sweden"
           : item.description;
 
-      const imageUrl =
-        (await getPixabayImage(imageSearchTerm, item.id));
+      const imageUrl = await getPixabayImage(imageSearchTerm, item.id);
 
       return {
         ...item,
@@ -33,15 +32,15 @@ export async function renderAccommodation(
 
   for (const [index, item] of itemsWithImages.entries()) {
     const article = document.createElement("article");
-      article.tabIndex = 0;
-      article.setAttribute("role", "button");
+    article.tabIndex = 0;
+    article.setAttribute("role", "button");
 
-      article.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          renderDetailModal(item);
-        }
-      });
+    article.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        renderDetailModal(item);
+      }
+    });
     article.addEventListener("click", () => {
       renderDetailModal(item);
     });
@@ -93,7 +92,11 @@ export async function renderAccommodation(
 
   renderedSections.push(sectionElement);
 
-  container.innerHTML = "";
+  if (!updateResultsCount()) {
+    container.innerHTML = `<div class="align-center stack gap-4"><h2>Inga platser hittades</h2><p>Testa att ändra eller rensa filtret.</p> <button class="btn btn-secondary resetFilterBtn">Rensa filter</button></div>`;
+  } else {
+    container.innerHTML = "";
+  }
 
   container.append(...renderedSections);
 }

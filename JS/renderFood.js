@@ -1,7 +1,7 @@
 import { getPixabayImage, getFoodSearchQuery } from "./imageApi.js";
 import { renderDetailModal } from "./renderDetailModal.js";
 import { isFavorite, toggleFavorite } from "./favorites.js";
-import { updateFavoritesCount } from "./main.js";
+import { updateFavoritesCount, updateResultsCount } from "./main.js";
 
 export async function renderFood(items, container, visibleItems, itemsPerLoad) {
   const renderedSections = [];
@@ -13,8 +13,7 @@ export async function renderFood(items, container, visibleItems, itemsPerLoad) {
     items.map(async (item) => {
       const query = getFoodSearchQuery(item);
 
-      const imageUrl =
-        (await getPixabayImage(query, item.id));
+      const imageUrl = await getPixabayImage(query, item.id);
 
       return {
         ...item,
@@ -26,15 +25,15 @@ export async function renderFood(items, container, visibleItems, itemsPerLoad) {
   for (const [index, item] of itemsWithImages.entries()) {
     const article = document.createElement("article");
 
-      article.tabIndex = 0;
-      article.setAttribute("role", "button");
+    article.tabIndex = 0;
+    article.setAttribute("role", "button");
 
-      article.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          renderDetailModal(item);
-        }
-      });    
+    article.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        renderDetailModal(item);
+      }
+    });
     article.addEventListener("click", () => {
       renderDetailModal(item);
     });
@@ -86,7 +85,11 @@ export async function renderFood(items, container, visibleItems, itemsPerLoad) {
 
   renderedSections.push(sectionElement);
 
-  container.innerHTML = "";
+  if (!updateResultsCount()) {
+    container.innerHTML = `<div class="align-center stack gap-4"><h2>Inga platser hittades</h2><p>Testa att ändra eller rensa filtret.</p> <button class="btn btn-secondary resetFilterBtn">Rensa filter</button></div>`;
+  } else {
+    container.innerHTML = "";
+  }
 
   container.append(...renderedSections);
 }
