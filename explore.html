@@ -29,15 +29,17 @@
         </span>
         <div id="toggleAndSortingDiv" class="width-full" hidden>
           <div class="width-full row row-between card">
+            <label for="sortList">
             <select
               class="btn-outline sortingList"
               name="sortList"
               id="sortList"
+              aria-label="Sortera efter"
             >
               <option value="rating">Högsta betyg</option>
               <option value="name">Namn A-Ö</option>
             </select>
-
+            </label>
             <span class="row gap-2 btn-square-container">
               <button id="favoritesBtn">
                 <svg
@@ -458,7 +460,7 @@
           <div class="card row gap-4 width-fit">
             <h3>Hittar du inte det du söker? Gör vårt quiz!</h3>
             <a href="quiz.html" class="btn btn-primary"
-              >Hitta en resa
+              >Få reseförslag
               <svg
                 id="Lager_1"
                 data-name="Lager 1"

@@ -948,14 +948,6 @@ export function reloadCurrentCategory() {
   applyCurrentFilters(false);
 }
 
-// Scrollar mjukt till toppen av sidan, används vid sidbyte
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-}
-
 function paginateItems(items) {
   if (currentView === "map") {
     return items;
@@ -1193,6 +1185,7 @@ function quizNotice() {
     sessionStorage.removeItem("quizResults");
     document.getElementById("quizNoticeContainer").innerHTML = "";
     filterBtn.hidden = false;
+    filterMenu.hidden = false;
     loadSeeAndDo();
   });
 
@@ -1234,6 +1227,7 @@ if (quizResults) {
 
   filterBtn.hidden = true;
   filterMenu.classList.remove("filter-menu-open");
+  filterMenu.hidden = true;
 
   document.getElementById("page-content").classList.add("quiz-layout");
 
