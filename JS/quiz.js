@@ -192,10 +192,6 @@ function mapQuizToFilters() {
     activityThemes.push("adventure");
   }
 
-  if (quizState.interest.includes("water")) {
-    activityThemes.push("swim");
-  }
-
   return {
     activity: {
       effort: quizState.effort,

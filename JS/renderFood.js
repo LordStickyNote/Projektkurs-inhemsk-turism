@@ -45,7 +45,7 @@ export async function renderFood(items, container, visibleItems, itemsPerLoad) {
     article.innerHTML = `
             <div class="card card-listing ${!shouldAnimate ? "no-animation" : ""}" style="background-image: url('${item.imageUrl}');">
         <span class="card-listing-content width-full">
-                            <button class="favorite-btn ${favoriteActive ? "active" : ""}">
+                            <button aria-label="Favorite button" class="favorite-btn ${favoriteActive ? "active" : ""}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.37 88.44">
   <path d="M49.65,88.44L10.93,49.71C-19.25,19.53,19.48-19.19,49.65,10.99c30.28-30.28,69.01,8.44,38.72,38.72l-38.72,38.72Z"/>
 </svg>

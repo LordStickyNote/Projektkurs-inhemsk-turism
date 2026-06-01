@@ -948,14 +948,6 @@ export function reloadCurrentCategory() {
   applyCurrentFilters(false);
 }
 
-// Scrollar mjukt till toppen av sidan, används vid sidbyte
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-}
-
 function paginateItems(items) {
   if (currentView === "map") {
     return items;
