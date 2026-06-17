@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="CSS/style.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
-  <body>
+  <body id="top">
     <main class="gap-4 stack">
       <header id="header" class="gap-4 stack align-center">
         <span class="tab-container">
@@ -30,15 +30,15 @@
         <div id="toggleAndSortingDiv" class="width-full" hidden>
           <div class="width-full row row-between card">
             <label for="sortList">
-            <select
-              class="btn-outline sortingList"
-              name="sortList"
-              id="sortList"
-              aria-label="Sortera efter"
-            >
-              <option value="rating">Högsta betyg</option>
-              <option value="name">Namn A-Ö</option>
-            </select>
+              <select
+                class="btn-outline sortingList"
+                name="sortList"
+                id="sortList"
+                aria-label="Sortera efter"
+              >
+                <option value="rating">Högsta betyg</option>
+                <option value="name">Namn A-Ö</option>
+              </select>
             </label>
             <span class="row gap-2 btn-square-container">
               <button id="favoritesBtn">
@@ -451,7 +451,7 @@
       <div id="detailModal" hidden>
         <div id="detailContent"></div>
       </div>
-     <div id="lower-page-btns" class="width-full align-center stack gap-4">
+      <div id="lower-page-btns" class="width-full align-center stack gap-4">
         <div class="row gap-4 justify-center">
           <button id="loadMoreBtn" class="btn btn-secondary">Ladda fler</button>
         </div>
@@ -475,9 +475,10 @@
             </a>
           </div>
         </div>
-     </div>
+      </div>
 
       <hr />
     </main>
+    <script src="JS/footer.js"></script>
   </body>
 </html>

@@ -1,0 +1,25 @@
+const footer = document.createElement("footer");
+
+footer.className = "site-footer";
+footer.innerHTML = `
+  <div class="site-footer-brand">
+    <img src="img/logotyp.svg" alt="SydostGuiden logotyp" />
+    <p>Vi hjälper dig planera!</p>
+  </div>
+
+   <nav class="site-footer-links" aria-label="Sidfot navigation">
+    <a href="index.html">Home</a>
+        <a href="explore.html">Interaktiv map</a>
+    <a href="#top">Återvänd hem</a>
+  </nav>
+
+  <address class="site-footer-contact">
+    <a href="mailto:sg223vf@student.lnu.se">sg223vf@student.lnu.se</a>
+    <a class="site-footer-phone" href="tel:0765677780">
+      <img src="img/telefon.svg " alt="" aria-hidden="true" />
+      0765677780
+    </a>
+  </address>
+`;
+
+document.body.appendChild(footer);
