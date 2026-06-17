@@ -532,15 +532,23 @@ a {
 }
 
 .site-footer-brand {
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .site-footer-brand img {
   width: min(220px, 70vw);
   height: auto;
+  display: block;
 }
 
-.site-footer-brand p,
+.site-footer-brand p {
+  margin-top: var(--space-2);
+  text-align: center;
+  color: var(--color-text-faded);
+}
+
 .site-footer-contact {
   color: var(--color-text-faded);
 }
@@ -557,12 +565,21 @@ a {
 }
 
 .site-footer-contact {
+  align-items: center;
+  text-align: center;
   font-style: normal;
+}
+
+.site-footer-contact h3 {
+  color: var(--color-text);
+  font-size: var(--text-base);
+  font-weight: 700;
 }
 
 .site-footer-phone {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
 }
 
@@ -580,13 +597,18 @@ a {
     justify-content: space-between;
   }
 
+  .site-footer-brand {
+    align-items: center;
+    text-align: center;
+  }
+
   .site-footer-links {
     align-items: center;
   }
 
   .site-footer-contact {
-    align-items: flex-end;
-    text-align: right;
+    align-items: center;
+    text-align: center;
   }
 }
 
