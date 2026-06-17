@@ -576,6 +576,7 @@ a {
   font-weight: 700;
 }
 
+.site-footer-contact-link,
 .site-footer-phone {
   display: flex;
   align-items: center;
@@ -583,6 +584,7 @@ a {
   gap: var(--space-2);
 }
 
+.site-footer-contact-link img,
 .site-footer-phone img {
   width: 18px;
   height: 18px;

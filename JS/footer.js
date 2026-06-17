@@ -15,7 +15,10 @@ footer.innerHTML = `
 
   <address class="site-footer-contact">
     <h3>Kontaktinformation</h3>
-    <a href="mailto:sg223vf@student.lnu.se">sg223vf@student.lnu.se</a>
+    <a class="site-footer-contact-link" href="mailto:sg223vf@student.lnu.se">
+      <img src="img/mail.svg" alt="" aria-hidden="true" />
+      sg223vf@student.lnu.se
+    </a>
     <a class="site-footer-phone" href="tel:0765677780">
       <img src="img/telefon.svg" alt="" aria-hidden="true" />
       0765677780
