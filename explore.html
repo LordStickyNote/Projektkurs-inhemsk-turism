@@ -425,8 +425,27 @@
             </button>
           </div>
         </div>
+
         <div class="stack gap-4 width-full" id="resultsContainer">
           <section id="quizNoticeContainer"></section>
+          <section class="location-panel">
+            <div>
+              <h3>Hitta platser nära dig</h3>
+              <p class="text-faded" id="locationStatus">
+                Tillåt platsåtkomst för att visa semesterplatser nära din
+                position.
+              </p>
+            </div>
+
+            <div class="row gap-3">
+              <button id="useLocationBtn" class="btn btn-primary">
+                Använd min plats
+              </button>
+              <button id="clearNearbyBtn" class="btn btn-secondary" hidden>
+                Visa alla platser
+              </button>
+            </div>
+          </section>
           <p id="resultsCount" class="text-faded"></p>
           <section id="results"></section>
         </div>
