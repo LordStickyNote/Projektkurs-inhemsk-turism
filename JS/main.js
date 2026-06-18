@@ -1,4 +1,5 @@
 import { getData } from "./api.js";
+import { setupLocationFeature } from "./gps.js";
 import { renderSeeAndDo } from "./renderSeeAndDo.js";
 import { renderFood } from "./renderFood.js";
 import { renderAccommodation } from "./renderAccommodation.js";
@@ -1263,7 +1264,7 @@ function renderFavorites() {
     article.classList.add("favorite-item");
 
     article.tabIndex = "0";
-    
+
     article.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
@@ -1322,7 +1323,8 @@ closeFilterBtn.addEventListener("click", () => {
 
   filterBtn.hidden = false;
 
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 updateFavoritesCount();
+setupLocationFeature();
