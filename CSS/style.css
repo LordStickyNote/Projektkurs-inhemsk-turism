@@ -973,6 +973,32 @@ input[type="checkbox"]:checked {
   flex-flow: column;
 }
 
+/*==== GPS panel ====*/
+
+.location-panel {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.location-panel .row {
+  flex-wrap: wrap;
+}
+
+@media (min-width: 800px) {
+  .location-panel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
 /*==== quiz ====*/
 
 .quiz-intro {
