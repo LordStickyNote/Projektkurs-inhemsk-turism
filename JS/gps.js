@@ -3,6 +3,23 @@ export function setupLocationFeature() {
   const locationStatus = document.getElementById("locationStatus");
 
   useLocationBtn.addEventListener("click", () => {
-    locationStatus.textContent = "Knappen fungerar!";
+    if (!navigator.geolocation) {
+      locationStatus.textContent = "Din webbläsare stödjer inte platsåtkomst.";
+      return;
+    }
+
+    locationStatus.textContent = "Hämtar din position...";
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        locationStatus.textContent = `Din position är ${lat}, ${lng}`;
+      },
+      () => {
+        locationStatus.textContent = "Kunde inte hämta din plats.";
+      },
+    );
   });
 }
