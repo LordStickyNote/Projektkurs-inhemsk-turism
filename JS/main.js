@@ -1330,6 +1330,18 @@ updateFavoritesCount();
 
 setupLocationFeature({
   onNearbyPlacesLoaded(nearbyPlaces) {
-    console.log("Platser från GPS:", nearbyPlaces);
+    activeCategory = "seeAndDo";
+    currentView = "list";
+    visibleItems = 20;
+
+    currentSections = [
+      {
+        items: nearbyPlaces.slice(0, visibleItems),
+        totalItems: nearbyPlaces.length,
+      },
+    ];
+
+    currentRenderFunction = renderSeeAndDo;
+    renderCurrentView();
   },
 });
