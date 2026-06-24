@@ -1327,4 +1327,9 @@ closeFilterBtn.addEventListener("click", () => {
 });
 
 updateFavoritesCount();
-setupLocationFeature();
+
+setupLocationFeature({
+  onNearbyPlacesLoaded(nearbyPlaces) {
+    console.log("Platser från GPS:", nearbyPlaces);
+  },
+});

@@ -1,6 +1,6 @@
 import { getNearbyPlaces } from "./api.js";
 
-export function setupLocationFeature() {
+export function setupLocationFeature({ onNearbyPlacesLoaded }) {
   const useLocationBtn = document.getElementById("useLocationBtn");
   const locationStatus = document.getElementById("locationStatus");
 
@@ -23,7 +23,7 @@ export function setupLocationFeature() {
 
         locationStatus.textContent = `${nearbyPlaces.length} platser hittades nära dig.`;
 
-        console.log(nearbyPlaces);
+        onNearbyPlacesLoaded(nearbyPlaces);
       },
       () => {
         locationStatus.textContent = "Kunde inte hämta din plats.";
