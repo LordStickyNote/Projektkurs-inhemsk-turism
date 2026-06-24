@@ -1,3 +1,5 @@
+import { getNearbyPlaces } from "./api.js";
+
 export function setupLocationFeature() {
   const useLocationBtn = document.getElementById("useLocationBtn");
   const locationStatus = document.getElementById("locationStatus");
@@ -11,11 +13,17 @@ export function setupLocationFeature() {
     locationStatus.textContent = "Hämtar din position...";
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
 
-        locationStatus.textContent = `Din position är ${lat}, ${lng}`;
+        locationStatus.textContent = "Hämtar platser nära dig...";
+
+        const nearbyPlaces = await getNearbyPlaces(lat, lng);
+
+        locationStatus.textContent = `${nearbyPlaces.length} platser hittades nära dig.`;
+
+        console.log(nearbyPlaces);
       },
       () => {
         locationStatus.textContent = "Kunde inte hämta din plats.";
