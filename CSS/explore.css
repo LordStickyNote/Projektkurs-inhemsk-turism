@@ -1,0 +1,940 @@
+/* ==================================
+   EXPLORE-SIDAN
+================================== */
+
+body {
+  padding: 0;
+  background-color: var(--color-bg);
+}
+
+.explore-page {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ==================================
+   NAVIGATION
+================================== */
+
+.explore-navigation {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 80px;
+
+  margin: 0 auto;
+  padding: 16px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+}
+
+.explore-logo {
+  display: flex;
+  align-items: center;
+}
+
+.explore-logo img {
+  width: 190px;
+  height: auto;
+}
+
+/* ==================================
+   STOR TOPPSEKTION
+================================== */
+
+.explore-hero {
+  width: 100%;
+  min-height: 580px;
+
+  padding: 80px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      rgba(10, 31, 31, 0.65),
+      rgba(10, 31, 31, 0.95)
+    ),
+    url("../img/bg-2.jpg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.explore-hero-text {
+  width: 100%;
+  max-width: 720px;
+}
+
+.explore-label {
+  margin-bottom: 12px;
+
+  color: var(--color-primary-hover);
+
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.explore-hero h1 {
+  max-width: 700px;
+
+  font-size: 72px;
+  line-height: 1;
+}
+
+.explore-description {
+  max-width: 620px;
+  margin-top: 24px;
+
+  color: var(--color-text-faded);
+
+  font-size: var(--text-lg);
+  line-height: 1.7;
+}
+
+.explore-hero-buttons {
+  margin-top: 32px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ==================================
+   INFORMATIONSBOX
+================================== */
+
+.explore-information {
+  width: 280px;
+  padding: 32px;
+
+  flex-shrink: 0;
+
+  box-sizing: border-box;
+
+  background-color: rgba(18, 46, 46, 0.9);
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-xl);
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.explore-number {
+  color: var(--color-primary-hover);
+
+  font-family: "DM Serif Display", serif;
+  font-size: 64px;
+  line-height: 1;
+}
+
+.explore-information > p:last-of-type {
+  margin-top: 8px;
+  color: var(--color-text-faded);
+}
+
+.explore-information-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.explore-information-row span {
+  padding: 10px 14px;
+
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  font-size: var(--text-sm);
+}
+
+/* ==================================
+   KATEGORISEKTION
+================================== */
+
+.explore-category-section {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+  padding: 64px 24px 24px;
+
+  box-sizing: border-box;
+}
+
+.explore-category-section > div {
+  margin-bottom: 24px;
+}
+
+.explore-category-section h2 {
+  font-size: var(--text-3xl);
+}
+
+/* ==================================
+   KATEGORIKNAPPAR OCH HEADER
+================================== */
+
+#header {
+  width: 100%;
+  padding: 16px;
+
+  box-sizing: border-box;
+
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.tab-container {
+  padding: 6px;
+
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.tab {
+  min-height: 56px;
+
+  font-size: var(--text-base);
+  cursor: pointer;
+}
+
+.tab:hover {
+  background-color: var(--color-bg-elevated);
+  border-color: var(--color-bg-elevated);
+  color: var(--color-text);
+}
+
+.tab.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* ==================================
+   SORTERING OCH VY
+================================== */
+
+#toggleAndSortingDiv .card {
+  padding: 12px 16px;
+
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.sortingList {
+  min-height: 44px;
+  padding: 8px 12px;
+}
+
+.btn-square {
+  width: 44px;
+  height: 44px;
+
+  padding: 8px;
+  margin: 0;
+
+  border-radius: var(--radius-md);
+}
+
+#favoritesBtn {
+  display: flex;
+  align-items: center;
+
+  padding: 6px;
+
+  background: none;
+  border: none;
+}
+
+#favoritesBtn svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* ==================================
+   SIDANS HUVUDINNEHÅLL
+================================== */
+
+#page-content {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 32px auto;
+  padding: 0 24px;
+
+  align-items: flex-start;
+  gap: 40px;
+
+  box-sizing: border-box;
+}
+
+#resultsContainer {
+  width: 100%;
+}
+
+/* ==================================
+   FILTERMENY
+================================== */
+
+.filter-menu-container {
+  background-color: var(--color-bg-card);
+}
+
+.filter-menu {
+  padding: 24px;
+  gap: 24px;
+}
+
+.filter-category {
+  padding: 18px;
+
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.card-filter-option {
+  min-height: 54px;
+  padding: 12px 16px;
+
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+}
+
+.card-filter-option:hover {
+  background-color: var(--color-bg-elevated);
+  border-color: var(--color-border-hover);
+  transform: none;
+}
+
+.card-filter-option h3 {
+  font-size: var(--text-base);
+}
+
+/* ==================================
+   PLATSÅTKOMST
+================================== */
+
+.location-panel {
+  padding: 28px;
+
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-xl);
+}
+
+.location-panel h3 {
+  margin-bottom: 8px;
+}
+
+.location-panel .row {
+  flex-wrap: wrap;
+}
+
+/* ==================================
+   RESULTAT
+================================== */
+
+#resultsCount {
+  margin: 0;
+  padding: 8px 4px;
+
+  color: var(--color-text-faded);
+  font-size: var(--text-base);
+}
+
+#results {
+  width: 100%;
+}
+
+#results .grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* ==================================
+   RESULTATKORT
+================================== */
+
+.card-listing {
+  min-height: 360px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+}
+
+.card-listing:hover {
+  transform: translateY(-6px);
+}
+
+.card-listing-content {
+  padding: 24px;
+
+  background: linear-gradient(
+    transparent,
+    rgba(0, 0, 0, 0.95)
+  );
+}
+
+.favorite-btn {
+  top: 16px;
+  right: 16px;
+
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(10, 31, 31, 0.8);
+  border: 1px solid var(--color-border-hover);
+  border-radius: 50%;
+}
+
+.favorite-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ==================================
+   KARTA
+================================== */
+
+#map {
+  width: 100%;
+  height: 650px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+/* ==================================
+   SIDANS NEDRE DEL
+================================== */
+
+#lower-page-btns {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+  padding: 40px 24px;
+
+  box-sizing: border-box;
+}
+
+#lower-page-btns .card {
+  padding: 24px;
+
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+}
+
+/* ==================================
+   MOBIL
+================================== */
+
+@media (max-width: 800px) {
+  .explore-navigation {
+    min-height: 68px;
+    padding: 12px 16px;
+  }
+
+  .explore-logo img {
+    width: 140px;
+  }
+
+  .explore-navigation .btn {
+    padding: 8px 12px;
+    font-size: var(--text-sm);
+  }
+
+  .explore-hero {
+    min-height: 600px;
+
+    padding: 64px 20px;
+
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  .explore-hero h1 {
+    font-size: 48px;
+  }
+
+  .explore-description {
+    font-size: var(--text-base);
+  }
+
+  .explore-hero-buttons {
+    width: 100%;
+
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .explore-hero-buttons .btn {
+    width: 100%;
+  }
+
+  .explore-information {
+    width: 100%;
+  }
+
+  .explore-category-section {
+    padding: 48px 12px 12px;
+  }
+
+  .explore-category-section h2 {
+    font-size: var(--text-2xl);
+  }
+
+  #header {
+    padding: 10px;
+  }
+
+  .tab {
+    min-height: 48px;
+    padding: 8px 4px;
+
+    font-size: var(--text-sm);
+  }
+
+  #page-content {
+    margin-top: 16px;
+    padding: 0 10px;
+  }
+
+  #results .grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .card-listing {
+    min-height: 380px;
+  }
+
+  .location-panel {
+    padding: 20px;
+  }
+
+  .location-panel .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .location-panel .btn {
+    width: 100%;
+  }
+
+  #lower-page-btns {
+    padding: 32px 10px;
+  }
+
+  #lower-page-btns .card {
+    flex-direction: column;
+  }
+}
+
+/* ==================================
+   STORA SKÄRMAR
+================================== */
+
+@media (min-width: 1400px) {
+  .filter-menu-container {
+    max-width: 360px;
+  }
+
+  #resultsContainer {
+    max-width: 800px;
+  }
+
+  #results {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* ==================================
+FÄRGPALETT
+================================== */
+
+:root {
+  --color-bg: #f5f1e7;
+  --color-bg-card: #fffdf7;
+  --color-bg-elevated: #e5eadf;
+
+  --color-primary: #54745a;
+  --color-primary-dim: rgba(84, 116, 90, 0.15);
+  --color-primary-hover: #395940;
+
+  --color-text: #26352a;
+  --color-text-faded: #667269;
+
+  --color-border: rgba(38, 53, 42, 0.12);
+  --color-border-hover: rgba(38, 53, 42, 0.28);
+}
+
+/* ==================================
+   SIDANS BAKGRUND
+================================== */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* ==================================
+   TOPPSEKTION
+================================== */
+
+.explore-hero {
+  background:
+    linear-gradient(
+      rgba(38, 53, 42, 0.25),
+      rgba(38, 53, 42, 0.65)
+    ),
+    url("../img/bg-2.jpg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.explore-hero h1 {
+  color: #fffdf7;
+}
+
+.explore-hero .display-italic {
+  color: #dce8cf;
+}
+
+.explore-hero .explore-label {
+  color: #eef4e6;
+}
+
+.explore-description {
+  color: rgba(255, 253, 247, 0.85);
+}
+
+/* ==================================
+   INFORMATIONSBOX
+================================== */
+
+.explore-information {
+  background-color: rgba(255, 253, 247, 0.92);
+  border-color: rgba(255, 255, 255, 0.7);
+
+  box-shadow: 0 20px 50px rgba(38, 53, 42, 0.25);
+}
+
+.explore-information p {
+  color: var(--color-text);
+}
+
+.explore-information .explore-number {
+  color: var(--color-primary);
+}
+
+.explore-information > p:last-of-type {
+  color: var(--color-text-faded);
+}
+
+.explore-information hr {
+  background-color: var(--color-border);
+}
+
+.explore-information-row span {
+  color: var(--color-text);
+  background-color: #edf0e7;
+  border-color: var(--color-border);
+}
+
+/* ==================================
+   KATEGORISEKTION
+================================== */
+
+.explore-category-section {
+  background-color: var(--color-bg);
+}
+
+.explore-category-section h2 {
+  color: var(--color-text);
+}
+
+.explore-category-section .explore-label {
+  color: var(--color-primary);
+}
+
+/* ==================================
+   KATEGORIKNAPPAR
+================================== */
+
+#header {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border);
+
+  box-shadow: 0 12px 35px rgba(38, 53, 42, 0.08);
+}
+
+.tab-container {
+  background-color: #eceee5;
+  border-color: var(--color-border);
+}
+
+.tab {
+  color: var(--color-text);
+}
+
+.tab:hover {
+  color: var(--color-text);
+  background-color: #dde5d8;
+  border-color: #dde5d8;
+}
+
+.tab.active {
+  color: white;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* ==================================
+   SORTERING OCH VYKNAPPAR
+================================== */
+
+#toggleAndSortingDiv .card {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border);
+}
+
+select {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border-hover);
+}
+
+select:hover {
+  color: var(--color-primary-hover);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-primary);
+}
+
+option {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+}
+
+.btn-square {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border-hover);
+}
+
+.btn-square svg {
+  fill: var(--color-text);
+}
+
+.btn-square:hover {
+  background-color: var(--color-bg-elevated);
+}
+
+.btn-square:hover svg {
+  fill: var(--color-primary-hover);
+}
+
+.view-active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.view-active svg {
+  fill: white;
+}
+
+/* ==================================
+   FILTERPANEL
+================================== */
+
+.filter-menu-container {
+  background-color: #eeeade;
+  border-color: var(--color-border);
+}
+
+.filter-menu-container h1,
+.filter-menu-container h2,
+.filter-menu-container h3,
+.filter-menu-container h4 {
+  color: var(--color-text);
+}
+
+.filter-category {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border);
+}
+
+.card-filter-option {
+  color: var(--color-text);
+  background-color: #f5f2e9;
+  border-color: var(--color-border);
+}
+
+.card-filter-option:hover {
+  background-color: var(--color-bg-elevated);
+  border-color: var(--color-primary);
+}
+
+.card-filter-option:has(input:checked) {
+  background-color: #dce6d6;
+}
+
+/* ==================================
+   PLATSÅTKOMST
+================================== */
+
+.location-panel {
+  background-color: #e4eadf;
+  border-color: #b4c6ac;
+
+  box-shadow: 0 12px 30px rgba(38, 53, 42, 0.08);
+}
+
+.location-panel h3 {
+  color: var(--color-text);
+}
+
+.location-panel p {
+  color: var(--color-text-faded);
+}
+
+/* ==================================
+   KNAPPAR
+================================== */
+
+.btn-primary {
+  color: white;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  color: white;
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.btn-secondary {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border-hover);
+}
+
+.btn-secondary:hover {
+  color: var(--color-primary-hover);
+  background-color: var(--color-bg-elevated);
+}
+
+/* ==================================
+   RESULTATKORT
+================================== */
+
+.card-listing {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border);
+
+  box-shadow: 0 14px 35px rgba(38, 53, 42, 0.18);
+}
+
+.card-listing:hover {
+  box-shadow: 0 20px 45px rgba(38, 53, 42, 0.25);
+}
+
+/*
+  Texten ligger ovanpå bilderna.
+  Därför behåller vi kortens nederdel mörk.
+*/
+
+.card-listing-content {
+  background: linear-gradient(
+    transparent,
+    rgba(24, 36, 27, 0.92)
+  );
+}
+
+.card-listing-content h1,
+.card-listing-content h2,
+.card-listing-content h3,
+.card-listing-content p {
+  color: #fffdf7;
+}
+
+/* ==================================
+   FAVORITER
+================================== */
+
+#favoritesBtn svg {
+  fill: var(--color-primary);
+  filter: none;
+}
+
+#favoritesCount {
+  color: var(--color-text);
+}
+
+.favorite-btn {
+  background-color: rgba(255, 253, 247, 0.88);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.favorite-btn svg {
+  fill: var(--color-primary);
+  filter: none;
+}
+
+.favorites-content {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+}
+
+/* ==================================
+   NEDRE QUIZKORT
+================================== */
+
+#lower-page-btns .card {
+  color: var(--color-text);
+  background-color: #e4eadf;
+  border-color: #b4c6ac;
+}
+
+/* ==================================
+   FOOTER
+================================== */
+
+.site-footer {
+  color: var(--color-text);
+  background-color: #e5e1d5;
+  border-color: var(--color-border);
+}
+
+.site-footer p,
+.site-footer-contact {
+  color: var(--color-text-faded);
+}
+
+.site-footer-links a,
+.site-footer-contact a {
+  color: var(--color-text);
+}
