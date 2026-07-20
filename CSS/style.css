@@ -1488,3 +1488,40 @@ input[type="checkbox"]:checked {
     width: 800px;
   }
 }
+
+/*==== theme button ====*/
+
+.theme-button {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 5000;
+
+  padding: 10px 16px;
+
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-full);
+
+  font-family: "Manrope", sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.theme-button:hover {
+  color: var(--color-primary-hover);
+  background-color: var(--color-bg-elevated);
+}
+
+@media (max-width: 600px) {
+  .theme-button {
+    top: 10px;
+    right: 10px;
+
+    padding: 8px 12px;
+  }
+}
