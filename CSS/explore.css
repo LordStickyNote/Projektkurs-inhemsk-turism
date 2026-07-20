@@ -938,3 +938,119 @@ option {
 .site-footer-contact a {
   color: var(--color-text);
 }
+
+/* ==================================
+   DARK MODE
+================================== */
+
+body.dark-mode .explore-information {
+  background-color: rgba(18, 46, 46, 0.94);
+  border-color: var(--color-border-hover);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .explore-information p,
+body.dark-mode .explore-information-row span {
+  color: var(--color-text);
+}
+
+body.dark-mode .explore-information .explore-number {
+  color: var(--color-primary-hover);
+}
+
+body.dark-mode .explore-information > p:last-of-type {
+  color: var(--color-text-faded);
+}
+
+body.dark-mode .explore-information-row span {
+  background-color: var(--color-bg);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode #header,
+body.dark-mode #toggleAndSortingDiv .card {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border-hover);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .tab-container {
+  background-color: var(--color-bg);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode .tab:hover {
+  color: var(--color-text);
+  background-color: var(--color-bg-elevated);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode .tab.active,
+body.dark-mode .view-active,
+body.dark-mode .btn-primary,
+body.dark-mode .btn-primary:hover {
+  color: var(--color-bg);
+}
+
+body.dark-mode .view-active svg,
+body.dark-mode .btn-primary svg {
+  fill: var(--color-bg);
+}
+
+body.dark-mode select,
+body.dark-mode option,
+body.dark-mode .btn-square {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode select {
+  color-scheme: dark;
+}
+
+body.dark-mode .filter-menu-container {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode .filter-category {
+  background-color: var(--color-bg);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode .card-filter-option {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode .card-filter-option:hover,
+body.dark-mode .card-filter-option:has(input:checked) {
+  background-color: var(--color-bg-elevated);
+  border-color: var(--color-primary);
+}
+
+body.dark-mode .location-panel,
+body.dark-mode #lower-page-btns .card {
+  color: var(--color-text);
+  background-color: var(--color-bg-elevated);
+  border-color: var(--color-border-hover);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+body.dark-mode .favorite-btn {
+  background-color: rgba(10, 31, 31, 0.9);
+  border-color: var(--color-border-hover);
+}
+
+body.dark-mode .favorite-btn svg {
+  fill: var(--color-primary-hover);
+}
+
+body.dark-mode .site-footer {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border);
+}
