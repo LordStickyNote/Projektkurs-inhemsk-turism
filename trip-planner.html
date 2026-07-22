@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planera min resa</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/style.css" />
+    <link rel="stylesheet" href="CSS/trip-planner.css" />
+  </head>
+  <body id="top" class="trip-planner-page">
+    <header class="trip-header">
+      <a class="trip-logo" href="index.html" aria-label="Till startsidan">
+        <img src="img/logotyp.svg" alt="SydostGuiden logotyp" />
+      </a>
+
+      <nav aria-label="Huvudnavigation">
+        <a class="btn btn-secondary" href="explore.html">Utforska platser</a>
+      </nav>
+    </header>
+
+    <main class="trip-main">
+      <section class="trip-intro" aria-labelledby="trip-page-title">
+        <div class="trip-intro-text stack gap-4">
+          <p class="trip-label">Reseplanerare</p>
+          <h1 id="trip-page-title" class="display">Planera min resa</h1>
+          <p class="trip-description">
+            Samla platser du vill besöka och planera resan dag för dag.
+          </p>
+
+          <div class="trip-actions row gap-4">
+            <button id="createTripBtn" class="btn btn-primary" type="button">
+              Skapa ny resa
+            </button>
+            <a class="btn btn-secondary" href="explore.html">
+              Hitta platser
+            </a>
+          </div>
+        </div>
+
+        <div class="trip-intro-card" aria-hidden="true">
+          <span class="trip-intro-number">01</span>
+          <p>Skapa en resa</p>
+          <hr />
+          <span class="trip-intro-number">02</span>
+          <p>Lägg till platser</p>
+          <hr />
+          <span class="trip-intro-number">03</span>
+          <p>Planera dagarna</p>
+        </div>
+      </section>
+
+      <section class="trip-list-section" aria-labelledby="saved-trips-title">
+        <div class="trip-section-heading">
+          <div>
+            <p class="trip-label">Dina planer</p>
+            <h2 id="saved-trips-title" class="display">Sparade resor</h2>
+          </div>
+          <span class="trip-count">0 resor</span>
+        </div>
+
+        <div id="tripList" class="trip-list">
+          <div class="trip-empty-state">
+            <img src="img/utforskaResa.svg" alt="" aria-hidden="true" />
+            <div class="stack gap-2">
+              <h3>Du har inga planerade resor ännu</h3>
+              <p class="text-faded">
+                Skapa din första resa och börja samla platser du vill besöka.
+              </p>
+            </div>
+            <button class="btn btn-primary" type="button">
+              Skapa min första resa
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="JS/theme.js"></script>
+    <script src="JS/footer.js"></script>
+  </body>
+</html>
