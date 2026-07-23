@@ -35,7 +35,11 @@
           </p>
 
           <div class="trip-actions row gap-4">
-            <button id="createTripBtn" class="btn btn-primary" type="button">
+            <button
+              id="createTripBtn"
+              class="btn btn-primary create-trip-button"
+              type="button"
+            >
               Skapa ny resa
             </button>
             <a class="btn btn-secondary" href="explore.html">
@@ -74,7 +78,10 @@
                 Skapa din första resa och börja samla platser du vill besöka.
               </p>
             </div>
-            <button class="btn btn-primary" type="button">
+            <button
+              class="btn btn-primary create-trip-button"
+              type="button"
+            >
               Skapa min första resa
             </button>
           </div>
@@ -82,6 +89,79 @@
       </section>
     </main>
 
+    <div id="tripFormModal" class="trip-form-modal" hidden>
+      <div class="trip-form-card">
+        <div class="trip-form-heading">
+          <div>
+            <p class="trip-label">Ny resa</p>
+            <h2 class="display">Skapa en resa</h2>
+          </div>
+
+          <button
+            id="closeTripFormBtn"
+            class="trip-form-close"
+            type="button"
+            aria-label="Stäng formuläret"
+          >
+            ✕
+          </button>
+        </div>
+
+        <form id="tripForm" class="stack gap-6">
+          <label class="trip-form-field" for="tripName">
+            Resans namn
+            <input
+              id="tripName"
+              name="tripName"
+              type="text"
+              maxlength="50"
+              placeholder="Till exempel: Helg på Öland"
+              required
+            />
+          </label>
+
+          <label class="trip-form-field" for="tripStartDate">
+            Startdatum
+            <input
+              id="tripStartDate"
+              name="tripStartDate"
+              type="date"
+              required
+            />
+          </label>
+
+          <label class="trip-form-field" for="tripDays">
+            Antal dagar
+            <input
+              id="tripDays"
+              name="tripDays"
+              type="number"
+              min="1"
+              max="14"
+              value="1"
+              required
+            />
+          </label>
+
+          <p id="tripFormError" class="trip-form-error" aria-live="polite"></p>
+
+          <div class="trip-form-buttons row gap-3">
+            <button
+              id="cancelTripFormBtn"
+              class="btn btn-secondary"
+              type="button"
+            >
+              Avbryt
+            </button>
+            <button class="btn btn-primary" type="submit">
+              Skapa resa
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="JS/tripPlanner.js"></script>
     <script src="JS/theme.js"></script>
     <script src="JS/footer.js"></script>
   </body>
