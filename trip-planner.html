@@ -66,7 +66,7 @@
             <p class="trip-label">Dina planer</p>
             <h2 id="saved-trips-title" class="display">Sparade resor</h2>
           </div>
-          <span class="trip-count">0 resor</span>
+          <span id="tripCount" class="trip-count">0 resor</span>
         </div>
 
         <div id="tripList" class="trip-list">
@@ -114,6 +114,7 @@
               id="tripName"
               name="tripName"
               type="text"
+              minlength="2"
               maxlength="50"
               placeholder="Till exempel: Helg på Öland"
               required
