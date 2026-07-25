@@ -84,18 +84,6 @@ export async function renderSeeAndDo(
         favoriteBtn.classList.toggle("active", active);
       });
 
-      favoriteBtn.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          
-
-          const active = toggleFavorite(item);
-
-          updateFavoritesCount();
-
-          favoriteBtn.classList.toggle("active", active);
-        }
-      });
-
       sectionElement.append(article);
     }
 
