@@ -196,15 +196,75 @@
   margin-bottom: var(--space-4);
   padding: var(--space-6);
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
 
   box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.trip-card:hover {
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+}
+
+.trip-card-information {
+  min-width: 0;
 }
 
 .trip-card h3 {
   font-size: var(--text-xl);
+  overflow-wrap: anywhere;
+}
+
+.trip-message {
+  margin-bottom: var(--space-4);
+  padding: 12px 16px;
+
+  color: var(--color-text);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+}
+
+.trip-message[hidden] {
+  display: none;
+}
+
+.trip-remove-button {
+  width: fit-content;
+  padding: 8px 14px;
+
+  flex-shrink: 0;
+
+  color: var(--color-text-faded);
+  background-color: transparent;
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trip-remove-button:hover {
+  color: var(--color-text);
+  background-color: var(--color-bg-elevated);
+}
+
+.trip-remove-button:focus-visible {
+  color: var(--color-text);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 /*==== Dark mode ==== */
@@ -387,6 +447,17 @@ body.dark-mode .trip-empty-state img {
   .trip-empty-state {
     min-height: 360px;
     padding: 40px 18px;
+  }
+
+  .trip-card {
+    padding: var(--space-5);
+
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .trip-remove-button {
+    width: 100%;
   }
 
   .trip-form-modal {
