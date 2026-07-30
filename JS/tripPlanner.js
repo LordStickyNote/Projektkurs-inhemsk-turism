@@ -8,6 +8,12 @@ const tripList = document.getElementById("tripList");
 const tripCount = document.getElementById("tripCount");
 const tripEmptyState = document.querySelector(".trip-empty-state");
 const tripMessage = document.createElement("p");
+const tripSectionHeading = document.querySelector(".trip-section-heading");
+const tripDetails = document.getElementById("tripDetails");
+const backToTripsBtn = document.getElementById("backToTripsBtn");
+const selectedTripName = document.getElementById("selectedTripName");
+const selectedTripDate = document.getElementById("selectedTripDate");
+const tripDaysContainer = document.getElementById("tripDaysContainer");
 
 // Knappar som öppnar och stänger formuläret
 const createTripButtons = document.querySelectorAll(".create-trip-button");
@@ -16,6 +22,7 @@ const cancelTripFormBtn = document.getElementById("cancelTripFormBtn");
 
 let savedTrips = loadTrips();
 let messageTimer;
+let selectedTripIndex = null;
 
 tripMessage.classList.add("trip-message");
 tripMessage.setAttribute("role", "status");
@@ -77,6 +84,8 @@ function renderTrips() {
     const name = document.createElement("h3");
     const date = document.createElement("p");
     const days = document.createElement("p");
+    const cardButtons = document.createElement("div");
+    const openButton = document.createElement("button");
     const removeButton = document.createElement("button");
 
     card.classList.add("trip-card");
@@ -84,19 +93,28 @@ function renderTrips() {
     name.textContent = trip.name;
     date.textContent = `Startdatum: ${formatDate(trip.startDate)}`;
     days.textContent = `Antal dagar: ${trip.days}`;
+    openButton.textContent = "Öppna resa";
     removeButton.textContent = "Ta bort resa";
     date.classList.add("text-faded");
     days.classList.add("text-faded");
+    cardButtons.classList.add("trip-card-buttons");
+    openButton.classList.add("btn", "btn-primary");
+    openButton.type = "button";
     removeButton.classList.add("trip-remove-button");
     removeButton.type = "button";
     removeButton.setAttribute("aria-label", `Ta bort resan ${trip.name}`);
+
+    openButton.addEventListener("click", () => {
+      openTrip(index);
+    });
 
     removeButton.addEventListener("click", () => {
       removeTrip(index);
     });
 
     tripInformation.append(name, date, days);
-    card.append(tripInformation, removeButton);
+    cardButtons.append(openButton, removeButton);
+    card.append(tripInformation, cardButtons);
     tripList.append(card);
   }
 }
@@ -132,6 +150,71 @@ function showTripMessage(message) {
   }, 3000);
 }
 
+// Öppnar en resa och visar resans dagar
+function openTrip(index) {
+  selectedTripIndex = index;
+  tripSectionHeading.hidden = true;
+  tripList.hidden = true;
+  tripMessage.hidden = true;
+  tripDetails.hidden = false;
+  renderTripDetails();
+}
+
+function closeTripDetails() {
+  selectedTripIndex = null;
+  tripDetails.hidden = true;
+  tripSectionHeading.hidden = false;
+  tripList.hidden = false;
+}
+
+// Visar vald resa och alla resans dagar
+function renderTripDetails() {
+  const trip = savedTrips[selectedTripIndex];
+
+  if (!trip) {
+    closeTripDetails();
+    return;
+  }
+
+  selectedTripName.textContent = trip.name;
+  selectedTripDate.textContent =
+    `${formatDate(trip.startDate)} · ${trip.days} dagar`;
+
+  renderTripDays(trip);
+}
+
+function renderTripDays(trip) {
+  tripDaysContainer.innerHTML = "";
+
+  for (let day = 1; day <= trip.days; day++) {
+    const dayCard = document.createElement("section");
+    const dayTitle = document.createElement("h3");
+    const dayDate = document.createElement("p");
+    const emptyText = document.createElement("p");
+
+    dayCard.classList.add("trip-day-card");
+    dayTitle.textContent = `Dag ${day}`;
+    dayDate.textContent = getDayDate(trip.startDate, day);
+    emptyText.textContent = "Inga platser planerade denna dag.";
+    dayDate.classList.add("text-faded");
+    emptyText.classList.add("text-faded");
+
+    dayCard.append(dayTitle, dayDate, emptyText);
+    tripDaysContainer.append(dayCard);
+  }
+}
+
+function getDayDate(startDate, day) {
+  const date = new Date(`${startDate}T12:00:00`);
+  date.setDate(date.getDate() + day - 1);
+
+  return date.toLocaleDateString("sv-SE", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+}
+
 function openTripForm() {
   tripForm.reset();
   tripFormError.textContent = "";
@@ -151,6 +234,7 @@ for (const button of createTripButtons) {
 
 closeTripFormBtn.addEventListener("click", closeTripForm);
 cancelTripFormBtn.addEventListener("click", closeTripForm);
+backToTripsBtn.addEventListener("click", closeTripDetails);
 
 tripFormModal.addEventListener("click", (event) => {
   if (event.target === tripFormModal) {

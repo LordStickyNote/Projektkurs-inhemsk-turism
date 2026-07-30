@@ -220,6 +220,12 @@
   min-width: 0;
 }
 
+.trip-card-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .trip-card h3 {
   font-size: var(--text-xl);
   overflow-wrap: anywhere;
@@ -265,6 +271,63 @@
   color: var(--color-text);
   outline: 2px solid var(--color-primary);
   outline-offset: 3px;
+}
+
+/*==== Planerad resa ==== */
+
+.trip-details {
+  width: 100%;
+}
+
+.trip-details[hidden] {
+  display: none;
+}
+
+.trip-back-button {
+  margin-bottom: var(--space-6);
+  padding: 0;
+
+  color: var(--color-primary);
+  background-color: transparent;
+  border: none;
+
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trip-details-heading {
+  margin-bottom: var(--space-8);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.trip-details-heading h2 {
+  margin: 6px 0;
+  font-size: var(--text-3xl);
+}
+
+.trip-days-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.trip-day-card {
+  min-height: 220px;
+  padding: var(--space-6);
+
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.trip-day-card > .text-faded {
+  margin: 4px 0 var(--space-5);
+  text-transform: capitalize;
 }
 
 /*==== Dark mode ==== */
@@ -456,8 +519,31 @@ body.dark-mode .trip-empty-state img {
     align-items: stretch;
   }
 
+  .trip-card-buttons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .trip-card-buttons .btn,
   .trip-remove-button {
     width: 100%;
+  }
+
+  .trip-details-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .trip-details-heading h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .trip-days-container {
+    grid-template-columns: 1fr;
+  }
+
+  .trip-day-card {
+    padding: var(--space-5);
   }
 
   .trip-form-modal {
