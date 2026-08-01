@@ -13,6 +13,10 @@ const tripDetails = document.getElementById("tripDetails");
 const backToTripsBtn = document.getElementById("backToTripsBtn");
 const selectedTripName = document.getElementById("selectedTripName");
 const selectedTripDate = document.getElementById("selectedTripDate");
+const tripPlaceSelect = document.getElementById("tripPlaceSelect");
+const tripDaySelect = document.getElementById("tripDaySelect");
+const addPlaceBtn = document.getElementById("addPlaceBtn");
+const tripPlaceMessage = document.getElementById("tripPlaceMessage");
 const tripDaysContainer = document.getElementById("tripDaysContainer");
 
 // Knappar som öppnar och stänger formuläret
@@ -150,6 +154,22 @@ function showTripMessage(message) {
   }, 3000);
 }
 
+// Hämtar användarens sparade favoritplatser
+function loadFavoritePlaces() {
+  const storedFavorites = localStorage.getItem("favorites");
+
+  if (!storedFavorites) {
+    return [];
+  }
+
+  try {
+    const favorites = JSON.parse(storedFavorites);
+    return Array.isArray(favorites) ? favorites : [];
+  } catch {
+    return [];
+  }
+}
+
 // Öppnar en resa och visar resans dagar
 function openTrip(index) {
   selectedTripIndex = index;
@@ -167,7 +187,7 @@ function closeTripDetails() {
   tripList.hidden = false;
 }
 
-// Visar vald resa och alla resans dagar
+// Visar vald resa, favoritplatser och alla dagar
 function renderTripDetails() {
   const trip = savedTrips[selectedTripIndex];
 
@@ -176,11 +196,53 @@ function renderTripDetails() {
     return;
   }
 
+  if (!Array.isArray(trip.plannedPlaces)) {
+    trip.plannedPlaces = [];
+  }
+
   selectedTripName.textContent = trip.name;
   selectedTripDate.textContent =
     `${formatDate(trip.startDate)} · ${trip.days} dagar`;
 
+  renderPlaceOptions();
+  renderDayOptions(trip.days);
   renderTripDays(trip);
+}
+
+function renderPlaceOptions() {
+  const favorites = loadFavoritePlaces();
+  tripPlaceSelect.innerHTML = "";
+
+  if (favorites.length === 0) {
+    const option = document.createElement("option");
+    option.textContent = "Du har inga sparade favoritplatser";
+    option.value = "";
+    tripPlaceSelect.append(option);
+    addPlaceBtn.disabled = true;
+    return;
+  }
+
+  addPlaceBtn.disabled = false;
+
+  for (const place of favorites) {
+    const option = document.createElement("option");
+    option.value = place.id;
+    option.textContent = place.city
+      ? `${place.name} – ${place.city}`
+      : place.name;
+    tripPlaceSelect.append(option);
+  }
+}
+
+function renderDayOptions(numberOfDays) {
+  tripDaySelect.innerHTML = "";
+
+  for (let day = 1; day <= numberOfDays; day++) {
+    const option = document.createElement("option");
+    option.value = day;
+    option.textContent = `Dag ${day}`;
+    tripDaySelect.append(option);
+  }
 }
 
 function renderTripDays(trip) {
@@ -190,16 +252,29 @@ function renderTripDays(trip) {
     const dayCard = document.createElement("section");
     const dayTitle = document.createElement("h3");
     const dayDate = document.createElement("p");
-    const emptyText = document.createElement("p");
+    const placeList = document.createElement("div");
+    const placesForDay = trip.plannedPlaces.filter((place) => {
+      return place.day === day;
+    });
 
     dayCard.classList.add("trip-day-card");
     dayTitle.textContent = `Dag ${day}`;
     dayDate.textContent = getDayDate(trip.startDate, day);
-    emptyText.textContent = "Inga platser planerade denna dag.";
     dayDate.classList.add("text-faded");
-    emptyText.classList.add("text-faded");
+    placeList.classList.add("trip-day-places");
 
-    dayCard.append(dayTitle, dayDate, emptyText);
+    if (placesForDay.length === 0) {
+      const emptyText = document.createElement("p");
+      emptyText.textContent = "Inga platser planerade denna dag.";
+      emptyText.classList.add("text-faded");
+      placeList.append(emptyText);
+    }
+
+    for (const place of placesForDay) {
+      placeList.append(createPlannedPlace(place));
+    }
+
+    dayCard.append(dayTitle, dayDate, placeList);
     tripDaysContainer.append(dayCard);
   }
 }
@@ -213,6 +288,116 @@ function getDayDate(startDate, day) {
     day: "numeric",
     month: "long",
   });
+}
+
+function createPlannedPlace(place) {
+  const trip = savedTrips[selectedTripIndex];
+  const placeRow = document.createElement("div");
+  const placeInformation = document.createElement("div");
+  const placeName = document.createElement("h4");
+  const placeCity = document.createElement("p");
+  const placeActions = document.createElement("div");
+  const dayLabel = document.createElement("label");
+  const daySelect = document.createElement("select");
+  const removePlaceButton = document.createElement("button");
+
+  placeRow.classList.add("trip-planned-place");
+  placeInformation.classList.add("stack", "gap-1");
+  placeActions.classList.add("trip-place-actions");
+  dayLabel.classList.add("trip-move-label");
+  placeName.textContent = place.name;
+  placeCity.textContent = place.city || place.description || "Sparad plats";
+  dayLabel.textContent = "Flytta till";
+  placeCity.classList.add("text-faded");
+  daySelect.setAttribute("aria-label", `Flytta ${place.name} till en annan dag`);
+  removePlaceButton.textContent = "Ta bort";
+  removePlaceButton.type = "button";
+  removePlaceButton.classList.add("trip-remove-place");
+
+  for (let day = 1; day <= trip.days; day++) {
+    const option = document.createElement("option");
+    option.value = day;
+    option.textContent = `Dag ${day}`;
+    option.selected = day === place.day;
+    daySelect.append(option);
+  }
+
+  daySelect.addEventListener("change", () => {
+    movePlaceToDay(place.id, Number(daySelect.value));
+  });
+
+  removePlaceButton.addEventListener("click", () => {
+    removePlaceFromTrip(place.id);
+  });
+
+  placeInformation.append(placeName, placeCity);
+  dayLabel.append(daySelect);
+  placeActions.append(dayLabel, removePlaceButton);
+  placeRow.append(placeInformation, placeActions);
+
+  return placeRow;
+}
+
+function addPlaceToTrip() {
+  const trip = savedTrips[selectedTripIndex];
+  const favorites = loadFavoritePlaces();
+  const selectedPlace = favorites.find((place) => {
+    return String(place.id) === tripPlaceSelect.value;
+  });
+
+  if (!trip || !selectedPlace) {
+    return;
+  }
+
+  const placeAlreadyAdded = trip.plannedPlaces.some((place) => {
+    return String(place.id) === String(selectedPlace.id);
+  });
+
+  if (placeAlreadyAdded) {
+    tripPlaceMessage.textContent = "Platsen finns redan med i resan.";
+    return;
+  }
+
+  trip.plannedPlaces.push({
+    id: selectedPlace.id,
+    name: selectedPlace.name,
+    city: selectedPlace.city,
+    description: selectedPlace.description,
+    day: Number(tripDaySelect.value),
+  });
+
+  saveTrips();
+  tripPlaceMessage.textContent = `${selectedPlace.name} har lagts till.`;
+  renderTripDays(trip);
+}
+
+function removePlaceFromTrip(placeId) {
+  const trip = savedTrips[selectedTripIndex];
+
+  trip.plannedPlaces = trip.plannedPlaces.filter((place) => {
+    return String(place.id) !== String(placeId);
+  });
+
+  saveTrips();
+  tripPlaceMessage.textContent = "Platsen har tagits bort från resan.";
+  renderTripDays(trip);
+}
+
+// Flyttar en planerad plats till en annan dag
+function movePlaceToDay(placeId, newDay) {
+  const trip = savedTrips[selectedTripIndex];
+  const place = trip.plannedPlaces.find((plannedPlace) => {
+    return String(plannedPlace.id) === String(placeId);
+  });
+
+  if (!place || place.day === newDay) {
+    return;
+  }
+
+  place.day = newDay;
+  saveTrips();
+  tripPlaceMessage.textContent = `${place.name} flyttades till dag ${newDay}.`;
+  renderTripDays(trip);
 }
 
 function openTripForm() {
@@ -235,6 +420,7 @@ for (const button of createTripButtons) {
 closeTripFormBtn.addEventListener("click", closeTripForm);
 cancelTripFormBtn.addEventListener("click", closeTripForm);
 backToTripsBtn.addEventListener("click", closeTripDetails);
+addPlaceBtn.addEventListener("click", addPlaceToTrip);
 
 tripFormModal.addEventListener("click", (event) => {
   if (event.target === tripFormModal) {

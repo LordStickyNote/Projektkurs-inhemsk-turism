@@ -310,6 +310,61 @@
   font-size: var(--text-3xl);
 }
 
+.trip-place-section {
+  margin-bottom: var(--space-8);
+  padding: var(--space-6);
+
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.trip-place-form {
+  margin-top: var(--space-5);
+
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  align-items: end;
+  gap: var(--space-4);
+}
+
+.trip-place-form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  font-weight: 700;
+}
+
+.trip-place-form select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.trip-place-form .btn {
+  min-height: 48px;
+}
+
+.trip-place-form .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.trip-place-message {
+  min-height: 24px;
+  margin-top: var(--space-3);
+  color: var(--color-primary);
+}
+
 .trip-days-container {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -328,6 +383,74 @@
 .trip-day-card > .text-faded {
   margin: 4px 0 var(--space-5);
   text-transform: capitalize;
+}
+
+.trip-day-places {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.trip-planned-place {
+  padding: var(--space-3);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+
+  background-color: var(--color-bg);
+  border-radius: var(--radius-md);
+}
+
+.trip-place-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.trip-move-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  color: var(--color-text-faded);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.trip-move-label select {
+  min-height: 34px;
+  padding: 5px 8px;
+
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.trip-remove-place {
+  padding: 6px 10px;
+
+  flex-shrink: 0;
+
+  color: var(--color-text-faded);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.trip-remove-place:hover {
+  color: var(--color-text);
+  border-color: var(--color-border-hover);
 }
 
 /*==== Dark mode ==== */
@@ -538,12 +661,32 @@ body.dark-mode .trip-empty-state img {
     font-size: var(--text-2xl);
   }
 
+  .trip-place-form {
+    grid-template-columns: 1fr;
+  }
+
   .trip-days-container {
     grid-template-columns: 1fr;
   }
 
-  .trip-day-card {
+  .trip-day-card,
+  .trip-place-section {
     padding: var(--space-5);
+  }
+
+  .trip-planned-place {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .trip-place-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .trip-move-label select,
+  .trip-remove-place {
+    width: 100%;
   }
 
   .trip-form-modal {

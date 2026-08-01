@@ -98,7 +98,37 @@
               <h2 id="selectedTripName" class="display"></h2>
               <p id="selectedTripDate" class="text-faded"></p>
             </div>
+            <a class="btn btn-secondary" href="explore.html">
+              Hitta fler platser
+            </a>
           </div>
+
+          <section class="trip-place-section" aria-labelledby="places-title">
+            <div class="stack gap-2">
+              <h3 id="places-title">Lägg till en sparad plats</h3>
+              <p class="text-faded">
+                Välj en favorit och vilken dag du vill besöka platsen.
+              </p>
+            </div>
+
+            <div class="trip-place-form">
+              <label for="tripPlaceSelect">
+                Sparad plats
+                <select id="tripPlaceSelect"></select>
+              </label>
+
+              <label for="tripDaySelect">
+                Dag
+                <select id="tripDaySelect"></select>
+              </label>
+
+              <button id="addPlaceBtn" class="btn btn-primary" type="button">
+                Lägg till
+              </button>
+            </div>
+
+            <p id="tripPlaceMessage" class="trip-place-message" role="status"></p>
+          </section>
 
           <div id="tripDaysContainer" class="trip-days-container"></div>
         </div>
