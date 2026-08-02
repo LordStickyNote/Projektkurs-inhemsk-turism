@@ -45,7 +45,16 @@ function loadTrips() {
     const parsedTrips = JSON.parse(storedTrips);
 
     if (Array.isArray(parsedTrips)) {
-      return parsedTrips;
+      return parsedTrips.filter((trip) => {
+        return (
+          trip &&
+          typeof trip.name === "string" &&
+          /^\d{4}-\d{2}-\d{2}$/.test(trip.startDate) &&
+          Number.isInteger(trip.days) &&
+          trip.days >= 1 &&
+          trip.days <= 14
+        );
+      });
     }
 
     return [];
@@ -172,10 +181,15 @@ function loadFavoritePlaces() {
 
 // Öppnar en resa och visar resans dagar
 function openTrip(index) {
+  if (!savedTrips[index]) {
+    return;
+  }
+
   selectedTripIndex = index;
   tripSectionHeading.hidden = true;
   tripList.hidden = true;
   tripMessage.hidden = true;
+  tripPlaceMessage.textContent = "";
   tripDetails.hidden = false;
   renderTripDetails();
 }
@@ -340,12 +354,18 @@ function createPlannedPlace(place) {
 
 function addPlaceToTrip() {
   const trip = savedTrips[selectedTripIndex];
+
+  if (!trip) {
+    closeTripDetails();
+    return;
+  }
+
   const favorites = loadFavoritePlaces();
   const selectedPlace = favorites.find((place) => {
     return String(place.id) === tripPlaceSelect.value;
   });
 
-  if (!trip || !selectedPlace) {
+  if (!selectedPlace) {
     return;
   }
 
@@ -374,6 +394,11 @@ function addPlaceToTrip() {
 function removePlaceFromTrip(placeId) {
   const trip = savedTrips[selectedTripIndex];
 
+  if (!trip) {
+    closeTripDetails();
+    return;
+  }
+
   trip.plannedPlaces = trip.plannedPlaces.filter((place) => {
     return String(place.id) !== String(placeId);
   });
@@ -386,6 +411,11 @@ function removePlaceFromTrip(placeId) {
 // Flyttar en planerad plats till en annan dag
 function movePlaceToDay(placeId, newDay) {
   const trip = savedTrips[selectedTripIndex];
+
+  if (!trip || newDay < 1 || newDay > trip.days) {
+    return;
+  }
+
   const place = trip.plannedPlaces.find((plannedPlace) => {
     return String(plannedPlace.id) === String(placeId);
   });

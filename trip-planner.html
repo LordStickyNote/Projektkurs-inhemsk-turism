@@ -135,12 +135,19 @@
       </section>
     </main>
 
-    <div id="tripFormModal" class="trip-form-modal" hidden>
+    <div
+      id="tripFormModal"
+      class="trip-form-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="trip-form-title"
+      hidden
+    >
       <div class="trip-form-card">
         <div class="trip-form-heading">
           <div>
             <p class="trip-label">Ny resa</p>
-            <h2 class="display">Skapa en resa</h2>
+            <h2 id="trip-form-title" class="display">Skapa en resa</h2>
           </div>
 
           <button
