@@ -52,7 +52,7 @@ function loadTrips() {
           /^\d{4}-\d{2}-\d{2}$/.test(trip.startDate) &&
           Number.isInteger(trip.days) &&
           trip.days >= 1 &&
-          trip.days <= 14
+          trip.days <= 30
         );
       });
     }
@@ -214,6 +214,17 @@ function renderTripDetails() {
     trip.plannedPlaces = [];
   }
 
+  let addedPlanIds = false;
+  for (const place of trip.plannedPlaces) {
+    if (!place.planId) {
+      place.planId = createPlanId();
+      addedPlanIds = true;
+    }
+  }
+  if (addedPlanIds) {
+    saveTrips();
+  }
+
   selectedTripName.textContent = trip.name;
   selectedTripDate.textContent =
     `${formatDate(trip.startDate)} · ${trip.days} dagar`;
@@ -337,11 +348,11 @@ function createPlannedPlace(place) {
   }
 
   daySelect.addEventListener("change", () => {
-    movePlaceToDay(place.id, Number(daySelect.value));
+    movePlaceToDay(place.planId, Number(daySelect.value));
   });
 
   removePlaceButton.addEventListener("click", () => {
-    removePlaceFromTrip(place.id);
+    removePlaceFromTrip(place.planId);
   });
 
   placeInformation.append(placeName, placeCity);
@@ -369,16 +380,20 @@ function addPlaceToTrip() {
     return;
   }
 
-  const placeAlreadyAdded = trip.plannedPlaces.some((place) => {
-    return String(place.id) === String(selectedPlace.id);
+  const placeAlreadyAddedOnDay = trip.plannedPlaces.some((place) => {
+    return (
+      String(place.id) === String(selectedPlace.id) &&
+      place.day === Number(tripDaySelect.value)
+    );
   });
 
-  if (placeAlreadyAdded) {
-    tripPlaceMessage.textContent = "Platsen finns redan med i resan.";
+  if (placeAlreadyAddedOnDay) {
+    tripPlaceMessage.textContent = "Platsen finns redan med den valda dagen.";
     return;
   }
 
   trip.plannedPlaces.push({
+    planId: createPlanId(),
     id: selectedPlace.id,
     name: selectedPlace.name,
     city: selectedPlace.city,
@@ -391,7 +406,7 @@ function addPlaceToTrip() {
   renderTripDays(trip);
 }
 
-function removePlaceFromTrip(placeId) {
+function removePlaceFromTrip(planId) {
   const trip = savedTrips[selectedTripIndex];
 
   if (!trip) {
@@ -400,7 +415,7 @@ function removePlaceFromTrip(placeId) {
   }
 
   trip.plannedPlaces = trip.plannedPlaces.filter((place) => {
-    return String(place.id) !== String(placeId);
+    return place.planId !== planId;
   });
 
   saveTrips();
@@ -409,7 +424,7 @@ function removePlaceFromTrip(placeId) {
 }
 
 // Flyttar en planerad plats till en annan dag
-function movePlaceToDay(placeId, newDay) {
+function movePlaceToDay(planId, newDay) {
   const trip = savedTrips[selectedTripIndex];
 
   if (!trip || newDay < 1 || newDay > trip.days) {
@@ -417,7 +432,7 @@ function movePlaceToDay(placeId, newDay) {
   }
 
   const place = trip.plannedPlaces.find((plannedPlace) => {
-    return String(plannedPlace.id) === String(placeId);
+    return plannedPlace.planId === planId;
   });
 
   if (!place || place.day === newDay) {
@@ -428,6 +443,14 @@ function movePlaceToDay(placeId, newDay) {
   saveTrips();
   tripPlaceMessage.textContent = `${place.name} flyttades till dag ${newDay}.`;
   renderTripDays(trip);
+}
+
+function createPlanId() {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function openTripForm() {

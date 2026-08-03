@@ -1525,3 +1525,24 @@ input[type="checkbox"]:checked {
     padding: 8px 12px;
   }
 }
+
+.detail-back-btn {
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
+  z-index: 1900;
+  padding: 10px 16px;
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  background: var(--color-bg-card);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.detail-back-btn:hover {
+  color: var(--color-primary-hover);
+  background: var(--color-bg-elevated);
+}

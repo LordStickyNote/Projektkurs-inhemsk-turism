@@ -95,6 +95,18 @@
   line-height: 1.7;
 }
 
+.trip-intro .btn-secondary {
+  color: #fffdf7;
+  background-color: rgba(10, 31, 31, 0.78);
+  border-color: rgba(255, 253, 247, 0.72);
+}
+
+.trip-intro .btn-secondary:hover {
+  color: #ffffff;
+  background-color: rgba(57, 89, 64, 0.96);
+  border-color: #fffdf7;
+}
+
 .trip-intro-card {
   width: 280px;
   padding: 28px;

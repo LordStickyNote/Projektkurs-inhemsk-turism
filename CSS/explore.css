@@ -256,8 +256,10 @@ body {
 }
 
 #favoritesBtn {
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   padding: 6px;
 
@@ -899,7 +901,18 @@ option {
 }
 
 #favoritesCount {
-  color: var(--color-text);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding-top: 1px;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
 }
 
 .favorite-btn {
@@ -1055,6 +1068,12 @@ body.dark-mode .favorite-btn {
 
 body.dark-mode .favorite-btn svg {
   fill: var(--color-primary-hover);
+}
+
+/* Aktiv favorit ska vara tydlig och ha samma accent i båda temana. */
+.favorite-btn.active svg,
+body.dark-mode .favorite-btn.active svg {
+  fill: #e5486d;
 }
 
 body.dark-mode .site-footer {
