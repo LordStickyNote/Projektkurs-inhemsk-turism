@@ -111,13 +111,39 @@
 
 /*==== Buttons ====*/
 
-#content-container > .row {
+#content-container > .start-page-actions {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
   justify-content: center;
-  flex-wrap: wrap;
+}
+
+#content-container .plan-trip-button {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 6px;
 }
 
 #content-container .btn {
+  color: #fffdf7;
+  background-color: rgba(9, 31, 27, 0.78);
+  border-color: rgba(255, 253, 247, 0.72);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+#content-container .btn svg {
+  fill: #fffdf7;
+}
+
+#content-container .btn-primary {
+  background-color: #3f6849;
+  border-color: #3f6849;
+}
+
+#content-container .btn:hover {
+  color: #ffffff;
+  background-color: #294f3a;
+  border-color: #fffdf7;
 }
 
 /*==== Mobile ====*/
@@ -131,13 +157,15 @@
     padding: var(--space-6);
   }
 
-  #content-container > .row {
+  #content-container > .start-page-actions {
     width: 100%;
-
+    display: flex;
     flex-direction: column;
+    align-items: stretch;
   }
 
-  #content-container .btn {
+  #content-container .btn,
+  #content-container .plan-trip-button {
     width: 100%;
   }
 }

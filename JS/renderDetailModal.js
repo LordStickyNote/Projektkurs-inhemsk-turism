@@ -284,6 +284,13 @@ export async function renderDetailModal(item) {
     <main class="stack gap-8">
 
     <button
+      id="backToExploreBtn"
+      class="detail-back-btn"
+      type="button">
+      ← Tillbaka till utforska
+    </button>
+
+    <button
   id="closeDetailBtn"
   class="detail-close-btn"
   aria-label="Stäng">
@@ -604,12 +611,15 @@ export async function renderDetailModal(item) {
     renderDetailMap(item.lat, item.lng);
   }, 0);
 
-  document.getElementById("closeDetailBtn").addEventListener("click", () => {
+  function closeDetailModal() {
     modal.hidden = true;
     document.querySelector("#page-content").removeAttribute("inert");
     document.querySelector("html").style.overflow = "";
     document.querySelector("#lower-page-btns").removeAttribute("inert");
-  });
+  }
+
+  document.getElementById("closeDetailBtn").addEventListener("click", closeDetailModal);
+  document.getElementById("backToExploreBtn").addEventListener("click", closeDetailModal);
 
   const nearbyCards = content.querySelectorAll(".nearby-cards");
 
