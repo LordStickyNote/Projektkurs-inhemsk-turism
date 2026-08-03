@@ -17,10 +17,53 @@
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
     <link rel="stylesheet" href="CSS/style.css" />
+    <link rel="stylesheet" href="CSS/explore.css" />
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
-  <body>
-    <main class="gap-4 stack">
+  <body id="top">
+    <main class="explore-page stack">
+    <section class="explore-hero">
+      <nav class="explore-navigation" aria-label="Huvudnavigation">
+        <a class="explore-logo" href="index.html" aria-label="Till startsidan">
+          <img src="img/logotyp.svg" alt="SydostGuiden logotyp" />
+        </a>
+      </nav>
+
+      <div class="explore-hero-text">
+        <p class="explore-label">Småland och Öland</p>
+
+        <h1 class="display">
+          Upptäck din nästa
+          <span class="display-italic">favoritplats</span>
+        </h1>
+
+        <p class="explore-description">
+          Hitta aktiviteter, restauranger och boenden för din nästa resa.
+          Använd kategorierna och filtren för att hitta något som passar dig.
+        </p>
+      </div>
+
+      <div class="explore-information">
+        <p class="explore-number">800+</p>
+        <p>platser att upptäcka</p>
+
+        <hr />
+
+        <div class="explore-information-row">
+          <span>Aktiviteter</span>
+          <span>Mat</span>
+          <span>Boenden</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="explore-category-section">
+      <div>
+        <p class="explore-label">Vad letar du efter?</p>
+        <h2 class="display">Välj en kategori</h2>
+      </div>
+
       <header id="header" class="gap-4 stack align-center">
         <span class="tab-container">
           <button class="tab" id="doBtn">Se och göra</button>
@@ -30,15 +73,15 @@
         <div id="toggleAndSortingDiv" class="width-full" hidden>
           <div class="width-full row row-between card">
             <label for="sortList">
-            <select
-              class="btn-outline sortingList"
-              name="sortList"
-              id="sortList"
-              aria-label="Sortera efter"
-            >
-              <option value="rating">Högsta betyg</option>
-              <option value="name">Namn A-Ö</option>
-            </select>
+              <select
+                class="btn-outline sortingList"
+                name="sortList"
+                id="sortList"
+                aria-label="Sortera efter"
+              >
+                <option value="rating">Högsta betyg</option>
+                <option value="name">Namn A-Ö</option>
+              </select>
             </label>
             <span class="row gap-2 btn-square-container">
               <button id="favoritesBtn">
@@ -425,8 +468,27 @@
             </button>
           </div>
         </div>
+
         <div class="stack gap-4 width-full" id="resultsContainer">
           <section id="quizNoticeContainer"></section>
+          <section class="location-panel">
+            <div>
+              <h3>Hitta platser nära dig</h3>
+              <p class="text-faded" id="locationStatus">
+                Tillåt platsåtkomst för att visa semesterplatser nära din
+                position.
+              </p>
+            </div>
+
+            <div class="row gap-3">
+              <button id="useLocationBtn" class="btn btn-primary">
+                Använd min plats
+              </button>
+              <button id="clearNearbyBtn" class="btn btn-secondary" hidden>
+                Visa alla platser
+              </button>
+            </div>
+          </section>
           <p id="resultsCount" class="text-faded"></p>
           <section id="results"></section>
         </div>
@@ -451,7 +513,7 @@
       <div id="detailModal" hidden>
         <div id="detailContent"></div>
       </div>
-     <div id="lower-page-btns" class="width-full align-center stack gap-4">
+      <div id="lower-page-btns" class="width-full align-center stack gap-4">
         <div class="row gap-4 justify-center">
           <button id="loadMoreBtn" class="btn btn-secondary">Ladda fler</button>
         </div>
@@ -475,9 +537,12 @@
             </a>
           </div>
         </div>
-     </div>
+      </div>
 
       <hr />
     </main>
+    <script src="JS/footer.js"></script>
+        <script src="JS/theme.js"></script>
+
   </body>
 </html>

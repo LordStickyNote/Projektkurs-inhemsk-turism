@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Lager_2" data-name="Lager 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510.2 143.29">
+<svg id="Lager_2" data-name="Lager 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 304.12 56.94">
   <defs>
     <style>
-      .cls-1 {
-        fill: #fff;
-        font-family: Manrope-Regular, Manrope;
-        font-size: 40.77px;
-        font-variation-settings: 'wght' 400;
-      }
-
-      .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
         fill: #008d36;
         stroke: #008d36;
         stroke-miterlimit: 10;
       }
 
-      .cls-2, .cls-4, .cls-6 {
+      .cls-1, .cls-3, .cls-4 {
         stroke-linecap: round;
       }
 
-      .cls-2, .cls-5 {
+      .cls-1, .cls-5 {
         stroke-width: 3px;
       }
 
-      .cls-7 {
-        letter-spacing: -.02em;
+      .cls-6, .cls-7, .cls-8, .cls-9 {
+        isolation: isolate;
+      }
+
+      .cls-6, .cls-8, .cls-9 {
+        fill: #fff;
+        font-family: Manrope-SemiBold, Manrope;
+        font-size: 40.77px;
+        font-variation-settings: 'wght' 600;
+        font-weight: 600;
+      }
+
+      .cls-3 {
+        stroke-width: .25px;
       }
 
       .cls-8 {
@@ -32,26 +37,26 @@
       }
 
       .cls-9 {
-        letter-spacing: 0em;
-      }
-
-      .cls-10 {
-        letter-spacing: 0em;
-      }
-
-      .cls-6 {
-        stroke-width: .25px;
+        letter-spacing: -.02em;
       }
     </style>
   </defs>
   <g>
-    <path class="cls-2" d="M416.09,32.88c-4.81,4.44-12.29,4.13-16.71-.7-4.42-4.82-4.11-12.33.7-16.78l16.02,17.47Z"/>
-    <ellipse class="cls-5" cx="392.99" cy="12.33" rx="10.79" ry="10.83"/>
-    <path class="cls-2" d="M424.02,24.3c-2.45,6.08-9.34,9.02-15.4,6.56-6.06-2.46-8.98-9.38-6.53-15.46l21.93,8.9Z"/>
-    <path class="cls-2" d="M425.09,12.33c0,6.56-5.29,11.87-11.83,11.87s-11.83-5.31-11.83-11.87h23.65Z"/>
-    <ellipse class="cls-6" cx="390.29" cy="6.67" rx="2.2" ry="2.21"/>
-    <ellipse class="cls-4" cx="390.29" cy="6.8" rx="1.54" ry="1.55"/>
-    <polygon class="cls-3" points="365.15 12.64 386.7 14.25 386.61 10.05 365.15 12.64"/>
+    <path class="cls-1" d="M293.62,32.88c-4.81,4.44-12.29,4.13-16.71-.7-4.42-4.82-4.11-12.33.7-16.78l16.02,17.47h-.01Z"/>
+    <ellipse class="cls-5" cx="270.52" cy="12.33" rx="10.79" ry="10.83"/>
+    <path class="cls-1" d="M301.55,24.3c-2.45,6.08-9.34,9.02-15.4,6.56s-8.98-9.38-6.53-15.46l21.93,8.9Z"/>
+    <path class="cls-1" d="M302.62,12.33c0,6.56-5.29,11.87-11.83,11.87s-11.83-5.31-11.83-11.87h23.66Z"/>
+    <ellipse class="cls-3" cx="267.82" cy="6.67" rx="2.2" ry="2.21"/>
+    <ellipse class="cls-4" cx="267.82" cy="6.8" rx="1.54" ry="1.55"/>
+    <polygon class="cls-2" points="242.68 12.64 264.23 14.25 264.14 10.05 242.68 12.64"/>
   </g>
-  <text class="cls-1" transform="translate(122.47 46.54)"><tspan class="cls-9" x="0" y="0">S</tspan><tspan class="cls-7" x="24.72" y="0">y</tspan><tspan x="45.41" y="0">d</tspan><tspan class="cls-10" x="69.57" y="0">o</tspan><tspan x="93.48" y="0">stGuid</tspan><tspan class="cls-8" x="217.83" y="0">e</tspan><tspan x="241.04" y="0">n</tspan></text>
+  <g class="cls-7">
+    <text class="cls-6" transform="translate(0 46.54)"><tspan x="0" y="0">S</tspan></text>
+    <text class="cls-9" transform="translate(24.72 46.54)"><tspan x="0" y="0">y</tspan></text>
+    <text class="cls-6" transform="translate(45.41 46.54)"><tspan x="0" y="0">d</tspan></text>
+    <text class="cls-6" transform="translate(69.57 46.54)"><tspan x="0" y="0">o</tspan></text>
+    <text class="cls-6" transform="translate(93.48 46.54)"><tspan x="0" y="0">stGuid</tspan></text>
+    <text class="cls-8" transform="translate(220.29 46.54)"><tspan x="0" y="0">e</tspan></text>
+    <text class="cls-6" transform="translate(242.49 46.54)"><tspan x="0" y="0">n</tspan></text>
+  </g>
 </svg>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 514.78 514.78">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        stroke: #1d1d1b;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        stroke-width: 19px;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        fill: #1d1d1b;
+      }
+
+      .cls-3 {
+        stroke-width: 5px;
+      }
+    </style>
+  </defs>
+  <g id="Lager_1" data-name="Lager 1">
+    <ellipse class="cls-4" cx="225.91" cy="296.38" rx="29.89" ry="14.78" transform="translate(-117.92 152.66) rotate(-30)"/>
+    <circle class="cls-1" cx="258.23" cy="257.39" r="123.79"/>
+  </g>
+  <g id="Lager_2" data-name="Lager 2">
+    <circle class="cls-2" cx="257.39" cy="257.39" r="247.82"/>
+    <polygon class="cls-1" points="438.54 114.56 321.79 289.72 76.24 393.76 192.98 218.6 438.54 114.56"/>
+    <circle class="cls-3" cx="257.39" cy="254.16" r="32.94"/>
+  </g>
+</svg>
